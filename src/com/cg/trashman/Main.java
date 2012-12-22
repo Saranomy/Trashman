@@ -19,7 +19,7 @@ public class Main {
 		glcanvas.addKeyListener(renderer);
 		glcanvas.setSize(800, 600);
 
-		// start jframe
+		// start JFrame
 		JFrame frame = new JFrame("Trashman Alpha 0.1.0");
 		frame.getContentPane().add(glcanvas);
 		frame.pack();
