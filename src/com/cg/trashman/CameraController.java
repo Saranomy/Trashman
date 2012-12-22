@@ -14,13 +14,11 @@ public class CameraController {
 	private float pX;
 	private float pY;
 	private float pZ;
+	private float pSpeed = 0.4f;
 	private float r;
 	private float rX;
 	private float rY;
 	private float rZ;
-	private float cX;
-	private float cY;
-	private float cZ;
 
 	public CameraController() {
 		pX = 0;
@@ -30,9 +28,6 @@ public class CameraController {
 		rX = 1;
 		rY = 1;
 		rZ = 1;
-		cX = 0;
-		cY = 0;
-		cZ = 0;
 	}
 
 	public void setGL(GL2 gl, GLU glu) {
@@ -45,34 +40,18 @@ public class CameraController {
 	}
 
 	public float[] getRotation() {
-		return new float[] { r, cX, cY, cZ };
+		return new float[] { r, rX, rY, rZ };
 	}
 
 	public void keyPressed(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.VK_A) {
-			r = rY;
-			rY += 1;
-			cX = 0;
-			cY = 1;
-			cZ = 0;
+			pX += pSpeed;
 		} else if (event.getKeyCode() == KeyEvent.VK_W) {
-			r = rX;
-			rX += 1;
-			cX = 1;
-			cY = 0;
-			cZ = 0;
+			pY += pSpeed;
 		} else if (event.getKeyCode() == KeyEvent.VK_S) {
-			r = rX;
-			rX -= 1;
-			cX = -1;
-			cY = 0;
-			cZ = 0;
+			pY -= pSpeed;
 		} else if (event.getKeyCode() == KeyEvent.VK_D) {
-			r = rY;
-			rY -= 1;
-			cX = 0;
-			cY = -1;
-			cZ = 0;
+			pX -= pSpeed;
 		}
 	}
 

@@ -16,7 +16,7 @@ public class Cube implements ISimpleObject {
 	@Override
 	public void update(GL2 gl, Object arg) {
 		// Logic Zone
-		angleCube += -1.5f;
+		//angleCube += -1.5f;
 		// Render Zone
 		render(gl);
 	}

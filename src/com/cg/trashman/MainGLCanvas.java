@@ -152,8 +152,8 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		gl.glMatrixMode(GL_PROJECTION); // choose projection matrix
 		gl.glLoadIdentity(); // reset projection matrix
 
-		glu.gluPerspective(45.0, aspect, 0.1, 100.0); // fovy, aspect, zNear,
-														// zFar
+		glu.gluPerspective(45.0, aspect, 0.1, 100.0); // fovy, aspect, zNear,zFar
+		
 		// Enable the model-view transform
 		gl.glMatrixMode(GL_MODELVIEW);
 		gl.glLoadIdentity(); // reset
@@ -173,12 +173,12 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		cube.update(gl, null);
 		
 		// Update Camera
-		float[] r = cameraController.getRotation();
-		// Update rotation using camera
+		float[] t = cameraController.getTranslation();
+		// Update trans using camera
 		gl.glMatrixMode(GL_PROJECTION);
 		gl.glLoadIdentity();
 		glu.gluPerspective(45.0, 1.55f, 0.1, 100.0);
-		gl.glRotatef(r[0], r[1], r[2], r[3]);
+		gl.glTranslatef(t[0], t[1], t[2]);
 		gl.glMatrixMode(GL_MODELVIEW);
 		gl.glLoadIdentity();
 		

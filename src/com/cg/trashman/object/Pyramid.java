@@ -15,7 +15,7 @@ public class Pyramid implements ISimpleObject {
 
 	@Override
 	public void update(GL2 gl, Object arg) {
-		anglePyramid += 2.0f;
+		//anglePyramid += 2.0f;
 		render(gl);
 	}
 
