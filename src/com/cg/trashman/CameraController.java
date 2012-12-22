@@ -34,16 +34,16 @@ public class CameraController {
 		gl.glLoadIdentity(); // reset projection matrix
 		glu.gluPerspective(45.0, 1.55f, 0.1, 100.0);
 		// Enable the model-view transform
-		gl.glTranslatef(pX, pY, 0);
-		// gl.glRotatef(2f, 0f, 20f, 1f);
+		// gl.glTranslatef(pX, pY, 0);
+		gl.glRotatef(pX, 0f, 20f, 1f);
 		gl.glMatrixMode(GL_MODELVIEW);
 		gl.glLoadIdentity(); // reset
 	}
 
 	public void keyPressed(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.VK_A) {
-			System.out.println("A");
-			moveCamera(-0.1f, 0f);
+			System.out.println("A: " + pX + "," + pY);
+			moveCamera(-10f, 0f);
 		} else if (event.getKeyCode() == KeyEvent.VK_W) {
 			System.out.println("W");
 		} else if (event.getKeyCode() == KeyEvent.VK_S) {

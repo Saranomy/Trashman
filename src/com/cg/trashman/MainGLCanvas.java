@@ -122,6 +122,8 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 									// lighting
 
 		initComponent();
+		// Set up CameraController before using it
+		cameraController.setGL(gl, glu);
 	}
 
 	public void initComponent() {
@@ -155,9 +157,6 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		// Enable the model-view transform
 		gl.glMatrixMode(GL_MODELVIEW);
 		gl.glLoadIdentity(); // reset
-		
-		// Set up CameraController before using it
-		cameraController.setGL(gl, glu);
 
 	}
 
