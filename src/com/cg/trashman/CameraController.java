@@ -47,12 +47,21 @@ public class CameraController {
 	public void keyPressed(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.VK_A) {
 			pX += pSpeed;
-		} else if (event.getKeyCode() == KeyEvent.VK_W) {
-			pY -= pSpeed;
-		} else if (event.getKeyCode() == KeyEvent.VK_S) {
-			pY += pSpeed;
-		} else if (event.getKeyCode() == KeyEvent.VK_D) {
+		} 
+		if (event.getKeyCode() == KeyEvent.VK_W) {
+			pZ += pSpeed;
+		} 
+		if (event.getKeyCode() == KeyEvent.VK_S) {
+			pZ -= pSpeed;
+		} 
+		if (event.getKeyCode() == KeyEvent.VK_D) {
 			pX -= pSpeed;
+		}
+		if (event.getKeyCode() == KeyEvent.VK_SPACE){
+			pY -= pSpeed;
+		}
+		if( event.getKeyCode() == KeyEvent.VK_SHIFT){
+			pY += pSpeed;
 		}
 		
 		if (event.getKeyCode() == KeyEvent.VK_UP){
