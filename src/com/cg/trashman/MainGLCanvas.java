@@ -39,6 +39,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		KeyListener {
 	private Cube cube;
 	private Pyramid pyramid;
+	private CameraController cameraController;
 
 	// Define constants for the top-level container
 	private static String TITLE = "Trashman Alpha 0.1.0"; // window's
@@ -97,6 +98,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 	/** Constructor to setup the GUI for this Component */
 	public MainGLCanvas() {
 		this.addGLEventListener(this);
+		this.addKeyListener(this);
 	}
 
 	// ------ Implement methods declared in GLEventListener ------
@@ -125,6 +127,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 	public void initComponent() {
 		cube = new Cube();
 		pyramid = new Pyramid();
+		cameraController = new CameraController();
 	}
 
 	/**
@@ -152,6 +155,9 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		// Enable the model-view transform
 		gl.glMatrixMode(GL_MODELVIEW);
 		gl.glLoadIdentity(); // reset
+		
+		// Set up CameraController before using it
+		cameraController.setGL(gl, glu);
 
 	}
 
@@ -187,21 +193,18 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 	}
 
 	@Override
-	public void keyPressed(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
+	public void keyPressed(KeyEvent event) {
+		cameraController.keyPressed(event);
 	}
 
 	@Override
-	public void keyReleased(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
+	public void keyReleased(KeyEvent event) {
+		cameraController.keyReleased(event);
 	}
 
 	@Override
-	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-
+	public void keyTyped(KeyEvent event) {
+		cameraController.keyTyped(event);
 	}
 
 }
