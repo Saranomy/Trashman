@@ -2,6 +2,8 @@ package com.cg.trashman;
 
 import java.util.Random;
 
+import com.cg.trashman.object.Maze;
+
 public class MazeGenerator {
 
 	private static Random random;

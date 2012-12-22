@@ -5,7 +5,6 @@ import static javax.media.opengl.GL.GL_DEPTH_BUFFER_BIT;
 import static javax.media.opengl.GL.GL_DEPTH_TEST;
 import static javax.media.opengl.GL.GL_LEQUAL;
 import static javax.media.opengl.GL.GL_NICEST;
-import static javax.media.opengl.GL.GL_TRIANGLES;
 import static javax.media.opengl.GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT;
 import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_SMOOTH;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
@@ -26,6 +25,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import com.cg.trashman.object.Cube;
+import com.cg.trashman.object.Maze;
 import com.cg.trashman.object.Pyramid;
 import com.jogamp.opengl.util.FPSAnimator;
 // GL constants
@@ -40,6 +40,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 	private Cube cube;
 	private Pyramid pyramid;
 	private CameraController cameraController;
+	private Maze maze;
 
 	// Define constants for the top-level container
 	private static String TITLE = "Trashman Alpha 0.1.0"; // window's
@@ -130,6 +131,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		cube = new Cube();
 		pyramid = new Pyramid();
 		cameraController = new CameraController();
+		maze = MazeGenerator.createMaze(10, 10);
 	}
 
 	/**
@@ -171,6 +173,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 
 		pyramid.update(gl, null);
 		cube.update(gl, null);
+		maze.update(gl, null);
 		
 		// Update Camera
 		float[] t = cameraController.getTranslation();
