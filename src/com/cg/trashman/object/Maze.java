@@ -52,12 +52,12 @@ public class Maze implements ISimpleObject {
 
 				// ----- Render the Color Cube -----
 				gl.glLoadIdentity(); // reset the current model-view matrix
-				gl.glTranslatef(1.6f * i, 0f, -7.0f * j);
+				gl.glTranslatef(1.6f * i, 0f, -1.6f * j);
 
 				gl.glBegin(GL_QUADS); // of the color cube
 
 				// Top-face
-				Random random = new Random(i);
+				Random random = new Random(i+j);
 				gl.glColor3f(random.nextFloat(), random.nextFloat(),
 						random.nextFloat()); // green
 				gl.glVertex3f(1.0f, 1.0f, -1.0f);
