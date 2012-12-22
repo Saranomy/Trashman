@@ -183,8 +183,12 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		gl.glMatrixMode(GL_PROJECTION);
 		gl.glLoadIdentity();
 		glu.gluPerspective(45.0, 1.55f, 0.1, 100.0);
+		// Do translation
+		gl.glTranslatef(t[0], t[1], t[2]);
+		// Do rotation
 		gl.glTranslatef(t[0], t[1], t[2]);
 		gl.glRotatef(r[0], r[1], r[2], r[3]);
+		gl.glTranslatef(-1*t[0], -1*t[1], -1*t[2]);
 		gl.glMatrixMode(GL_MODELVIEW);
 		gl.glLoadIdentity();
 		
