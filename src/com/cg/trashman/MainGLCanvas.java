@@ -12,6 +12,8 @@ import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -24,6 +26,7 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import com.cg.trashman.object.Cube;
+import com.cg.trashman.object.Pyramid;
 import com.jogamp.opengl.util.FPSAnimator;
 // GL constants
 // GL2 constants
@@ -32,13 +35,14 @@ import com.jogamp.opengl.util.FPSAnimator;
  * JOGL 2.0 Example 2: Rotating 3D Shapes (GLCanvas)
  */
 @SuppressWarnings("serial")
-public class MainGLCanvas extends GLCanvas implements GLEventListener {
+public class MainGLCanvas extends GLCanvas implements GLEventListener,
+		KeyListener {
 	private Cube cube;
-	
-	
+	private Pyramid pyramid;
+
 	// Define constants for the top-level container
-	private static String TITLE = "Rotating 3D Shaps (GLCanvas)"; // window's
-																	// title
+	private static String TITLE = "Trashman Alpha 0.1.0"; // window's
+															// title
 	private static final int CANVAS_WIDTH = 320; // width of the drawable
 	private static final int CANVAS_HEIGHT = 240; // height of the drawable
 	private static final int FPS = 60; // animator's target frames per second
@@ -89,10 +93,6 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener {
 	// Setup OpenGL Graphics Renderer
 
 	private GLU glu; // for the GL Utility
-	private float anglePyramid = 0; // rotational angle in degree for pyramid
-	private float angleCube = 0; // rotational angle in degree for cube
-	private float speedPyramid = 2.0f; // rotational speed for pyramid
-	private float speedCube = -1.5f; // rotational speed for cube
 
 	/** Constructor to setup the GUI for this Component */
 	public MainGLCanvas() {
@@ -118,12 +118,13 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener {
 																// correction
 		gl.glShadeModel(GL_SMOOTH); // blends colors nicely, and smoothes out
 									// lighting
-		
+
 		initComponent();
 	}
-	
+
 	public void initComponent() {
 		cube = new Cube();
+		pyramid = new Pyramid();
 	}
 
 	/**
@@ -164,61 +165,15 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener {
 																// and depth
 																// buffers
 
-		// ----- Render the Pyramid -----
-		gl.glLoadIdentity(); // reset the model-view matrix
-		gl.glTranslatef(-1.6f, 0.0f, -6.0f); // translate left and into the
-												// screen
-		gl.glRotatef(anglePyramid, -0.2f, 1.0f, 0.0f); // rotate about the
-														// y-axis
-
-		gl.glBegin(GL_TRIANGLES); // of the pyramid
-
-		// Font-face triangle
-		gl.glColor3f(1.0f, 0.0f, 0.0f); // Red
-		gl.glVertex3f(0.0f, 1.0f, 0.0f);
-		gl.glColor3f(0.0f, 1.0f, 0.0f); // Green
-		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
-		gl.glColor3f(0.0f, 0.0f, 1.0f); // Blue
-		gl.glVertex3f(1.0f, -1.0f, 1.0f);
-
-		// Right-face triangle
-		gl.glColor3f(1.0f, 0.0f, 0.0f); // Red
-		gl.glVertex3f(0.0f, 1.0f, 0.0f);
-		gl.glColor3f(0.0f, 0.0f, 1.0f); // Blue
-		gl.glVertex3f(1.0f, -1.0f, 1.0f);
-		gl.glColor3f(0.0f, 1.0f, 0.0f); // Green
-		gl.glVertex3f(1.0f, -1.0f, -1.0f);
-
-		// Back-face triangle
-		gl.glColor3f(1.0f, 0.0f, 0.0f); // Red
-		gl.glVertex3f(0.0f, 1.0f, 0.0f);
-		gl.glColor3f(0.0f, 1.0f, 0.0f); // Green
-		gl.glVertex3f(1.0f, -1.0f, -1.0f);
-		gl.glColor3f(0.0f, 0.0f, 1.0f); // Blue
-		gl.glVertex3f(-1.0f, -1.0f, -1.0f);
-
-		// Left-face triangle
-		gl.glColor3f(1.0f, 0.0f, 0.0f); // Red
-		gl.glVertex3f(0.0f, 1.0f, 0.0f);
-		gl.glColor3f(0.0f, 0.0f, 1.0f); // Blue
-		gl.glVertex3f(-1.0f, -1.0f, -1.0f);
-		gl.glColor3f(0.0f, 1.0f, 0.0f); // Green
-		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
-
-		gl.glEnd(); // of the pyramid
-
-		cube.update(gl);
-
-		// Update the rotational angle after each refresh.
-		anglePyramid += speedPyramid;
-		angleCube += speedCube;
+		pyramid.update(gl, null);
+		cube.update(gl, null);
 
 		// Enable the model-view transform
 		gl.glMatrixMode(GL_PROJECTION); // choose projection matrix
 		gl.glLoadIdentity(); // reset projection matrix
 		glu.gluPerspective(45.0, 1.55f, 0.1, 100.0);
 		// Enable the model-view transform
-		gl.glRotatef(anglePyramid, 0f, 20f, 1f);
+		gl.glRotatef(2f, 0f, 20f, 1f);
 		gl.glMatrixMode(GL_MODELVIEW);
 		gl.glLoadIdentity(); // reset
 	}
@@ -230,4 +185,23 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener {
 	@Override
 	public void dispose(GLAutoDrawable drawable) {
 	}
+
+	@Override
+	public void keyPressed(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
