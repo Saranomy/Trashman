@@ -6,7 +6,6 @@ import static javax.media.opengl.GL.GL_DEPTH_TEST;
 import static javax.media.opengl.GL.GL_LEQUAL;
 import static javax.media.opengl.GL.GL_NICEST;
 import static javax.media.opengl.GL.GL_TRIANGLES;
-import static javax.media.opengl.GL2.GL_QUADS;
 import static javax.media.opengl.GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT;
 import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_SMOOTH;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
@@ -24,6 +23,7 @@ import javax.media.opengl.glu.GLU;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import com.cg.trashman.object.Cube;
 import com.jogamp.opengl.util.FPSAnimator;
 // GL constants
 // GL2 constants
@@ -33,6 +33,9 @@ import com.jogamp.opengl.util.FPSAnimator;
  */
 @SuppressWarnings("serial")
 public class MainGLCanvas extends GLCanvas implements GLEventListener {
+	private Cube cube;
+	
+	
 	// Define constants for the top-level container
 	private static String TITLE = "Rotating 3D Shaps (GLCanvas)"; // window's
 																	// title
@@ -115,6 +118,12 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener {
 																// correction
 		gl.glShadeModel(GL_SMOOTH); // blends colors nicely, and smoothes out
 									// lighting
+		
+		initComponent();
+	}
+	
+	public void initComponent() {
+		cube = new Cube();
 	}
 
 	/**
@@ -198,58 +207,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener {
 
 		gl.glEnd(); // of the pyramid
 
-		// ----- Render the Color Cube -----
-		gl.glLoadIdentity(); // reset the current model-view matrix
-		gl.glTranslatef(1.6f, 0.0f, -7.0f); // translate right and into the
-											// screen
-		gl.glRotatef(angleCube, 1.0f, 1.0f, 1.0f); // rotate about the x, y and
-													// z-axes
-
-		gl.glBegin(GL_QUADS); // of the color cube
-
-		// Top-face
-		gl.glColor3f(0.0f, 1.0f, 0.0f); // green
-		gl.glVertex3f(1.0f, 1.0f, -1.0f);
-		gl.glVertex3f(-1.0f, 1.0f, -1.0f);
-		gl.glVertex3f(-1.0f, 1.0f, 1.0f);
-		gl.glVertex3f(1.0f, 1.0f, 1.0f);
-
-		// Bottom-face
-		gl.glColor3f(1.0f, 0.5f, 0.0f); // orange
-		gl.glVertex3f(1.0f, -1.0f, 1.0f);
-		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
-		gl.glVertex3f(-1.0f, -1.0f, -1.0f);
-		gl.glVertex3f(1.0f, -1.0f, -1.0f);
-
-		// Front-face
-		gl.glColor3f(1.0f, 0.0f, 0.0f); // red
-		gl.glVertex3f(1.0f, 1.0f, 1.0f);
-		gl.glVertex3f(-1.0f, 1.0f, 1.0f);
-		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
-		gl.glVertex3f(1.0f, -1.0f, 1.0f);
-
-		// Back-face
-		gl.glColor3f(1.0f, 1.0f, 0.0f); // yellow
-		gl.glVertex3f(1.0f, -1.0f, -1.0f);
-		gl.glVertex3f(-1.0f, -1.0f, -1.0f);
-		gl.glVertex3f(-1.0f, 1.0f, -1.0f);
-		gl.glVertex3f(1.0f, 1.0f, -1.0f);
-
-		// Left-face
-		gl.glColor3f(0.0f, 0.0f, 1.0f); // blue
-		gl.glVertex3f(-1.0f, 1.0f, 1.0f);
-		gl.glVertex3f(-1.0f, 1.0f, -1.0f);
-		gl.glVertex3f(-1.0f, -1.0f, -1.0f);
-		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
-
-		// Right-face
-		gl.glColor3f(1.0f, 0.0f, 1.0f); // magenta
-		gl.glVertex3f(1.0f, 1.0f, -1.0f);
-		gl.glVertex3f(1.0f, 1.0f, 1.0f);
-		gl.glVertex3f(1.0f, -1.0f, 1.0f);
-		gl.glVertex3f(1.0f, -1.0f, -1.0f);
-
-		gl.glEnd(); // of the color cube
+		cube.update(gl);
 
 		// Update the rotational angle after each refresh.
 		anglePyramid += speedPyramid;
