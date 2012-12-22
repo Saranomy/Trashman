@@ -50,16 +50,29 @@ public class Maze implements ISimpleObject {
 		Random random = new Random(0);
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < col; j++) {
-				if (grid[row][col]) {
-					// ----- Render the Color Cube -----
+				if (grid[i][j]) {
 					gl.glLoadIdentity(); // reset the current model-view matrix
-					gl.glTranslatef(1.6f * i, 0f, -1.6f * j);
+					gl.glTranslatef(2f * i, -2f, -2f * j);
 
 					gl.glBegin(GL_QUADS); // of the color cube
 
 					// Top-face
 					float rand = 0.5f + (0.5f * random.nextFloat());
 					gl.glColor3f(rand, rand, rand); // green
+					gl.glVertex3f(1.0f, 1.0f, -1.0f);
+					gl.glVertex3f(-1.0f, 1.0f, -1.0f);
+					gl.glVertex3f(-1.0f, 1.0f, 1.0f);
+					gl.glVertex3f(1.0f, 1.0f, 1.0f);
+					gl.glEnd();
+				} else {
+					gl.glLoadIdentity(); // reset the current model-view matrix
+					gl.glTranslatef(2f * i, -2f, -2f * j);
+
+					gl.glBegin(GL_QUADS); // of the color cube
+
+					// Top-face
+					float rand = 0.5f * random.nextFloat();
+					gl.glColor3f(rand, 0.5f + rand, rand); // green
 					gl.glVertex3f(1.0f, 1.0f, -1.0f);
 					gl.glVertex3f(-1.0f, 1.0f, -1.0f);
 					gl.glVertex3f(-1.0f, 1.0f, 1.0f);
