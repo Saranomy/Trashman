@@ -1,3 +1,5 @@
+package com.cg.trashman;
+
 import java.util.Random;
 
 public class MazeGenerator {

@@ -1,3 +1,4 @@
+package com.cg.trashman;
 
 public class Maze {
 	
