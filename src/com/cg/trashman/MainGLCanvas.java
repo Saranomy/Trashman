@@ -18,6 +18,7 @@ import java.awt.event.WindowEvent;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
+import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
@@ -115,13 +116,14 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // set background (clear) color
 		gl.glClearDepth(1.0f); // set clear depth value to farthest
 		gl.glEnable(GL_DEPTH_TEST); // enables depth testing
+		gl.glEnable(GL2.GL_POLYGON_SMOOTH);
 		gl.glDepthFunc(GL_LEQUAL); // the type of depth test to do
 		gl.glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST); // best
 																// perspective
 																// correction
 		gl.glShadeModel(GL_SMOOTH); // blends colors nicely, and smoothes out
 									// lighting
-
+		
 		initComponent();
 		// Set up CameraController before using it
 		cameraController.setGL(gl, glu);
@@ -154,8 +156,9 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		gl.glMatrixMode(GL_PROJECTION); // choose projection matrix
 		gl.glLoadIdentity(); // reset projection matrix
 
-		glu.gluPerspective(45.0, aspect, 0.1, 100.0); // fovy, aspect, zNear,zFar
-		
+		glu.gluPerspective(45.0, aspect, 0.1, 100.0); // fovy, aspect,
+														// zNear,zFar
+
 		// Enable the model-view transform
 		gl.glMatrixMode(GL_MODELVIEW);
 		gl.glLoadIdentity(); // reset
@@ -174,11 +177,11 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		pyramid.update(gl, null);
 		cube.update(gl, null);
 		maze.update(gl, null);
-		
+
 		// Update Camera Parameter
 		float[] t = cameraController.getTranslation();
 		float[] r = cameraController.getRotation();
-		
+
 		// Update camera translation
 		gl.glMatrixMode(GL_PROJECTION);
 		gl.glLoadIdentity();
@@ -191,23 +194,23 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		gl.glTranslatef(-1*t[0], -1*t[1], -1*t[2]);
 		gl.glMatrixMode(GL_MODELVIEW);
 		gl.glLoadIdentity();
-		
+
 		// Update camera rotation
-//		gl.glMatrixMode(GL_PROJECTION);
-//		gl.glLoadIdentity();
-//		glu.gluPerspective(45.0, 1.55f, 0.1, 100.0);
-//		gl.glRotatef(r[0], r[1], r[2], r[3]);
-//		gl.glMatrixMode(GL_MODELVIEW);
-//		gl.glLoadIdentity();
-		
-//		// Enable the model-view transform
-//		gl.glMatrixMode(GL_PROJECTION); // choose projection matrix
-//		gl.glLoadIdentity(); // reset projection matrix
-//		glu.gluPerspective(45.0, 1.55f, 0.1, 100.0);
-//		// Enable the model-view transform
-//		gl.glRotatef(2f, 0f, 20f, 1f);
-//		gl.glMatrixMode(GL_MODELVIEW);
-//		gl.glLoadIdentity(); // reset
+		// gl.glMatrixMode(GL_PROJECTION);
+		// gl.glLoadIdentity();
+		// glu.gluPerspective(45.0, 1.55f, 0.1, 100.0);
+		// gl.glRotatef(r[0], r[1], r[2], r[3]);
+		// gl.glMatrixMode(GL_MODELVIEW);
+		// gl.glLoadIdentity();
+
+		// // Enable the model-view transform
+		// gl.glMatrixMode(GL_PROJECTION); // choose projection matrix
+		// gl.glLoadIdentity(); // reset projection matrix
+		// glu.gluPerspective(45.0, 1.55f, 0.1, 100.0);
+		// // Enable the model-view transform
+		// gl.glRotatef(2f, 0f, 20f, 1f);
+		// gl.glMatrixMode(GL_MODELVIEW);
+		// gl.glLoadIdentity(); // reset
 	}
 
 	/**

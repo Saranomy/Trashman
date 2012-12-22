@@ -65,6 +65,7 @@ public class Maze implements ISimpleObject {
 					gl.glVertex3f(1.0f, 1.0f, 1.0f);
 					gl.glEnd();
 				} else {
+					
 					gl.glLoadIdentity(); // reset the current model-view matrix
 					gl.glTranslatef(2f * i, 0f, -2f * j);
 
