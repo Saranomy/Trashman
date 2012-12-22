@@ -48,20 +48,6 @@ public class CameraController {
 		return new float[] { r, cX, cY, cZ };
 	}
 
-	public void moveCamera(float dx, float dy) {
-		pX += dx;
-		pY += dy;
-		// Enable the model-view transform
-		gl.glMatrixMode(GL_PROJECTION); // choose projection matrix
-		gl.glLoadIdentity(); // reset projection matrix
-		glu.gluPerspective(45.0, 1.55f, 0.1, 100.0);
-		// Enable the model-view transform
-		// gl.glTranslatef(pX, pY, 0);
-		gl.glRotatef(pX, 0f, 20f, 1f);
-		gl.glMatrixMode(GL_MODELVIEW);
-		gl.glLoadIdentity(); // reset
-	}
-
 	public void keyPressed(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.VK_A) {
 			r = rY;
