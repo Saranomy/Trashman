@@ -157,7 +157,6 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		// Enable the model-view transform
 		gl.glMatrixMode(GL_MODELVIEW);
 		gl.glLoadIdentity(); // reset
-
 	}
 
 	/**
@@ -172,15 +171,25 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 
 		pyramid.update(gl, null);
 		cube.update(gl, null);
-
-		// Enable the model-view transform
-		gl.glMatrixMode(GL_PROJECTION); // choose projection matrix
-		gl.glLoadIdentity(); // reset projection matrix
+		
+		// Update Camera
+		float[] r = cameraController.getRotation();
+		// Update rotation using camera
+		gl.glMatrixMode(GL_PROJECTION);
+		gl.glLoadIdentity();
 		glu.gluPerspective(45.0, 1.55f, 0.1, 100.0);
-		// Enable the model-view transform
-		gl.glRotatef(2f, 0f, 20f, 1f);
+		gl.glRotatef(r[0], r[1], r[2], r[3]);
 		gl.glMatrixMode(GL_MODELVIEW);
-		gl.glLoadIdentity(); // reset
+		gl.glLoadIdentity();
+		
+//		// Enable the model-view transform
+//		gl.glMatrixMode(GL_PROJECTION); // choose projection matrix
+//		gl.glLoadIdentity(); // reset projection matrix
+//		glu.gluPerspective(45.0, 1.55f, 0.1, 100.0);
+//		// Enable the model-view transform
+//		gl.glRotatef(2f, 0f, 20f, 1f);
+//		gl.glMatrixMode(GL_MODELVIEW);
+//		gl.glLoadIdentity(); // reset
 	}
 
 	/**
