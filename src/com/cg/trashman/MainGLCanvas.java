@@ -131,7 +131,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		cube = new Cube();
 		pyramid = new Pyramid();
 		cameraController = new CameraController();
-		maze = MazeGenerator.createMaze(10, 10);
+		maze = MazeGenerator.createMaze(101, 101);
 	}
 
 	/**
