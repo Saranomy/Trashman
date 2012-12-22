@@ -136,12 +136,13 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener {
 		// Setup perspective projection, with aspect ratio matches viewport
 		gl.glMatrixMode(GL_PROJECTION); // choose projection matrix
 		gl.glLoadIdentity(); // reset projection matrix
+
 		glu.gluPerspective(45.0, aspect, 0.1, 100.0); // fovy, aspect, zNear,
 														// zFar
-
 		// Enable the model-view transform
 		gl.glMatrixMode(GL_MODELVIEW);
 		gl.glLoadIdentity(); // reset
+
 	}
 
 	/**
@@ -253,6 +254,15 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener {
 		// Update the rotational angle after each refresh.
 		anglePyramid += speedPyramid;
 		angleCube += speedCube;
+
+		// Enable the model-view transform
+		gl.glMatrixMode(GL_PROJECTION); // choose projection matrix
+		gl.glLoadIdentity(); // reset projection matrix
+		glu.gluPerspective(45.0, 1.55f, 0.1, 100.0);
+		// Enable the model-view transform
+		gl.glRotatef(anglePyramid, 0f, 20f, 1f);
+		gl.glMatrixMode(GL_MODELVIEW);
+		gl.glLoadIdentity(); // reset
 	}
 
 	/**
