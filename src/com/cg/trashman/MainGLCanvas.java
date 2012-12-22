@@ -175,15 +175,26 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		cube.update(gl, null);
 		maze.update(gl, null);
 		
-		// Update Camera
+		// Update Camera Parameter
 		float[] t = cameraController.getTranslation();
-		// Update trans using camera
+		float[] r = cameraController.getRotation();
+		
+		// Update camera translation
 		gl.glMatrixMode(GL_PROJECTION);
 		gl.glLoadIdentity();
 		glu.gluPerspective(45.0, 1.55f, 0.1, 100.0);
 		gl.glTranslatef(t[0], t[1], t[2]);
+		gl.glRotatef(r[0], r[1], r[2], r[3]);
 		gl.glMatrixMode(GL_MODELVIEW);
 		gl.glLoadIdentity();
+		
+		// Update camera rotation
+//		gl.glMatrixMode(GL_PROJECTION);
+//		gl.glLoadIdentity();
+//		glu.gluPerspective(45.0, 1.55f, 0.1, 100.0);
+//		gl.glRotatef(r[0], r[1], r[2], r[3]);
+//		gl.glMatrixMode(GL_MODELVIEW);
+//		gl.glLoadIdentity();
 		
 //		// Enable the model-view transform
 //		gl.glMatrixMode(GL_PROJECTION); // choose projection matrix

@@ -15,6 +15,7 @@ public class CameraController {
 	private float pY;
 	private float pZ;
 	private float pSpeed = 0.4f;
+	private float rSpeed = 0.2f;
 	private float r;
 	private float rX;
 	private float rY;
@@ -56,12 +57,28 @@ public class CameraController {
 		
 		if (event.getKeyCode() == KeyEvent.VK_UP){
 			// Press UP
+			r -= rSpeed;
+			rX = 1;
+			rY = 0;
+			rZ = 0;
 		}else if(event.getKeyCode() == KeyEvent.VK_DOWN){
 			// Press Down
+			r += rSpeed;
+			rX = 1;
+			rY = 0;
+			rZ = 0;
 		}else if(event.getKeyCode() == KeyEvent.VK_LEFT){
 			// Press Left
+			r -= rSpeed;
+			rX = 0;
+			rY = 1;
+			rZ = 0;
 		}else if(event.getKeyCode() == KeyEvent.VK_RIGHT){
 			// Press Right
+			r += rSpeed;
+			rX = 0;
+			rY = 1;
+			rZ = 0;
 		}
 	}
 
