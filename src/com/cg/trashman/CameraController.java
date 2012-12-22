@@ -53,6 +53,16 @@ public class CameraController {
 		} else if (event.getKeyCode() == KeyEvent.VK_D) {
 			pX -= pSpeed;
 		}
+		
+		if (event.getKeyCode() == KeyEvent.VK_UP){
+			// Press UP
+		}else if(event.getKeyCode() == KeyEvent.VK_DOWN){
+			// Press Down
+		}else if(event.getKeyCode() == KeyEvent.VK_LEFT){
+			// Press Left
+		}else if(event.getKeyCode() == KeyEvent.VK_RIGHT){
+			// Press Right
+		}
 	}
 
 	public void keyReleased(KeyEvent event) {
