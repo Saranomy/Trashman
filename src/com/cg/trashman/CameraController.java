@@ -47,9 +47,9 @@ public class CameraController {
 		if (event.getKeyCode() == KeyEvent.VK_A) {
 			pX += pSpeed;
 		} else if (event.getKeyCode() == KeyEvent.VK_W) {
-			pY += pSpeed;
-		} else if (event.getKeyCode() == KeyEvent.VK_S) {
 			pY -= pSpeed;
+		} else if (event.getKeyCode() == KeyEvent.VK_S) {
+			pY += pSpeed;
 		} else if (event.getKeyCode() == KeyEvent.VK_D) {
 			pX -= pSpeed;
 		}
