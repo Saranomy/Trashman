@@ -15,11 +15,11 @@ import com.jogamp.opengl.util.FPSAnimator;
 public class Renderer implements GLEventListener, MouseMotionListener,
 		MouseListener, KeyListener {
 	private FPSAnimator animator;
-
+	
 	@Override
 	public void init(GLAutoDrawable gLDrawable) {
 		GL2 gl = gLDrawable.getGL().getGL2();
-		gl.glClearColor(0.5f, 0.5f, 0.5f, 1f); // white background
+		gl.glClearColor(0.5f, 0.5f, 0.5f, 1f); // grey background
 		// animator controls update
 		animator = new FPSAnimator(gLDrawable, 60);
 		animator.start();
