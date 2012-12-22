@@ -41,14 +41,16 @@ public class CameraController {
 	}
 
 	public void keyPressed(KeyEvent event) {
-		if (event.getKeyCode() == KeyEvent.VK_A)
+		if (event.getKeyCode() == KeyEvent.VK_A) {
 			System.out.println("A");
-		else if (event.getKeyCode() == KeyEvent.VK_W)
+			moveCamera(-0.1f, 0f);
+		} else if (event.getKeyCode() == KeyEvent.VK_W) {
 			System.out.println("W");
-		else if (event.getKeyCode() == KeyEvent.VK_S)
+		} else if (event.getKeyCode() == KeyEvent.VK_S) {
 			System.out.println("S");
-		else if (event.getKeyCode() == KeyEvent.VK_D)
+		} else if (event.getKeyCode() == KeyEvent.VK_D) {
 			System.out.println("D");
+		}
 	}
 
 	public void keyReleased(KeyEvent event) {
