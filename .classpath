@@ -3,9 +3,5 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="img"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/Saranomy/Documents/GitHub/Trashman/lib/gluegen-rt.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Saranomy/Documents/GitHub/Trashman/lib/gluegen-rt-natives-windows-amd64.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Saranomy/Documents/GitHub/Trashman/lib/jogl.all.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Saranomy/Documents/GitHub/Trashman/lib/jogl-all-natives-windows-amd64.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
