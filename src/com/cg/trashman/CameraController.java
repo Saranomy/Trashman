@@ -25,6 +25,13 @@ public class CameraController {
 	private float desY;
 	private float desZ;
 	
+	private int state;
+	private float totalDistance;
+	private float currentDistance;
+	
+	private static final int ACCELERATE = 1;
+	private static final int DECELERATE = -1;
+	
 	private static final float START_CAMERA_X = -11.0f;
 	private static final float START_CAMERA_Y = -19.2f;
 	private static final float START_CAMERA_Z = -2.0f;
@@ -59,79 +66,81 @@ public class CameraController {
 	public float[] getRotation() {
 		return new float[] { r, rX, rY, rZ };
 	}
-
-	public void keyPressed(KeyEvent event) {
-		if (event.getKeyCode() == KeyEvent.VK_A) {
-			//pX += pSpeed;
-			this.setDestination(pX + 2.0f, pY, pZ);
-		} 
-		else if (event.getKeyCode() == KeyEvent.VK_D) {
-			//pX -= pSpeed;
-			this.setDestination(pX - 2.0f, pY, pZ);
-		}
-		
-		if (event.getKeyCode() == KeyEvent.VK_W) {
-			//pZ += pSpeed;
-			this.setDestination(pX, pY, pZ + 2.0f);
-		} 
-		else if (event.getKeyCode() == KeyEvent.VK_S) {
-			//pZ -= pSpeed;
-			this.setDestination(pX, pY, pZ - 2.0f);
-		} 
-		
-		if (event.getKeyCode() == KeyEvent.VK_SPACE){
-			//pY -= pSpeed;
-			this.setDestination(pX, pY - 2.0f, pZ);
-		}
-		else if( event.getKeyCode() == KeyEvent.VK_SHIFT){
-			//pY += pSpeed;
-			this.setDestination(pX, pY + 2.0f, pZ);
-		}
-		
-		if (event.getKeyCode() == KeyEvent.VK_UP){
-			// Press UP
-			//r -= rSpeed;
-			//rX = 1;
-			//rY = 0;
-			//rZ = 0;
-		}else if(event.getKeyCode() == KeyEvent.VK_DOWN){
-			// Press Down
-			//r += rSpeed;
-			//rX = 1;
-			//rY = 0;
-			//rZ = 0;
-		}
-	}
 	
 	public void setDestination(float x,float y,float z){
-		this.desX = x;
-		this.desY = y;
-		this.desZ = z;
+		
+		if( desX != x || desY != y || desZ != z ){
+			//System.out.println("Change Destination");
+			state = ACCELERATE;
+			totalDistance = (float)Math.sqrt(Math.pow(x - pX, 2) + Math.pow(y - pY, 2) + Math.pow(z - pZ, 2));
+			currentDistance = 0.0f;
+			//xSpeed = ySpeed = zSpeed = 0;
+		}
+		
+		if( this.desX != x ){
+			this.desX = x;
+		}
+		if( this.desY != y){
+			this.desY = y;
+		}
+		if( this.desZ != z){
+			this.desZ = z;
+		}
+		
 	}
 	
 	public void update(){
+		
 		if( this.desX == pX && this.desY == pY && this.desZ == pZ){
-			xSpeed = 0;
-			ySpeed = 0;
-			zSpeed = 0;
 			return;
 		}
+		
 		this.pX += Math.signum( desX - pX ) * xSpeed;
-		xSpeed  += CAMERA_ACC; 
+		this.pY += Math.signum( desY - pY ) * ySpeed;
+		this.pZ += Math.signum( desZ - pZ ) * zSpeed;
+		currentDistance += (float)Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2) + Math.pow(zSpeed, 2));
+		
+		if( currentDistance >= totalDistance/2.0f ){
+			state = DECELERATE;
+		}
+		
+		if(state == ACCELERATE ) xSpeed += CAMERA_ACC;
+		else{
+			if( xSpeed - CAMERA_ACC >= 0 )
+				xSpeed -= CAMERA_ACC;
+			else
+				xSpeed = 0;
+		}
 		if (Math.abs((this.pX - this.desX) * 1000f) / 1000f < xSpeed) {
 			this.pX = this.desX;
+			xSpeed = 0;
 		} 
-		this.pY += Math.signum( desY - pY ) * ySpeed;
-		ySpeed  += CAMERA_ACC;
+		if(state == ACCELERATE ) ySpeed += CAMERA_ACC;
+		else{
+			if( ySpeed - CAMERA_ACC >= 0 )
+				ySpeed -= CAMERA_ACC;
+			else
+				ySpeed = 0;
+		}
 		if (Math.abs((this.pY - this.desY) * 1000f) / 1000f < ySpeed) {
 			this.pY = this.desY;
+			ySpeed = 0;
 		} 
-		this.pZ += Math.signum( desZ - pZ ) * zSpeed;
-		zSpeed  += CAMERA_ACC;
+		if(state == ACCELERATE ) zSpeed += CAMERA_ACC;
+		else{
+			if( zSpeed - CAMERA_ACC >= 0 )
+				zSpeed -= CAMERA_ACC;
+			else
+				zSpeed = 0;
+		}
 		if (Math.abs((this.pZ - this.desZ) * 1000f) / 1000f < zSpeed) {
 			this.pZ = this.desZ;
-		} 
-
+			zSpeed = 0;
+		}	
+	}
+	
+	public void keyPressed(KeyEvent event){
+		
 	}
 
 	public void keyReleased(KeyEvent event) {
