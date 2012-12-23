@@ -15,7 +15,7 @@ public class Car implements ISimpleObject {
 	private float pZ;
 	private float desX;
 	private float desZ;
-	private float pSpeed = 0.1f;
+	private float pSpeed = 0.08f;
 	private float pDefaultSpeed = 0.1f;
 	private Direction direction;
 	private boolean[][] mazeGrid;
@@ -247,16 +247,16 @@ public class Car implements ISimpleObject {
 	}
 
 	public void keyPressed(KeyEvent event) {
-		if (event.getKeyCode() == KeyEvent.VK_I) {
+		if (event.getKeyCode() == KeyEvent.VK_W) {
 			direction = Direction.Up;
 		}
-		if (event.getKeyCode() == KeyEvent.VK_K) {
+		if (event.getKeyCode() == KeyEvent.VK_S) {
 			direction = Direction.Down;
 		}
-		if (event.getKeyCode() == KeyEvent.VK_J) {
+		if (event.getKeyCode() == KeyEvent.VK_A) {
 			direction = Direction.Left;
 		}
-		if (event.getKeyCode() == KeyEvent.VK_L) {
+		if (event.getKeyCode() == KeyEvent.VK_D) {
 			direction = Direction.Right;
 		}
 	}

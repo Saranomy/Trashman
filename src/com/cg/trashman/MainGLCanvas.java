@@ -112,6 +112,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		 * SCENE CREATOR
 		 */
 		scenes = new ArrayList<IScene>();
+		scenes.add(new MenuScene());
 		scenes.add(new GameScene());
 		currentScene = scenes.get(0);
 
@@ -119,7 +120,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		 * INIT ALL SCENES
 		 */
 		for (IScene scene : scenes) {
-			scene.init(gl, glu);
+			scene.init(gl, glu, this);
 		}
 
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // set background (clear) color
@@ -197,4 +198,13 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 	public void keyTyped(KeyEvent event) {
 		currentScene.keyTyped(event);
 	}
+
+	public void setScene(IScene scene) {
+		currentScene = scene;
+	}
+
+	public void setScene(int number) {
+		currentScene = scenes.get(number);
+	}
+
 }

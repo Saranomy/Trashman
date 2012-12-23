@@ -7,7 +7,7 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLU;
 
 public interface IScene {
-	public void init(GL2 gl, GLU glu);
+	public void init(GL2 gl, GLU glu,MainGLCanvas mainGLCanvas);
 
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
 			int height);

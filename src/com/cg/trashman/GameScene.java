@@ -38,6 +38,7 @@ public class GameScene implements IScene {
 	private Texture[] textures;
 	private GL2 gl;
 	private GLU glu;
+	private MainGLCanvas mainGLCanvas;
 
 	private TextRenderer textRenderer;
 
@@ -46,9 +47,10 @@ public class GameScene implements IScene {
 	}
 
 	@Override
-	public void init(GL2 gl, GLU glu) {
+	public void init(GL2 gl, GLU glu, MainGLCanvas mainGLCanvas) {
 		this.gl = gl;
 		this.glu = glu;
+		this.mainGLCanvas = mainGLCanvas;
 
 		/* load texture */
 		try {
