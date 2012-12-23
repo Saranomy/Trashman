@@ -222,7 +222,9 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		gl.glLoadIdentity();
 		glu.gluPerspective(45.0, 1.55f, 0.1, 100.0);
 		// Do translation
+		gl.glRotatef(-1*r[0], -1*r[1], -1*r[2], -1*r[3]);
 		gl.glTranslatef(t[0], t[1], t[2]);
+			
 		// Do rotation
 		gl.glTranslatef(-1 * t[0], -1 * t[1], -1 * t[2]);
 		gl.glRotatef(r[0], r[1], r[2], r[3]);
@@ -230,22 +232,6 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		gl.glMatrixMode(GL_MODELVIEW);
 		gl.glLoadIdentity();
 
-		// Update camera rotation
-		// gl.glMatrixMode(GL_PROJECTION);
-		// gl.glLoadIdentity();
-		// glu.gluPerspective(45.0, 1.55f, 0.1, 100.0);
-		// gl.glRotatef(r[0], r[1], r[2], r[3]);
-		// gl.glMatrixMode(GL_MODELVIEW);
-		// gl.glLoadIdentity();
-
-		// // Enable the model-view transform
-		// gl.glMatrixMode(GL_PROJECTION); // choose projection matrix
-		// gl.glLoadIdentity(); // reset projection matrix
-		// glu.gluPerspective(45.0, 1.55f, 0.1, 100.0);
-		// // Enable the model-view transform
-		// gl.glRotatef(2f, 0f, 20f, 1f);
-		// gl.glMatrixMode(GL_MODELVIEW);
-		// gl.glLoadIdentity(); // reset
 	}
 
 	/**
