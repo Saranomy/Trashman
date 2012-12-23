@@ -4,6 +4,8 @@ import static javax.media.opengl.GL.GL_COLOR_BUFFER_BIT;
 import static javax.media.opengl.GL.GL_DEPTH_BUFFER_BIT;
 import static javax.media.opengl.GL.GL_TRIANGLES;
 import static javax.media.opengl.GL2.GL_QUADS;
+import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
+import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 
 import java.awt.event.KeyEvent;
 
@@ -42,8 +44,8 @@ public class MenuScene implements IScene {
 	}
 
 	@Override
-	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
-			int height) {
+	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
+		
 	}
 
 	@Override
@@ -149,6 +151,11 @@ public class MenuScene implements IScene {
 		gl.glVertex3f(1.0f, -1.0f, -1.0f);
 
 		gl.glEnd(); // of the color cube
+		
+		gl.glMatrixMode(GL_PROJECTION);
+		gl.glLoadIdentity();
+		glu.gluPerspective(45.0, 1.55f, 0.1, 100.0);
+		gl.glMatrixMode(GL_MODELVIEW);
 	}
 
 	@Override
