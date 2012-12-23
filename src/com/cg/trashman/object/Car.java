@@ -241,7 +241,8 @@ public class Car implements ISimpleObject {
 		for (int i = 0; i < trashes.size(); i++) {
 			Trash t = trashes.get(i);
 			if (t.getRow() == gridX && t.getCol() == gridZ) {
-				score.add(100);
+				// score on each id
+				score.add(t.getScore());
 				trashes.remove(t);
 				i--;
 			}

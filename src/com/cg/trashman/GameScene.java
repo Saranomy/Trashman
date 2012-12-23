@@ -128,7 +128,7 @@ public class GameScene implements IScene {
 		// draw time
 		textRenderer.beginRendering(drawable.getWidth(), drawable.getHeight());
 		textRenderer.setColor(1f, 1f, 1f, 1f);
-		textRenderer.draw("Time: " + timer.getTime(), 50, 50);
+		textRenderer.draw("Time: " + timer.getTime(), 50, 42);
 		textRenderer.endRendering();
 		// move to leaderboard if finish
 		if (timer.getTime() <= 5) {

@@ -34,7 +34,7 @@ public class Trash implements ISimpleObject {
 		textureRight = textureCoords.right();
 
 		rotation = new Random().nextFloat() * 360f;
-		textureId = 15 + new Random().nextInt(3);
+		textureId = 15 + new Random().nextInt(4);
 		score = 50 + new Random().nextInt(50);
 	}
 
