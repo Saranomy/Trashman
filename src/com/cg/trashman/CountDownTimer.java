@@ -9,7 +9,7 @@ public class CountDownTimer {
 
 	public long getTime() {
 		if (!isStart) {
-			endTime = System.currentTimeMillis() + (12L * 1000L);
+			endTime = System.currentTimeMillis() + 21000 - 1;
 			isStart = true;
 		}
 		long time = (endTime - System.currentTimeMillis()) / 1000;

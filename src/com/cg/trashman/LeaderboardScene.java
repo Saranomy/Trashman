@@ -32,9 +32,9 @@ public class LeaderboardScene implements IScene {
 	private float angleCar;
 	private TextRenderer textTitle;
 	private TextRenderer textInfo;
+	private Score score;
 
 	public LeaderboardScene() {
-
 	}
 
 	@Override
@@ -52,6 +52,7 @@ public class LeaderboardScene implements IScene {
 		angleCar = 0f;
 		textTitle = new TextRenderer(new Font("SansSerif", Font.BOLD, 90));
 		textInfo = new TextRenderer(new Font("SansSerif", Font.BOLD, 40));
+		score = Score.getInstance();
 	}
 
 	@Override
@@ -82,8 +83,8 @@ public class LeaderboardScene implements IScene {
 		textTitle.draw(str, 400 - ((int) textBox.getWidth() / 2), 460);
 		textTitle.endRendering();
 
-		// draw info
-		str = "Press Enter To Play";
+		// draw score
+		str = ""+score.getScore();
 		textInfo.beginRendering(drawable.getWidth(), drawable.getHeight());
 		textInfo.setColor(1f, 1f, 1f, 1f);
 		textBox = textInfo.getBounds(str);
@@ -101,6 +102,7 @@ public class LeaderboardScene implements IScene {
 	public void keyPressed(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.VK_ENTER) {
 			mainGLCanvas.setScene(0);
+			score.reset();
 		}
 	}
 

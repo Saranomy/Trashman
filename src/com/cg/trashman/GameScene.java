@@ -46,8 +46,7 @@ public class GameScene implements IScene {
 
 	@Override
 	public void refresh() {
-		// timer needs to refresh everytime when enter this scene
-		timer = new CountDownTimer();
+		initComponent();
 	}
 
 	@Override
@@ -73,6 +72,7 @@ public class GameScene implements IScene {
 		maze = MazeGenerator.createMaze(19, 19, 0.4f, textures);
 		trashes = TrashGenerator.create(maze.getGrid(), textures);
 		car = new Car(maze.getGrid(), textures, trashes);
+		timer = new CountDownTimer();
 	}
 
 	@Override
@@ -128,7 +128,7 @@ public class GameScene implements IScene {
 		// draw time
 		textRenderer.beginRendering(drawable.getWidth(), drawable.getHeight());
 		textRenderer.setColor(1f, 1f, 1f, 1f);
-		textRenderer.draw("Time: " + timer.getTime(), 50, 5);
+		textRenderer.draw("Time: " + timer.getTime(), 50, 50);
 		textRenderer.endRendering();
 		// move to leaderboard if finish
 		if (timer.getTime() <= 5) {

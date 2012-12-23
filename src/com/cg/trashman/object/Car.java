@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.media.opengl.GL2;
 import com.cg.trashman.ISimpleObject;
+import com.cg.trashman.Score;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureCoords;
 
@@ -28,7 +29,7 @@ public class Car implements ISimpleObject {
 	private float textureLeft;
 	private float textureRight;
 	private List<Trash> trashes;
-	public int score;
+	public Score score;
 
 	enum Direction {
 		Stop, Up, Down, Left, Right
@@ -54,7 +55,7 @@ public class Car implements ISimpleObject {
 		textureRight = textureCoords.right();
 
 		this.trashes = trashes;
-		score = 0;
+		score = Score.getInstance();
 	}
 
 	public void updateMazePosition(int row, int col) {
@@ -228,19 +229,19 @@ public class Car implements ISimpleObject {
 		gl.glEnd();
 	}
 
-	public boolean isStable() {
-		return pX == desX && pZ == desZ;
+	public int getScore() {
+		return score.getScore();
 	}
 
-	public int getScore() {
-		return score;
+	public boolean isStable() {
+		return pX == desX && pZ == desZ;
 	}
 
 	public void updateTrashCollision() {
 		for (int i = 0; i < trashes.size(); i++) {
 			Trash t = trashes.get(i);
 			if (t.getRow() == gridX && t.getCol() == gridZ) {
-				score += 100;
+				score.add(100);
 				trashes.remove(t);
 				i--;
 			}
