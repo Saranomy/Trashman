@@ -14,6 +14,10 @@ public class Car implements ISimpleObject {
 	private float desZ;
 	private float pSpeed = 0f;
 	private float pAcc = 0.07f;
+	private Direction direction;
+	enum Direction {
+		Stop, Up, Down, Left, Right
+	}
 	private static final float size = 0.4f;
 
 	public Car() {
@@ -21,6 +25,7 @@ public class Car implements ISimpleObject {
 		pZ = 0f;
 		desX = pX;
 		desZ = pZ;
+		direction = Direction.Stop;
 	}
 
 	public void updateMazePosition(int row, int col) {
@@ -119,15 +124,19 @@ public class Car implements ISimpleObject {
 
 	public void keyPressed(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.VK_I) {
+			direction = Direction.Up;
 			addMazePositionZ(1);
 		}
 		if (event.getKeyCode() == KeyEvent.VK_K) {
+			direction = Direction.Down;
 			addMazePositionZ(-1);
 		}
 		if (event.getKeyCode() == KeyEvent.VK_J) {
+			direction = Direction.Left;
 			addMazePositionX(-1);
 		}
 		if (event.getKeyCode() == KeyEvent.VK_L) {
+			direction = Direction.Right;
 			addMazePositionX(1);
 		}
 	}
