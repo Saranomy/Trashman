@@ -29,6 +29,8 @@ public class GameScene implements IScene {
 	private Car car;
 	private List<Trash> trashes;
 	private Texture[] textures;
+	private CountDownTimer timer;
+	
 	private GL2 gl;
 	private GLU glu;
 	private MainGLCanvas mainGLCanvas;
@@ -58,6 +60,9 @@ public class GameScene implements IScene {
 	}
 
 	public void initComponent() {
+		timer = new CountDownTimer();
+		timer.start();
+		
 		cube = new Cube();
 		pyramid = new Pyramid();
 		cameraController = new CameraController();
@@ -129,10 +134,16 @@ public class GameScene implements IScene {
 		gl.glMatrixMode(GL_MODELVIEW);
 		gl.glLoadIdentity();
 
-		// draw text
+		// draw score
 		textRenderer.beginRendering(drawable.getWidth(), drawable.getHeight());
 		textRenderer.setColor(1f, 1f, 1f, 1f);
-		textRenderer.draw("Score: " + car.getScore(), 100, 100);
+		textRenderer.draw("Score: " + car.getScore(), 50, 70);
+		textRenderer.endRendering();
+		
+		// draw time
+		textRenderer.beginRendering(drawable.getWidth(), drawable.getHeight());
+		textRenderer.setColor(1f, 1f, 1f, 1f);
+		textRenderer.draw("Time: " + timer.getTime(), 50, 5);
 		textRenderer.endRendering();
 		
 		frame_counter++;
