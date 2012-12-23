@@ -134,9 +134,9 @@ public class Car implements ISimpleObject {
 		else if (direction == Direction.Down)
 			gl.glRotatef(-90f, 0f, 1f, 0f);
 		else if (direction == Direction.Left)
-			gl.glRotatef(90f, 1f, 0f, 0f);
+			gl.glRotatef(0f, 0f, 1f, 0f);
 		else if (direction == Direction.Right)
-			gl.glRotated(-90, 1f, 0f, 0f);
+			gl.glRotated(180, 0f, 1f, 0f);
 		
 		// side car (for front face)
 		textures[11].enable(gl);
