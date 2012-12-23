@@ -45,6 +45,12 @@ public class GameScene implements IScene {
 	}
 
 	@Override
+	public void refresh() {
+		// timer needs to refresh everytime when enter this scene
+		timer = new CountDownTimer();
+	}
+
+	@Override
 	public void init(GL2 gl, GLU glu, MainGLCanvas mainGLCanvas) {
 		this.gl = gl;
 		this.glu = glu;
@@ -60,8 +66,6 @@ public class GameScene implements IScene {
 	}
 
 	public void initComponent() {
-		timer = new CountDownTimer();
-		timer.start();
 
 		cube = new Cube();
 		pyramid = new Pyramid();
@@ -126,6 +130,10 @@ public class GameScene implements IScene {
 		textRenderer.setColor(1f, 1f, 1f, 1f);
 		textRenderer.draw("Time: " + timer.getTime(), 50, 5);
 		textRenderer.endRendering();
+		// move to leaderboard if finish
+		if (timer.getTime() <= 5) {
+			mainGLCanvas.setScene(2);
+		}
 
 		frame_counter++;
 		if (frame_counter == FPS) {

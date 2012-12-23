@@ -207,6 +207,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		scenes = new ArrayList<IScene>();
 		scenes.add(new MenuScene());
 		scenes.add(new GameScene());
+		scenes.add(new LeaderboardScene());
 		currentScene = scenes.get(0);
 
 		/***
@@ -264,6 +265,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 
 	public void setScene(int number) {
 		currentScene = scenes.get(number);
+		currentScene.refresh();
 	}
 
 }

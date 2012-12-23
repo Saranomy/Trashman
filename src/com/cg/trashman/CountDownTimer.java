@@ -2,15 +2,17 @@ package com.cg.trashman;
 
 public class CountDownTimer {
 	private long endTime;
+	private boolean isStart = false;
 
 	public CountDownTimer() {
 	}
 
-	public void start() {
-		endTime = System.currentTimeMillis() + 62000;
-	}
-
 	public long getTime() {
-		return (endTime - System.currentTimeMillis())/1000;
+		if (!isStart) {
+			endTime = System.currentTimeMillis() + (12L * 1000L);
+			isStart = true;
+		}
+		long time = (endTime - System.currentTimeMillis()) / 1000;
+		return time;
 	}
 }
