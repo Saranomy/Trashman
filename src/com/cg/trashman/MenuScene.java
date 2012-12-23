@@ -2,6 +2,12 @@ package com.cg.trashman;
 
 import static javax.media.opengl.GL.GL_COLOR_BUFFER_BIT;
 import static javax.media.opengl.GL.GL_DEPTH_BUFFER_BIT;
+import static javax.media.opengl.GL.GL_LINEAR;
+import static javax.media.opengl.GL.GL_LINEAR_MIPMAP_NEAREST;
+import static javax.media.opengl.GL.GL_NEAREST;
+import static javax.media.opengl.GL.GL_TEXTURE_2D;
+import static javax.media.opengl.GL.GL_TEXTURE_MAG_FILTER;
+import static javax.media.opengl.GL.GL_TEXTURE_MIN_FILTER;
 import static javax.media.opengl.GL.GL_TRIANGLES;
 import static javax.media.opengl.GL2.GL_QUADS;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
@@ -31,6 +37,7 @@ public class MenuScene implements IScene {
 
 	private float angleCar;
 	private TextRenderer textTitle;
+	private TextRenderer textCredit;
 	private TextRenderer textInfo;
 
 	public MenuScene() {
@@ -51,6 +58,7 @@ public class MenuScene implements IScene {
 
 		angleCar = 0f;
 		textTitle = new TextRenderer(new Font("SansSerif", Font.BOLD, 90));
+		textCredit = new TextRenderer(new Font("SansSerif", Font.BOLD, 20));
 		textInfo = new TextRenderer(new Font("SansSerif", Font.BOLD, 40));
 	}
 
@@ -75,12 +83,20 @@ public class MenuScene implements IScene {
 		angleCar += 0.4f;
 
 		// draw title
-		String str = "Trashma	n";
+		String str = "Trashman";
 		textTitle.beginRendering(drawable.getWidth(), drawable.getHeight());
 		textTitle.setColor(1f, 1f, 1f, 1f);
 		Rectangle2D textBox = textTitle.getBounds(str);
 		textTitle.draw(str, 400 - ((int) textBox.getWidth() / 2), 460);
 		textTitle.endRendering();
+
+		// draw credit
+		str = "by 8-bit builder";
+		textCredit.beginRendering(drawable.getWidth(), drawable.getHeight());
+		textCredit.setColor(1f, 1f, 1f, 1f);
+		textBox = textCredit.getBounds(str);
+		textCredit.draw(str, 400 - ((int) textBox.getWidth() / 2), 440);
+		textCredit.endRendering();
 
 		// draw info
 		str = "Press Enter To Play";
@@ -204,7 +220,7 @@ public class MenuScene implements IScene {
 	@Override
 	public void refresh() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

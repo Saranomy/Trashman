@@ -98,7 +98,7 @@ public class LeaderboardScene implements IScene {
 		textTitle.endRendering();
 
 		// draw info
-		str = "Press Enter To Play";
+		str = "Press Enter to Continue";
 		textInfo.beginRendering(drawable.getWidth(), drawable.getHeight());
 		textInfo.setColor(1f, 1f, 1f, 1f);
 		textBox = textInfo.getBounds(str);

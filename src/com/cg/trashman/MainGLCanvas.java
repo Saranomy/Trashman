@@ -3,12 +3,12 @@ package com.cg.trashman;
 import static javax.media.opengl.GL.GL_DEPTH_TEST;
 import static javax.media.opengl.GL.GL_LEQUAL;
 import static javax.media.opengl.GL.GL_LINEAR;
+import static javax.media.opengl.GL.GL_LINEAR_MIPMAP_NEAREST;
 import static javax.media.opengl.GL.GL_NICEST;
 import static javax.media.opengl.GL.GL_TEXTURE_2D;
 import static javax.media.opengl.GL.GL_TEXTURE_MAG_FILTER;
 import static javax.media.opengl.GL.GL_TEXTURE_MIN_FILTER;
 import static javax.media.opengl.GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT;
-import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_AMBIENT;
 import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_SMOOTH;
 
 import java.awt.Dimension;
@@ -128,18 +128,6 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 																// correction
 		gl.glShadeModel(GL_SMOOTH); // blends colors nicely, and smoothes out
 									// lighting
-
-		// Set up the lighting for light named GL_LIGHT1
-		float[] LightAmbient = { 0f, 0f, 0f, 0.5f };
-		gl.glLightfv(GL2.GL_LIGHT0, GL_AMBIENT, LightAmbient, 0);
-		gl.glLightfv(GL2.GL_LIGHT1, GL_AMBIENT, LightAmbient, 1);
-		gl.glLightfv(GL2.GL_LIGHT2, GL_AMBIENT, LightAmbient, 2);
-		gl.glLightfv(GL2.GL_LIGHT3, GL_AMBIENT, LightAmbient, 3);
-		gl.glEnable(GL2.GL_LIGHT0);
-		gl.glEnable(GL2.GL_LIGHT1);
-		gl.glEnable(GL2.GL_LIGHT2);
-		gl.glEnable(GL2.GL_LIGHT3);
-
 		/* fog config */
 		// Set up fog mode
 		// float[] fogColor = { 0.0f, 0.0f, 0.5f, 1.0f };
@@ -197,9 +185,6 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 					.getResource("img/trash3.png"), false, ".png");
 			textures[18] = TextureIO.newTexture(getClass().getClassLoader()
 					.getResource("img/trash4.png"), false, ".png");
-
-			gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 		} catch (GLException e) {
 			e.printStackTrace();

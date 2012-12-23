@@ -3,16 +3,23 @@ package com.cg.trashman;
 public class CountDownTimer {
 	private long endTime;
 	private boolean isStart = false;
+	private long millisTime = 0;
+	private long millisCountDown;
 
-	public CountDownTimer() {
+	public CountDownTimer(int minuteCountDown) {
+		millisCountDown = (minuteCountDown * 1000) + 999;
 	}
 
 	public long getTime() {
 		if (!isStart) {
-			endTime = System.currentTimeMillis() + 21000 - 1;
+			endTime = System.currentTimeMillis() + millisCountDown;
 			isStart = true;
 		}
-		long time = (endTime - System.currentTimeMillis()) / 1000;
-		return time;
+		millisTime = (endTime - System.currentTimeMillis());
+		return millisTime / 1000;
+	}
+
+	public float getPercent() {
+		return 1f * millisTime / millisCountDown;
 	}
 }

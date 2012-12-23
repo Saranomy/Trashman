@@ -23,6 +23,8 @@ public class Trash implements ISimpleObject {
 	private int textureId;
 	private int score;
 
+	private float angle;
+
 	public Trash(int row, int col, Texture[] textures) {
 		this.row = row;
 		this.col = col;
@@ -36,6 +38,7 @@ public class Trash implements ISimpleObject {
 		rotation = new Random().nextFloat() * 360f;
 		textureId = 15 + new Random().nextInt(4);
 		score = 50 + new Random().nextInt(50);
+		angle = 0f;
 	}
 
 	public int getRow() {
@@ -49,9 +52,10 @@ public class Trash implements ISimpleObject {
 	public int getScore() {
 		return score;
 	}
+
 	@Override
 	public void update(GL2 gl, Object arg) {
-		// TODO Auto-generated method stub
+		angle += 0.3f;
 		render(gl);
 	}
 
@@ -63,7 +67,7 @@ public class Trash implements ISimpleObject {
 
 		gl.glTranslatef(0, 0, -col * 2f);
 		gl.glTranslatef(row * 2f, 0, 0);
-		gl.glRotatef(rotation, 0f, 1f, 0f);
+		gl.glRotatef(rotation + angle, 0f, 1f, 0f);
 		// trash texture
 		textures[textureId].enable(gl);
 		textures[textureId].bind(gl);

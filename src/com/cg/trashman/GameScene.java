@@ -2,6 +2,12 @@ package com.cg.trashman;
 
 import static javax.media.opengl.GL.GL_COLOR_BUFFER_BIT;
 import static javax.media.opengl.GL.GL_DEPTH_BUFFER_BIT;
+import static javax.media.opengl.GL2ES1.GL_FOG_MODE;
+import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_AMBIENT;
+import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_DIFFUSE;
+import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_LIGHT1;
+import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_LIGHTING;
+import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_POSITION;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 
@@ -58,6 +64,20 @@ public class GameScene implements IScene {
 		initComponent();
 		// Set up CameraController before using it
 		cameraController.setGL(gl, glu);
+
+		// gl.glLightfv(GL_LIGHT1, GL_DIFFUSE, LightDiffuse, 0);
+		// gl.glLightfv(GL_LIGHT1, GL_POSITION, LightDiffusePosition, 0);
+
+		// gl.glLightfv(GL2.GL_LIGHT0, GL_AMBIENT, LightAmbient, 0);
+		// gl.glLightfv(GL2.GL_LIGHT1, GL_AMBIENT, LightAmbient, 1);
+		// gl.glLightfv(GL2.GL_LIGHT2, GL_AMBIENT, LightAmbient, 2);
+		// gl.glLightfv(GL2.GL_LIGHT3, GL_AMBIENT, LightAmbient, 3);
+		// gl.glEnable(GL2.GL_LIGHT0);
+		// gl.glEnable(GL2.GL_LIGHT1);
+		// gl.glEnable(GL2.GL_LIGHT2);
+		// gl.glEnable(GL2.GL_LIGHT3);
+		// gl.glLightfv(GL2.GL_LIGHT3, GL_AMBIENT, LightAmbient, 3);
+		// gl.glEnable(GL2.GL_LIGHT3);
 	}
 
 	public void initComponent() {
@@ -65,7 +85,7 @@ public class GameScene implements IScene {
 		maze = MazeGenerator.createMaze(19, 19, 0.4f, textures);
 		trashes = TrashGenerator.create(maze.getGrid(), textures);
 		car = new Car(maze.getGrid(), textures, trashes);
-		timer = new CountDownTimer();
+		timer = new CountDownTimer(60);
 	}
 
 	@Override
@@ -80,6 +100,13 @@ public class GameScene implements IScene {
 		gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear color
 																// and depth
 																// buffers
+		// set up lighting
+		float lightPercent = 4f * (1 - (0.7f * timer.getPercent()));
+		float[] LightAmbient = { lightPercent, lightPercent, lightPercent, 1.0f };
+		gl.glLightfv(GL_LIGHT1, GL_AMBIENT, LightAmbient, 0);
+		gl.glEnable(GL_LIGHT1);
+		gl.glEnable(GL_LIGHTING);
+
 		maze.update(gl, null);
 		car.update(gl, null);
 
@@ -111,20 +138,20 @@ public class GameScene implements IScene {
 		gl.glLoadIdentity();
 
 		// draw a background of text
-		
+
 		// draw score
 		textRenderer.beginRendering(drawable.getWidth(), drawable.getHeight());
-		textRenderer.setColor(1f, 1f, 1f, 1f);
-		textRenderer.draw("Score: " + car.getScore(), 50, 70);
+		textRenderer.setColor(1f, 1f, 0f, 1f);
+		textRenderer.draw(String.format("SCORE: %04d", car.getScore()), 50, 70);
 		textRenderer.endRendering();
 
 		// draw time
 		textRenderer.beginRendering(drawable.getWidth(), drawable.getHeight());
-		textRenderer.setColor(1f, 1f, 1f, 1f);
-		textRenderer.draw("Time: " + timer.getTime(), 50, 40);
+		textRenderer.setColor(1f, 1f, 0f, 1f);
+		textRenderer.draw("TIME: " + timer.getTime(), 50, 40);
 		textRenderer.endRendering();
 		// move to leaderboard if finish
-		if (timer.getTime() <= 5) {
+		if (timer.getTime() <= 0) {
 			mainGLCanvas.setScene(2);
 		}
 
