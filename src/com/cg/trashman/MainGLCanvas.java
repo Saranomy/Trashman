@@ -149,7 +149,6 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		initComponent();
 		// Set up CameraController before using it
 		cameraController.setGL(gl, glu);
-		cameraController.setDestination(-30.0f, -19.2f, 10.0f);
 	}
 
 	public void initComponent() {

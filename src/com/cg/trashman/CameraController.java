@@ -63,38 +63,44 @@ public class CameraController {
 
 	public void keyPressed(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.VK_A) {
-			pX += pSpeed;
+			//pX += pSpeed;
+			this.setDestination(pX + 2.0f, pY, pZ);
 		} 
 		else if (event.getKeyCode() == KeyEvent.VK_D) {
-			pX -= pSpeed;
+			//pX -= pSpeed;
+			this.setDestination(pX - 2.0f, pY, pZ);
 		}
 		
 		if (event.getKeyCode() == KeyEvent.VK_W) {
-			pZ += pSpeed;
+			//pZ += pSpeed;
+			this.setDestination(pX, pY, pZ + 2.0f);
 		} 
 		else if (event.getKeyCode() == KeyEvent.VK_S) {
-			pZ -= pSpeed;
+			//pZ -= pSpeed;
+			this.setDestination(pX, pY, pZ - 2.0f);
 		} 
 		
 		if (event.getKeyCode() == KeyEvent.VK_SPACE){
-			pY -= pSpeed;
+			//pY -= pSpeed;
+			this.setDestination(pX, pY - 2.0f, pZ);
 		}
 		else if( event.getKeyCode() == KeyEvent.VK_SHIFT){
-			pY += pSpeed;
+			//pY += pSpeed;
+			this.setDestination(pX, pY + 2.0f, pZ);
 		}
 		
 		if (event.getKeyCode() == KeyEvent.VK_UP){
 			// Press UP
-			r -= rSpeed;
-			rX = 1;
-			rY = 0;
-			rZ = 0;
+			//r -= rSpeed;
+			//rX = 1;
+			//rY = 0;
+			//rZ = 0;
 		}else if(event.getKeyCode() == KeyEvent.VK_DOWN){
 			// Press Down
-			r += rSpeed;
-			rX = 1;
-			rY = 0;
-			rZ = 0;
+			//r += rSpeed;
+			//rX = 1;
+			//rY = 0;
+			//rZ = 0;
 		}
 	}
 	
