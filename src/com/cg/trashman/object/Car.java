@@ -247,16 +247,20 @@ public class Car implements ISimpleObject {
 	}
 
 	public void keyPressed(KeyEvent event) {
-		if (event.getKeyCode() == KeyEvent.VK_W) {
+		if (event.getKeyCode() == KeyEvent.VK_W
+				|| event.getKeyCode() == KeyEvent.VK_UP) {
 			direction = Direction.Up;
 		}
-		if (event.getKeyCode() == KeyEvent.VK_S) {
+		if (event.getKeyCode() == KeyEvent.VK_S
+				|| event.getKeyCode() == KeyEvent.VK_DOWN) {
 			direction = Direction.Down;
 		}
-		if (event.getKeyCode() == KeyEvent.VK_A) {
+		if (event.getKeyCode() == KeyEvent.VK_A
+				|| event.getKeyCode() == KeyEvent.VK_LEFT) {
 			direction = Direction.Left;
 		}
-		if (event.getKeyCode() == KeyEvent.VK_D) {
+		if (event.getKeyCode() == KeyEvent.VK_D
+				|| event.getKeyCode() == KeyEvent.VK_RIGHT) {
 			direction = Direction.Right;
 		}
 	}

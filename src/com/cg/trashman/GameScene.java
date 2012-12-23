@@ -54,56 +54,7 @@ public class GameScene implements IScene {
 		this.gl = gl;
 		this.glu = glu;
 		this.mainGLCanvas = mainGLCanvas;
-
-		/* load texture */
-		try {
-			textures = new Texture[16];
-			// buildings
-			textures[0] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/building.png"), false, ".png");
-			textures[1] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/building2.png"), false, ".png");
-			textures[2] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/building3.png"), false, ".png");
-			textures[3] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/building4.png"), false, ".png");
-			textures[4] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/building5.png"), false, ".png");
-			// roofs
-			textures[5] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/roof.png"), false, ".png");
-			textures[6] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/roof2.png"), false, ".png");
-			textures[7] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/roof3.png"), false, ".png");
-			textures[8] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/roof4.png"), false, ".png");
-			textures[9] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/roof5.png"), false, ".png");
-			// road
-			textures[10] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/road.png"), false, ".png");
-			// car
-			textures[11] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/carSide.png"), false, ".png");
-			textures[12] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/carFront.png"), false, ".png");
-			textures[13] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/carBack.png"), false, ".png");
-			textures[14] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/carTop.png"), false, ".png");
-			// trash
-			textures[15] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/trash.png"), false, ".png");
-
-			gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-		} catch (GLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		textures = mainGLCanvas.textures;
 
 		// init text
 		textRenderer = new TextRenderer(new Font("SansSerif", Font.BOLD, 30));
@@ -153,7 +104,6 @@ public class GameScene implements IScene {
 		gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear color
 																// and depth
 																// buffers
-
 		pyramid.update(gl, null);
 		cube.update(gl, null);
 		maze.update(gl, null);
