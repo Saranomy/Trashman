@@ -22,12 +22,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.List;
+
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
 import javax.media.opengl.GLException;
-import javax.media.opengl.GLProfile;
 import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
 import javax.swing.JFrame;
@@ -41,10 +40,9 @@ import com.cg.trashman.object.Trash;
 import com.jogamp.opengl.util.FPSAnimator;
 import com.jogamp.opengl.util.awt.TextRenderer;
 import com.jogamp.opengl.util.texture.Texture;
+import com.jogamp.opengl.util.texture.TextureIO;
 // GL constants
 // GL2 constants
-import com.jogamp.opengl.util.texture.TextureCoords;
-import com.jogamp.opengl.util.texture.TextureIO;
 
 /**
  * JOGL 2.0 Example 2: Rotating 3D Shapes (GLCanvas)
@@ -52,14 +50,6 @@ import com.jogamp.opengl.util.texture.TextureIO;
 @SuppressWarnings("serial")
 public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		KeyListener {
-
-	static {
-		GLProfile profile = GLProfile.get(GLProfile.GL2);
-		GLCapabilities capabilities = new GLCapabilities(profile);
-		capabilities.setNumSamples(2); // enable anti aliasing - just as a
-										// example
-		capabilities.setSampleBuffers(true);
-	}
 
 	private Cube cube;
 	private Pyramid pyramid;
@@ -97,6 +87,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 				final JFrame frame = new JFrame(); // Swing's JFrame or AWT's
 													// Frame
 				frame.getContentPane().add(canvas);
+				frame.pack();
 				frame.setLocationRelativeTo(null);
 				frame.addWindowListener(new WindowAdapter() {
 					@Override
@@ -167,7 +158,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 
 		/* load texture */
 		try {
-			textures = new Texture[15];
+			textures = new Texture[16];
 			// buildings
 			textures[0] = TextureIO.newTexture(getClass().getClassLoader()
 					.getResource("img/building.png"), false, ".png");
@@ -202,7 +193,10 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 					.getResource("img/carBack.png"), false, ".png");
 			textures[14] = TextureIO.newTexture(getClass().getClassLoader()
 					.getResource("img/carTop.png"), false, ".png");
-
+			// trash
+			textures[15] = TextureIO.newTexture(getClass().getClassLoader()
+					.getResource("img/trash.png"), false, ".png");
+			
 			gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
@@ -225,7 +219,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		pyramid = new Pyramid();
 		cameraController = new CameraController();
 		maze = MazeGenerator.createMaze(19, 19, 0.4f, textures);
-		trashes = TrashGenerator.create(maze.getGrid());
+		trashes = TrashGenerator.create(maze.getGrid(),textures);
 		car = new Car(maze.getGrid(), textures, trashes);
 	}
 

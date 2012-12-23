@@ -2,18 +2,36 @@ package com.cg.trashman.object;
 
 import static javax.media.opengl.GL2.GL_QUADS;
 
+import java.util.Random;
+
 import javax.media.opengl.GL2;
 
 import com.cg.trashman.ISimpleObject;
+import com.jogamp.opengl.util.texture.Texture;
+import com.jogamp.opengl.util.texture.TextureCoords;
 
 public class Trash implements ISimpleObject {
-	private static final float size = 0.2f;
+	private static final float size = 0.5f;
 	private int row;
 	private int col;
+	private Texture[] textures;
+	private float textureTop;
+	private float textureBottom;
+	private float textureLeft;
+	private float textureRight;
+	private float rotation;
 
-	public Trash(int row, int col) {
+	public Trash(int row, int col, Texture[] textures) {
 		this.row = row;
 		this.col = col;
+		this.textures = textures;
+		TextureCoords textureCoords = textures[0].getImageTexCoords();
+		textureTop = textureCoords.top();
+		textureBottom = textureCoords.bottom();
+		textureLeft = textureCoords.left();
+		textureRight = textureCoords.right();
+
+		rotation = new Random().nextFloat() * 360f;
 	}
 
 	public int getRow() {
@@ -35,53 +53,80 @@ public class Trash implements ISimpleObject {
 		gl.glLoadIdentity(); // reset the current model-view matrix
 		// gl.glTranslatef(pX, 0, 0); // translate right and into the
 		// screen
+
 		gl.glTranslatef(0, 0, -col * 2f);
 		gl.glTranslatef(row * 2f, 0, 0);
-		gl.glBegin(GL_QUADS); // of the color cube
+		gl.glRotatef(rotation, 0f, 1f, 0f);
+		// trash texture
+		textures[15].enable(gl);
+		textures[15].bind(gl);
 
-		// Top-face
-		gl.glColor3f(0.0f, size, 0.0f); // green
-		gl.glVertex3f(size, size, -size);
-		gl.glVertex3f(-size, size, -size);
-		gl.glVertex3f(-size, size, size);
-		gl.glVertex3f(size, size, size);
+		gl.glBegin(GL_QUADS);
+		// Front Face
+		gl.glTexCoord2f(textureLeft, textureBottom);
+		gl.glVertex3f(-size, -size, size); // bottom-left of the
+											// texture and quad
+		gl.glTexCoord2f(textureRight, textureBottom);
+		gl.glVertex3f(size, -size, size); // bottom-right of the
+											// texture and quad
+		gl.glTexCoord2f(textureRight, textureTop);
+		gl.glVertex3f(size, size, size); // top-right of the texture
+											// and quad
+		gl.glTexCoord2f(textureLeft, textureTop);
+		gl.glVertex3f(-size, size, size); // top-left of the texture
+											// and quad
 
-		// Bottom-face
-		gl.glColor3f(size, 0.5f, 0.0f); // orange
-		gl.glVertex3f(size, -size, size);
-		gl.glVertex3f(-size, -size, size);
+		// Back Face
+		gl.glTexCoord2f(textureRight, textureBottom);
 		gl.glVertex3f(-size, -size, -size);
+		gl.glTexCoord2f(textureRight, textureTop);
+		gl.glVertex3f(-size, size, -size);
+		gl.glTexCoord2f(textureLeft, textureTop);
+		gl.glVertex3f(size, size, -size);
+		gl.glTexCoord2f(textureLeft, textureBottom);
 		gl.glVertex3f(size, -size, -size);
 
-		// Front-face
-		gl.glColor3f(size, 0.0f, 0.0f); // red
-		gl.glVertex3f(size, size, size);
-		gl.glVertex3f(-size, size, size);
-		gl.glVertex3f(-size, -size, size);
-		gl.glVertex3f(size, -size, size);
-
-		// Back-face
-		gl.glColor3f(size, size, 0.0f); // yellow
-		gl.glVertex3f(size, -size, -size);
-		gl.glVertex3f(-size, -size, -size);
+		// Top Face
+		gl.glTexCoord2f(textureLeft, textureTop);
 		gl.glVertex3f(-size, size, -size);
+		gl.glTexCoord2f(textureLeft, textureBottom);
+		gl.glVertex3f(-size, size, size);
+		gl.glTexCoord2f(textureRight, textureBottom);
+		gl.glVertex3f(size, size, size);
+		gl.glTexCoord2f(textureRight, textureTop);
 		gl.glVertex3f(size, size, -size);
 
-		// Left-face
-		gl.glColor3f(0.0f, 0.0f, size); // blue
-		gl.glVertex3f(-size, size, size);
-		gl.glVertex3f(-size, size, -size);
+		// Bottom Face
+		gl.glTexCoord2f(textureRight, textureTop);
 		gl.glVertex3f(-size, -size, -size);
+		gl.glTexCoord2f(textureLeft, textureTop);
+		gl.glVertex3f(size, -size, -size);
+		gl.glTexCoord2f(textureLeft, textureBottom);
+		gl.glVertex3f(size, -size, size);
+		gl.glTexCoord2f(textureRight, textureBottom);
 		gl.glVertex3f(-size, -size, size);
 
-		// Right-face
-		gl.glColor3f(size, 0.0f, size); // magenta
-		gl.glVertex3f(size, size, -size);
-		gl.glVertex3f(size, size, size);
-		gl.glVertex3f(size, -size, size);
+		// Right face
+		gl.glTexCoord2f(textureRight, textureBottom);
 		gl.glVertex3f(size, -size, -size);
+		gl.glTexCoord2f(textureRight, textureTop);
+		gl.glVertex3f(size, size, -size);
+		gl.glTexCoord2f(textureLeft, textureTop);
+		gl.glVertex3f(size, size, size);
+		gl.glTexCoord2f(textureLeft, textureBottom);
+		gl.glVertex3f(size, -size, size);
 
-		gl.glEnd(); // of the color cube
+		// Left Face
+		gl.glTexCoord2f(textureLeft, textureBottom);
+		gl.glVertex3f(-size, -size, -size);
+		gl.glTexCoord2f(textureRight, textureBottom);
+		gl.glVertex3f(-size, -size, size);
+		gl.glTexCoord2f(textureRight, textureTop);
+		gl.glVertex3f(-size, size, size);
+		gl.glTexCoord2f(textureLeft, textureTop);
+		gl.glVertex3f(-size, size, -size);
+
+		gl.glEnd();
 	}
 
 }
