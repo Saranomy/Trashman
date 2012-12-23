@@ -116,7 +116,7 @@ public class Car implements ISimpleObject {
 			}
 			return;
 		}
-		System.out.println("dpX=" + (desX - pX));
+
 		this.pX += Math.signum(desX - pX) * pSpeed;
 		if (Math.abs((this.pX - this.desX) * 1000f) / 1000f < pSpeed) {
 			this.pX = this.desX;
