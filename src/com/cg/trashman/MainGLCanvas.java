@@ -26,6 +26,7 @@ import javax.media.opengl.glu.GLU;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import com.cg.trashman.object.Car;
 import com.cg.trashman.object.Cube;
 import com.cg.trashman.object.Maze;
 import com.cg.trashman.object.Pyramid;
@@ -52,6 +53,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 	private Pyramid pyramid;
 	private CameraController cameraController;
 	private Maze maze;
+	private Car car;
 
 	// Define constants for the top-level container
 	private static String TITLE = "Trashman Alpha 0.1.0"; // window's
@@ -156,6 +158,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		pyramid = new Pyramid();
 		cameraController = new CameraController();
 		maze = MazeGenerator.createMaze(19, 19);
+		car = new Car();
 	}
 
 	/**
@@ -196,10 +199,10 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 																// and depth
 																// buffers
 
-
 		pyramid.update(gl, null);
 		cube.update(gl, null);
 		maze.update(gl, null);
+		car.update(gl, null);
 
 		// Update Camera Parameter
 		float[] t = cameraController.getTranslation();
