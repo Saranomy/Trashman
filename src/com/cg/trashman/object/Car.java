@@ -28,6 +28,7 @@ public class Car implements ISimpleObject {
 	private float textureLeft;
 	private float textureRight;
 	private List<Trash> trashes;
+	public int score;
 
 	enum Direction {
 		Stop, Up, Down, Left, Right
@@ -53,6 +54,7 @@ public class Car implements ISimpleObject {
 		textureRight = textureCoords.right();
 
 		this.trashes = trashes;
+		score = 0;
 	}
 
 	public void updateMazePosition(int row, int col) {
@@ -228,10 +230,16 @@ public class Car implements ISimpleObject {
 		return pX == desX && pZ == desZ;
 	}
 
+	public int getScore() {
+		return score;
+	}
+
 	public void updateTrashCollision() {
 		for (int i = 0; i < trashes.size(); i++) {
 			Trash t = trashes.get(i);
 			if (t.getRow() == gridX && t.getCol() == gridZ) {
+				System.out.println("score: " + score);
+				score++;
 				trashes.remove(t);
 				i--;
 			}

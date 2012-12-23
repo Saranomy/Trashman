@@ -15,6 +15,7 @@ import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
@@ -38,6 +39,7 @@ import com.cg.trashman.object.Maze;
 import com.cg.trashman.object.Pyramid;
 import com.cg.trashman.object.Trash;
 import com.jogamp.opengl.util.FPSAnimator;
+import com.jogamp.opengl.util.awt.TextRenderer;
 import com.jogamp.opengl.util.texture.Texture;
 // GL constants
 // GL2 constants
@@ -67,6 +69,8 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 	private List<Trash> trashes;
 	private Texture[] textures;
 
+	private TextRenderer textRenderer;
+
 	// Define constants for the top-level container
 	private static String TITLE = "Trashman Alpha 0.1.0"; // window's
 															// title
@@ -93,6 +97,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 				final JFrame frame = new JFrame(); // Swing's JFrame or AWT's
 													// Frame
 				frame.getContentPane().add(canvas);
+				frame.setLocationRelativeTo(null);
 				frame.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowClosing(WindowEvent e) {
@@ -207,6 +212,9 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 			e.printStackTrace();
 		}
 
+		// init text
+		textRenderer = new TextRenderer(new Font("SansSerif", Font.BOLD, 30));
+
 		initComponent();
 		// Set up CameraController before using it
 		cameraController.setGL(gl, glu);
@@ -291,6 +299,11 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		gl.glMatrixMode(GL_MODELVIEW);
 		gl.glLoadIdentity();
 
+		// draw text
+		textRenderer.beginRendering(drawable.getWidth(), drawable.getHeight());
+		textRenderer.setColor(1f, 1f, 1f, 1f);
+		textRenderer.draw("Score: " + car.getScore(), 100, 100);
+		textRenderer.endRendering();
 	}
 
 	/**
