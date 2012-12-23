@@ -12,9 +12,9 @@ public class CameraController {
 	private float pX;
 	private float pY;
 	private float pZ;
-	private float xSpeed = 0.0f;
-	private float ySpeed = 0.0f;
-	private float zSpeed = 0.0f;
+	private float xSpeed = 0.1f;
+	private float ySpeed = 0.1f;
+	private float zSpeed = 0.1f;
 	private float rSpeed = 0.2f;
 	private float r;
 	private float rX;
@@ -98,41 +98,41 @@ public class CameraController {
 		this.pX += Math.signum( desX - pX ) * xSpeed;
 		this.pY += Math.signum( desY - pY ) * ySpeed;
 		this.pZ += Math.signum( desZ - pZ ) * zSpeed;
-		currentDistance += (float)Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2) + Math.pow(zSpeed, 2));
-		
-		if( currentDistance >= totalDistance/2.0f ){
-			state = DECELERATE;
-		}
-		
-		if(state == ACCELERATE ) xSpeed += CAMERA_ACC;
-		else{
-			if( xSpeed - CAMERA_ACC >= 0 )
-				xSpeed -= CAMERA_ACC;
-			else
-				xSpeed = 0;
-		}
+//		currentDistance += (float)Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2) + Math.pow(zSpeed, 2));
+//		
+//		if( currentDistance >= totalDistance/2.0f ){
+//			state = DECELERATE;
+//		}
+//		
+//		if(state == ACCELERATE ) xSpeed += CAMERA_ACC;
+//		else{
+//			if( xSpeed - CAMERA_ACC >= 0 )
+//				xSpeed -= CAMERA_ACC;
+//			else
+//				xSpeed = 0;
+//		}
 		if (Math.abs((this.pX - this.desX) * 1000f) / 1000f < xSpeed) {
 			this.pX = this.desX;
 			xSpeed = 0;
 		} 
-		if(state == ACCELERATE ) ySpeed += CAMERA_ACC;
-		else{
-			if( ySpeed - CAMERA_ACC >= 0 )
-				ySpeed -= CAMERA_ACC;
-			else
-				ySpeed = 0;
-		}
+//		if(state == ACCELERATE ) ySpeed += CAMERA_ACC;
+//		else{
+//			if( ySpeed - CAMERA_ACC >= 0 )
+//				ySpeed -= CAMERA_ACC;
+//			else
+//				ySpeed = 0;
+//		}
 		if (Math.abs((this.pY - this.desY) * 1000f) / 1000f < ySpeed) {
 			this.pY = this.desY;
 			ySpeed = 0;
 		} 
-		if(state == ACCELERATE ) zSpeed += CAMERA_ACC;
-		else{
-			if( zSpeed - CAMERA_ACC >= 0 )
-				zSpeed -= CAMERA_ACC;
-			else
-				zSpeed = 0;
-		}
+//		if(state == ACCELERATE ) zSpeed += CAMERA_ACC;
+//		else{
+//			if( zSpeed - CAMERA_ACC >= 0 )
+//				zSpeed -= CAMERA_ACC;
+//			else
+//				zSpeed = 0;
+//		}
 		if (Math.abs((this.pZ - this.desZ) * 1000f) / 1000f < zSpeed) {
 			this.pZ = this.desZ;
 			zSpeed = 0;
