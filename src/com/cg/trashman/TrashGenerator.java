@@ -20,4 +20,17 @@ public class TrashGenerator {
 		}
 		return trashes;
 	}
+	public static Trash newTrash(boolean[][] grid,List<Trash> trashes, Texture[] textures){
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[0].length; j++) {
+				if (!grid[i][j] ) {
+					for( Trash t : trashes ){
+						if( t.getRow() != i && t.getCol() != j )
+							return new Trash(i,j,textures);
+					}
+				}
+			}
+		}
+		return null;
+	}
 }
