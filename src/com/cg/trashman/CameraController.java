@@ -68,24 +68,10 @@ public class CameraController {
 	}
 	
 	public void setDestination(float x,float y,float z){
-		
-//		if( desX != x || desY != y || desZ != z ){
-//			//System.out.println("Change Destination");
-//			state = ACCELERATE;
-//			totalDistance = (float)Math.sqrt(Math.pow(x - pX, 2) + Math.pow(y - pY, 2) + Math.pow(z - pZ, 2));
-//			currentDistance = 0.0f;
-//			//xSpeed = ySpeed = zSpeed = 0;
-//		}
-		
-		if( this.desX != x ){
-			this.desX = x;
-		}
-		if( this.desY != y){
-			this.desY = y;
-		}
-		if( this.desZ != z){
-			this.desZ = z;
-		}
+
+		desX = x;
+		desY = y;
+		desZ = z;
 		
 	}
 	
@@ -96,50 +82,20 @@ public class CameraController {
 		}
 		
 		this.pX += Math.signum( desX - pX ) * xSpeed;
-		if (Math.abs((this.pX - this.desX) * 1000f) / 1000f < xSpeed) {
-			this.pX = this.desX;
-			xSpeed = 0;
-		} 
 		this.pY += Math.signum( desY - pY ) * ySpeed;
-		if (Math.abs((this.pY - this.desY) * 1000f) / 1000f < ySpeed) {
-			this.pY = this.desY;
-			ySpeed = 0;
-		}
 		this.pZ += Math.signum( desZ - pZ ) * zSpeed;
-//		if (Math.abs((this.pZ - this.desZ) * 1000f) / 1000f < zSpeed) {
-//			this.pZ = this.desZ;
-//			zSpeed = 0;
-//			//System.out.println("Z");
-//		}
-//		currentDistance += (float)Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2) + Math.pow(zSpeed, 2));
-//		
-//		if( currentDistance >= totalDistance/2.0f ){
-//			state = DECELERATE;
-//		}
-//		
-//		if(state == ACCELERATE ) xSpeed += CAMERA_ACC;
-//		else{
-//			if( xSpeed - CAMERA_ACC >= 0 )
-//				xSpeed -= CAMERA_ACC;
-//			else
-//				xSpeed = 0;
-//		}
 		
-//		if(state == ACCELERATE ) ySpeed += CAMERA_ACC;
-//		else{
-//			if( ySpeed - CAMERA_ACC >= 0 )
-//				ySpeed -= CAMERA_ACC;
-//			else
-//				ySpeed = 0;
-//		}
- 
-//		if(state == ACCELERATE ) zSpeed += CAMERA_ACC;
-//		else{
-//			if( zSpeed - CAMERA_ACC >= 0 )
-//				zSpeed -= CAMERA_ACC;
-//			else
-//				zSpeed = 0;
-//		}
+		if (Math.abs((this.pX - this.desX) * 1000f) / 1000f < Math.abs(xSpeed)) {
+			this.pX = this.desX;
+		} 
+		
+		if (Math.abs((this.pY - this.desY) * 1000f) / 1000f < Math.abs(ySpeed)) {
+			this.pY = this.desY;
+		}
+			
+		if (Math.abs((this.pZ - this.desZ) * 1000f) / 1000f < Math.abs(zSpeed)) {
+			this.pZ = this.desZ;
+		}
 	
 	}
 	
