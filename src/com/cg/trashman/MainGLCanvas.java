@@ -171,9 +171,9 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 			textures[2] = TextureIO.newTexture(getClass().getClassLoader()
 					.getResource("img/building3.png"), false, ".png");
 			textures[3] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/building2.png"), false, ".png");
+					.getResource("img/building4.png"), false, ".png");
 			textures[4] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/building2.png"), false, ".png");
+					.getResource("img/building5.png"), false, ".png");
 			// roofs
 			textures[5] = TextureIO.newTexture(getClass().getClassLoader()
 					.getResource("img/roof.png"), false, ".png");
@@ -182,9 +182,9 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 			textures[7] = TextureIO.newTexture(getClass().getClassLoader()
 					.getResource("img/roof3.png"), false, ".png");
 			textures[8] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/roof2.png"), false, ".png");
+					.getResource("img/roof4.png"), false, ".png");
 			textures[9] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/roof2.png"), false, ".png");
+					.getResource("img/roof5.png"), false, ".png");
 			// road
 			textures[10] = TextureIO.newTexture(getClass().getClassLoader()
 					.getResource("img/road.png"), false, ".png");
