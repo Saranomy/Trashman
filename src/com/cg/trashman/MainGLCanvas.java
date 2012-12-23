@@ -71,6 +71,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 				frame.getContentPane().add(canvas);
 				frame.pack();
 				frame.setLocationRelativeTo(null);
+				frame.setResizable(false);
 				frame.addWindowListener(new WindowAdapter() {
 					@Override
 					public void windowClosing(WindowEvent e) {
