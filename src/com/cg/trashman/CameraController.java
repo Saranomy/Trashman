@@ -12,7 +12,9 @@ public class CameraController {
 	private float pX;
 	private float pY;
 	private float pZ;
-	private float pSpeed = 0.0f;
+	private float xSpeed = 0.0f;
+	private float ySpeed = 0.0f;
+	private float zSpeed = 0.0f;
 	private float rSpeed = 0.2f;
 	private float r;
 	private float rX;
@@ -109,22 +111,27 @@ public class CameraController {
 	
 	public void update(){
 		if( this.desX == pX && this.desY == pY && this.desZ == pZ){
-			pSpeed = 0;
+			xSpeed = 0;
+			ySpeed = 0;
+			zSpeed = 0;
 			return;
 		}
-		this.pX += Math.signum( desX - pX ) * pSpeed;
-		if (Math.abs((this.pX - this.desX) * 1000f) / 1000f < pSpeed) {
+		this.pX += Math.signum( desX - pX ) * xSpeed;
+		xSpeed  += CAMERA_ACC; 
+		if (Math.abs((this.pX - this.desX) * 1000f) / 1000f < xSpeed) {
 			this.pX = this.desX;
 		} 
-		this.pY += Math.signum( desY - pY ) * pSpeed;
-		if (Math.abs((this.pY - this.desY) * 1000f) / 1000f < pSpeed) {
+		this.pY += Math.signum( desY - pY ) * ySpeed;
+		ySpeed  += CAMERA_ACC;
+		if (Math.abs((this.pY - this.desY) * 1000f) / 1000f < ySpeed) {
 			this.pY = this.desY;
 		} 
-		this.pZ += Math.signum( desZ - pZ ) * pSpeed;
-		if (Math.abs((this.pZ - this.desZ) * 1000f) / 1000f < pSpeed) {
+		this.pZ += Math.signum( desZ - pZ ) * zSpeed;
+		zSpeed  += CAMERA_ACC;
+		if (Math.abs((this.pZ - this.desZ) * 1000f) / 1000f < zSpeed) {
 			this.pZ = this.desZ;
 		} 
-		pSpeed += CAMERA_ACC;
+
 	}
 
 	public void keyReleased(KeyEvent event) {

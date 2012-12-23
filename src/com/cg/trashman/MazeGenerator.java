@@ -29,7 +29,7 @@ public class MazeGenerator {
 			}
 		}
 		
-		int wall_count = 81 ;
+		int wall_count = (int)(row/2) * (int)(col/2) ;
 		
 		while(true){
 			int x = random.nextInt(row);
@@ -80,16 +80,6 @@ public class MazeGenerator {
 			wall_count++;
 			
 			if( (float)wall_count / (float)(row*col) >= density  ) break;
-			
-//			boolean done = true;
-//			for(int i = 1 ; i < row - 1 && done; i+=2){
-//				for(int j = 1 ; j < col -1 && done; j+=2){
-//					if( groups[i][j] != id )
-//						done = false;
-//				}
-//			}
-//			
-//			if(done) break;
 			
 		}
 		
