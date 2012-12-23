@@ -10,6 +10,11 @@ import static javax.media.opengl.GL.GL_TEXTURE_2D;
 import static javax.media.opengl.GL.GL_TEXTURE_MAG_FILTER;
 import static javax.media.opengl.GL.GL_TEXTURE_MIN_FILTER;
 import static javax.media.opengl.GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT;
+import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_AMBIENT;
+import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_DIFFUSE;
+import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_LIGHT1;
+import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_LIGHTING;
+import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_POSITION;
 import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_SMOOTH;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
@@ -23,6 +28,7 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.List;
 
+import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
@@ -145,6 +151,17 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		gl.glShadeModel(GL_SMOOTH); // blends colors nicely, and smoothes out
 									// lighting
 
+		// Set up the lighting for light named GL_LIGHT1
+		float[] LightAmbient = { 0f, 0f, 0f, 0.5f };
+		gl.glLightfv(GL2.GL_LIGHT0, GL_AMBIENT, LightAmbient, 0);
+		gl.glLightfv(GL2.GL_LIGHT1, GL_AMBIENT, LightAmbient, 1);
+		gl.glLightfv(GL2.GL_LIGHT2, GL_AMBIENT, LightAmbient, 2);
+		gl.glLightfv(GL2.GL_LIGHT3, GL_AMBIENT, LightAmbient, 3);
+		gl.glEnable(GL2.GL_LIGHT0);
+		gl.glEnable(GL2.GL_LIGHT1);
+		gl.glEnable(GL2.GL_LIGHT2);
+		gl.glEnable(GL2.GL_LIGHT3);
+		
 		/* fog config */
 		// Set up fog mode
 		// float[] fogColor = { 0.0f, 0.0f, 0.5f, 1.0f };
@@ -196,7 +213,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 			// trash
 			textures[15] = TextureIO.newTexture(getClass().getClassLoader()
 					.getResource("img/trash.png"), false, ".png");
-			
+
 			gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
@@ -219,7 +236,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		pyramid = new Pyramid();
 		cameraController = new CameraController();
 		maze = MazeGenerator.createMaze(19, 19, 0.4f, textures);
-		trashes = TrashGenerator.create(maze.getGrid(),textures);
+		trashes = TrashGenerator.create(maze.getGrid(), textures);
 		car = new Car(maze.getGrid(), textures, trashes);
 	}
 
