@@ -15,13 +15,13 @@ public class Maze implements ISimpleObject {
 	public boolean grid[][];
 	private int row;
 	private int col;
-	public Texture texture;
+	public Texture[] textures;
 	private float textureTop;
 	private float textureBottom;
 	private float textureLeft;
 	private float textureRight;
 
-	public Maze(int row, int col, Texture texture) {
+	public Maze(int row, int col, Texture[] textures) {
 		grid = new boolean[row][col];
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < col; j++) {
@@ -30,8 +30,8 @@ public class Maze implements ISimpleObject {
 		}
 		this.row = row;
 		this.col = col;
-		this.texture = texture;
-		TextureCoords textureCoords = texture.getImageTexCoords();
+		this.textures = textures;
+		TextureCoords textureCoords = textures[0].getImageTexCoords();
 		textureTop = textureCoords.top();
 		textureBottom = textureCoords.bottom();
 		textureLeft = textureCoords.left();
@@ -82,17 +82,10 @@ public class Maze implements ISimpleObject {
 					gl.glLoadIdentity(); // reset the current model-view matrix
 					gl.glTranslatef(2f * i, 0f, -2f * j);
 
-					// Enables this texture's target in the current GL context's
-					// state.
-					texture.enable(gl); // same as
-										// gl.glEnable(texture.getTarget());
-					// gl.glTexEnvi(GL.GL_TEXTURE_ENV, GL.GL_TEXTURE_ENV_MODE,
-					// GL.GL_REPLACE);
-					// Binds this texture to the current GL context.
-					texture.bind(gl); // same as
-										// gl.glBindTexture(texture.getTarget(),
-										// texture.getTextureObject());
-
+					// building
+					textures[0].enable(gl);
+					textures[0].bind(gl);
+					
 					gl.glBegin(GL_QUADS);
 					gl.glColor3f(1f, 1f, 1f);
 					// Front Face
@@ -118,7 +111,13 @@ public class Maze implements ISimpleObject {
 					gl.glVertex3f(1.0f, 1.0f, -1.0f);
 					gl.glTexCoord2f(textureLeft, textureBottom);
 					gl.glVertex3f(1.0f, -1.0f, -1.0f);
-
+					
+					gl.glEnd();
+					// roof
+					textures[1].enable(gl);
+					textures[1].bind(gl);
+					gl.glBegin(GL_QUADS);
+					
 					// Top Face
 					gl.glTexCoord2f(textureLeft, textureTop);
 					gl.glVertex3f(-1.0f, 1.0f, -1.0f);
@@ -129,6 +128,12 @@ public class Maze implements ISimpleObject {
 					gl.glTexCoord2f(textureRight, textureTop);
 					gl.glVertex3f(1.0f, 1.0f, -1.0f);
 
+					gl.glEnd();
+					// go back to building
+					textures[0].enable(gl);
+					textures[0].bind(gl);
+					gl.glBegin(GL_QUADS);
+					
 					// Bottom Face
 					gl.glTexCoord2f(textureRight, textureTop);
 					gl.glVertex3f(-1.0f, -1.0f, -1.0f);

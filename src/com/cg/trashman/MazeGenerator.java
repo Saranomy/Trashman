@@ -16,9 +16,9 @@ public class MazeGenerator {
 	}
 
 	public static Maze createMaze(int row, int col, float density,
-			Texture textureBuilding) {
+			Texture[] textures) {
 
-		Maze maze = new Maze(row, col, textureBuilding);
+		Maze maze = new Maze(row, col, textures);
 
 		// Label every intersection so that we can tell when they're all
 		// connected

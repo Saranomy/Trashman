@@ -66,7 +66,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 	private Maze maze;
 	private Car car;
 	private List<Trash> trashes;
-	private Texture textureBuilding;
+	private Texture[] textures;
 
 	// Define constants for the top-level container
 	private static String TITLE = "Trashman Alpha 0.1.0"; // window's
@@ -163,13 +163,11 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 
 		/* load texture */
 		try {
-			// Create a OpenGL Texture object from (URL, mipmap, file suffix)
-			// Use URL so that can read from JAR and disk file.
-			textureBuilding = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/building.png"), // relative to project
-														// root
-					false, ".png");
-
+			textures = new Texture[2];
+			textures[0] = TextureIO.newTexture(getClass().getClassLoader()
+					.getResource("img/building.png"), false, ".png");
+			textures[1] = TextureIO.newTexture(getClass().getClassLoader()
+					.getResource("img/roof.png"), false, ".png");
 			// Use linear filter for texture if image is larger than the
 			// original texture
 			gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -196,7 +194,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		cube = new Cube();
 		pyramid = new Pyramid();
 		cameraController = new CameraController();
-		maze = MazeGenerator.createMaze(19, 19, 0.4f, textureBuilding);
+		maze = MazeGenerator.createMaze(19, 19, 0.4f, textures);
 		trashes = TrashGenerator.create(maze.getGrid());
 		car = new Car(maze.getGrid());
 	}
