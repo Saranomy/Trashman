@@ -50,7 +50,7 @@ public class Maze implements ISimpleObject {
 		Random random = new Random(0);
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < col; j++) {
-				if (grid[i][j]) {
+				if (!grid[i][j]) {
 					gl.glLoadIdentity(); // reset the current model-view matrix
 					gl.glTranslatef(2f * i, -2f, -2f * j);
 

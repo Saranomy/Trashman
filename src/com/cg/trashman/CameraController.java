@@ -9,6 +9,7 @@ import javax.media.opengl.GL2;
 import javax.media.opengl.glu.GLU;
 
 public class CameraController {
+	
 	private GL2 gl;
 	private GLU glu;
 	private float pX;
@@ -20,15 +21,23 @@ public class CameraController {
 	private float rX;
 	private float rY;
 	private float rZ;
+	
+	private static final float START_CAMERA_X = -11.0f;
+	private static final float START_CAMERA_Y = -19.2f;
+	private static final float START_CAMERA_Z = -2.0f;
+	private static final float START_ROT = 32.59f;
+	private static final float START_ROT_X = 1.0f;
+	private static final float START_ROT_Y = 0.0f;
+	private static final float START_ROT_Z = 0.0f;
 
-	public CameraController() {
-		pX = 0;
-		pY = 0;
-		pZ = 0;
-		r = 0;
-		rX = 1;
-		rY = 1;
-		rZ = 1;
+	public CameraController() { 
+		pX = START_CAMERA_X;
+		pY = START_CAMERA_Y;
+		pZ = START_CAMERA_Z;
+		r  = START_ROT;
+		rX = START_ROT_X;
+		rY = START_ROT_Y;
+		rZ = START_ROT_Z;
 	}
 
 	public void setGL(GL2 gl, GLU glu) {
@@ -48,19 +57,21 @@ public class CameraController {
 		if (event.getKeyCode() == KeyEvent.VK_A) {
 			pX += pSpeed;
 		} 
+		else if (event.getKeyCode() == KeyEvent.VK_D) {
+			pX -= pSpeed;
+		}
+		
 		if (event.getKeyCode() == KeyEvent.VK_W) {
 			pZ += pSpeed;
 		} 
-		if (event.getKeyCode() == KeyEvent.VK_S) {
+		else if (event.getKeyCode() == KeyEvent.VK_S) {
 			pZ -= pSpeed;
 		} 
-		if (event.getKeyCode() == KeyEvent.VK_D) {
-			pX -= pSpeed;
-		}
+		
 		if (event.getKeyCode() == KeyEvent.VK_SPACE){
 			pY -= pSpeed;
 		}
-		if( event.getKeyCode() == KeyEvent.VK_SHIFT){
+		else if( event.getKeyCode() == KeyEvent.VK_SHIFT){
 			pY += pSpeed;
 		}
 		
@@ -75,18 +86,6 @@ public class CameraController {
 			r += rSpeed;
 			rX = 1;
 			rY = 0;
-			rZ = 0;
-		}else if(event.getKeyCode() == KeyEvent.VK_LEFT){
-			// Press Left
-			r -= rSpeed;
-			rX = 0;
-			rY = 1;
-			rZ = 0;
-		}else if(event.getKeyCode() == KeyEvent.VK_RIGHT){
-			// Press Right
-			r += rSpeed;
-			rX = 0;
-			rY = 1;
 			rZ = 0;
 		}
 	}
