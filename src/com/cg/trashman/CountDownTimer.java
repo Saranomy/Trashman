@@ -1,16 +1,16 @@
 package com.cg.trashman;
 
 public class CountDownTimer {
-	private float endTime = 0f;
+	private long endTime;
 
 	public CountDownTimer() {
 	}
 
 	public void start() {
-		endTime = System.currentTimeMillis() + 6000f;
+		endTime = System.currentTimeMillis() + 62000;
 	}
 
-	public int getTime() {
-		return (int) (endTime - System.currentTimeMillis());
+	public long getTime() {
+		return (endTime - System.currentTimeMillis())/1000;
 	}
 }
