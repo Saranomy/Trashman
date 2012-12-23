@@ -1,5 +1,8 @@
 package com.cg.trashman;
 
+import static javax.media.opengl.GL.GL_COLOR_BUFFER_BIT;
+import static javax.media.opengl.GL.GL_DEPTH_BUFFER_BIT;
+import static javax.media.opengl.GL.GL_TRIANGLES;
 import static javax.media.opengl.GL2.GL_QUADS;
 
 import java.awt.event.KeyEvent;
@@ -45,6 +48,107 @@ public class MenuScene implements IScene {
 
 	@Override
 	public void display(GLAutoDrawable drawable) {
+		GL2 gl = drawable.getGL().getGL2(); // get the OpenGL 2 graphics context
+		gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear color
+																// and depth
+																// buffers
+		gl.glLoadIdentity(); // reset the model-view matrix
+
+		// ----- Render the Pyramid -----
+		gl.glLoadIdentity(); // reset the model-view matrix
+		gl.glTranslatef(-1.5f, 0.0f, -6.0f); // translate left and into the
+												// screen
+		// gl.glRotatef(anglePyramid, 0.1f, 1.0f, -0.1f); // rotate about the
+		// y-axis
+
+		gl.glBegin(GL_TRIANGLES); // of the pyramid
+
+		// Font-face triangle
+		gl.glColor3f(1.0f, 0.0f, 0.0f); // Red
+		gl.glVertex3f(0.0f, 1.0f, 0.0f);
+		gl.glColor3f(0.0f, 1.0f, 0.0f); // Green
+		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
+		gl.glColor3f(0.0f, 0.0f, 1.0f); // Blue
+		gl.glVertex3f(1.0f, -1.0f, 1.0f);
+
+		// Right-face triangle
+		gl.glColor3f(1.0f, 0.0f, 0.0f); // Red
+		gl.glVertex3f(0.0f, 1.0f, 0.0f);
+		gl.glColor3f(0.0f, 0.0f, 1.0f); // Blue
+		gl.glVertex3f(1.0f, -1.0f, 1.0f);
+		gl.glColor3f(0.0f, 1.0f, 0.0f); // Green
+		gl.glVertex3f(1.0f, -1.0f, -1.0f);
+
+		// Back-face triangle
+		gl.glColor3f(1.0f, 0.0f, 0.0f); // Red
+		gl.glVertex3f(0.0f, 1.0f, 0.0f);
+		gl.glColor3f(0.0f, 1.0f, 0.0f); // Green
+		gl.glVertex3f(1.0f, -1.0f, -1.0f);
+		gl.glColor3f(0.0f, 0.0f, 1.0f); // Blue
+		gl.glVertex3f(-1.0f, -1.0f, -1.0f);
+
+		// Left-face triangle
+		gl.glColor3f(1.0f, 0.0f, 0.0f); // Red
+		gl.glVertex3f(0.0f, 1.0f, 0.0f);
+		gl.glColor3f(0.0f, 0.0f, 1.0f); // Blue
+		gl.glVertex3f(-1.0f, -1.0f, -1.0f);
+		gl.glColor3f(0.0f, 1.0f, 0.0f); // Green
+		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
+
+		gl.glEnd(); // of the pyramid
+
+		// ----- Render the Color Cube -----
+		gl.glLoadIdentity(); // reset the current model-view matrix
+		gl.glTranslatef(1.5f, 0.0f, -7.0f); // translate right and into the
+											// screen
+		// gl.glRotatef(angleCube, 1.0f, 1.0f, 1.0f); // rotate about the x, y
+		// and z-axes
+
+		gl.glBegin(GL_QUADS); // of the color cube
+
+		// Top-face
+		gl.glColor3f(0.0f, 1.0f, 0.0f); // green
+		gl.glVertex3f(1.0f, 1.0f, -1.0f);
+		gl.glVertex3f(-1.0f, 1.0f, -1.0f);
+		gl.glVertex3f(-1.0f, 1.0f, 1.0f);
+		gl.glVertex3f(1.0f, 1.0f, 1.0f);
+
+		// Bottom-face
+		gl.glColor3f(1.0f, 0.5f, 0.0f); // orange
+		gl.glVertex3f(1.0f, -1.0f, 1.0f);
+		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
+		gl.glVertex3f(-1.0f, -1.0f, -1.0f);
+		gl.glVertex3f(1.0f, -1.0f, -1.0f);
+
+		// Front-face
+		gl.glColor3f(1.0f, 0.0f, 0.0f); // red
+		gl.glVertex3f(1.0f, 1.0f, 1.0f);
+		gl.glVertex3f(-1.0f, 1.0f, 1.0f);
+		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
+		gl.glVertex3f(1.0f, -1.0f, 1.0f);
+
+		// Back-face
+		gl.glColor3f(1.0f, 1.0f, 0.0f); // yellow
+		gl.glVertex3f(1.0f, -1.0f, -1.0f);
+		gl.glVertex3f(-1.0f, -1.0f, -1.0f);
+		gl.glVertex3f(-1.0f, 1.0f, -1.0f);
+		gl.glVertex3f(1.0f, 1.0f, -1.0f);
+
+		// Left-face
+		gl.glColor3f(0.0f, 0.0f, 1.0f); // blue
+		gl.glVertex3f(-1.0f, 1.0f, 1.0f);
+		gl.glVertex3f(-1.0f, 1.0f, -1.0f);
+		gl.glVertex3f(-1.0f, -1.0f, -1.0f);
+		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
+
+		// Right-face
+		gl.glColor3f(1.0f, 0.0f, 1.0f); // violet
+		gl.glVertex3f(1.0f, 1.0f, -1.0f);
+		gl.glVertex3f(1.0f, 1.0f, 1.0f);
+		gl.glVertex3f(1.0f, -1.0f, 1.0f);
+		gl.glVertex3f(1.0f, -1.0f, -1.0f);
+
+		gl.glEnd(); // of the color cube
 	}
 
 	@Override
