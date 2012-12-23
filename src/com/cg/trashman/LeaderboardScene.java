@@ -2,7 +2,6 @@ package com.cg.trashman;
 
 import static javax.media.opengl.GL.GL_COLOR_BUFFER_BIT;
 import static javax.media.opengl.GL.GL_DEPTH_BUFFER_BIT;
-import static javax.media.opengl.GL.GL_TRIANGLES;
 import static javax.media.opengl.GL2.GL_QUADS;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
@@ -10,6 +9,7 @@ import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
+import java.util.Random;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
@@ -33,6 +33,7 @@ public class LeaderboardScene implements IScene {
 	private TextRenderer textTitle;
 	private TextRenderer textInfo;
 	private Score score;
+	private Random random;
 
 	public LeaderboardScene() {
 	}
@@ -72,7 +73,12 @@ public class LeaderboardScene implements IScene {
 		gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		gl.glColor3f(1f, 1f, 1f);
 
-		drawBigCar();
+		// draw many trashes
+		random = new Random(0);
+		drawTrash(15, 0.3f, -1.8f, -7f);
+		drawTrash(16, 0.3f, -0.6f, -7f);
+		drawTrash(17, 0.3f, 0.6f, -7f);
+		drawTrash(18, 0.3f, 1.8f, -7f);
 		angleCar += 0.4f;
 
 		// draw title
@@ -84,7 +90,15 @@ public class LeaderboardScene implements IScene {
 		textTitle.endRendering();
 
 		// draw score
-		str = ""+score.getScore();
+		str = String.format("%04d", score.getScore());
+		textTitle.beginRendering(drawable.getWidth(), drawable.getHeight());
+		textTitle.setColor(1f, 1f, 1f, 1f);
+		textBox = textTitle.getBounds(str);
+		textTitle.draw(str, 400 - ((int) textBox.getWidth() / 2), 370);
+		textTitle.endRendering();
+
+		// draw info
+		str = "Press Enter To Play";
 		textInfo.beginRendering(drawable.getWidth(), drawable.getHeight());
 		textInfo.setColor(1f, 1f, 1f, 1f);
 		textBox = textInfo.getBounds(str);
@@ -118,95 +132,91 @@ public class LeaderboardScene implements IScene {
 
 	}
 
-	private void drawBigCar() {
-		float size = 1f;
+	private void drawTrash(int trashId, float size, float x, float z) {
 		// ----- Render the Color Cube -----
 		gl.glLoadIdentity(); // reset the current model-view matrix
 		// gl.glTranslatef(pX, 0, 0); // translate right and into the
 		// screen
 
-		gl.glTranslatef(0f, 0.0f, -5.0f);
-		gl.glRotatef(angleCar, 0f, 1f, 0f);
-		// side car (for front face)
-		textures[11].enable(gl);
-		textures[11].bind(gl);
+		gl.glTranslatef(x, -0.4f, z);
+		gl.glRotatef(angleCar, 0f, 1f, 1f);
+
+		// trash texture
+		textures[trashId].enable(gl);
+		textures[trashId].bind(gl);
+
 		gl.glBegin(GL_QUADS);
 		// Front Face
 		gl.glTexCoord2f(textureLeft, textureBottom);
-		gl.glVertex3f(-size, -0.5f * size, 0.5f * size);
+		gl.glVertex3f(-size, -size, size); // bottom-left of the
+											// texture and quad
 		gl.glTexCoord2f(textureRight, textureBottom);
-		gl.glVertex3f(size, -0.5f * size, 0.5f * size);
+		gl.glVertex3f(size, -size, size); // bottom-right of the
+											// texture and quad
 		gl.glTexCoord2f(textureRight, textureTop);
-		gl.glVertex3f(size, 0.5f * size, 0.5f * size);
+		gl.glVertex3f(size, size, size); // top-right of the texture
+											// and quad
 		gl.glTexCoord2f(textureLeft, textureTop);
-		gl.glVertex3f(-size, 0.5f * size, 0.5f * size);
-		gl.glEnd();
+		gl.glVertex3f(-size, size, size); // top-left of the texture
+											// and quad
 
-		// inverse front face
-		textures[11].enable(gl);
-		textures[11].bind(gl);
-		gl.glBegin(GL_QUADS);
 		// Back Face
-		gl.glTexCoord2f(textureLeft, textureBottom);
-		gl.glVertex3f(-size, -0.5f * size, -0.5f * size);
-		gl.glTexCoord2f(textureLeft, textureTop);
-		gl.glVertex3f(-size, 0.5f * size, -0.5f * size);
-		gl.glTexCoord2f(textureRight, textureTop);
-		gl.glVertex3f(size, 0.5f * size, -0.5f * size);
 		gl.glTexCoord2f(textureRight, textureBottom);
-		gl.glVertex3f(size, -0.5f * size, -0.5f * size);
-		gl.glEnd();
+		gl.glVertex3f(-size, -size, -size);
+		gl.glTexCoord2f(textureRight, textureTop);
+		gl.glVertex3f(-size, size, -size);
+		gl.glTexCoord2f(textureLeft, textureTop);
+		gl.glVertex3f(size, size, -size);
+		gl.glTexCoord2f(textureLeft, textureBottom);
+		gl.glVertex3f(size, -size, -size);
 
-		// top car (for Top face)
-		textures[14].enable(gl);
-		textures[14].bind(gl);
-		gl.glBegin(GL_QUADS);
 		// Top Face
 		gl.glTexCoord2f(textureLeft, textureTop);
-		gl.glVertex3f(-size, 0.5f * size, -0.5f * size);
+		gl.glVertex3f(-size, size, -size);
 		gl.glTexCoord2f(textureLeft, textureBottom);
-		gl.glVertex3f(-size, 0.5f * size, 0.5f * size);
+		gl.glVertex3f(-size, size, size);
 		gl.glTexCoord2f(textureRight, textureBottom);
-		gl.glVertex3f(size, 0.5f * size, 0.5f * size);
+		gl.glVertex3f(size, size, size);
 		gl.glTexCoord2f(textureRight, textureTop);
-		gl.glVertex3f(size, 0.5f * size, -0.5f * size);
-		gl.glEnd();
+		gl.glVertex3f(size, size, -size);
 
-		// carBack
-		textures[13].enable(gl);
-		textures[13].bind(gl);
-		gl.glBegin(GL_QUADS);
+		// Bottom Face
+		gl.glTexCoord2f(textureRight, textureTop);
+		gl.glVertex3f(-size, -size, -size);
+		gl.glTexCoord2f(textureLeft, textureTop);
+		gl.glVertex3f(size, -size, -size);
+		gl.glTexCoord2f(textureLeft, textureBottom);
+		gl.glVertex3f(size, -size, size);
+		gl.glTexCoord2f(textureRight, textureBottom);
+		gl.glVertex3f(-size, -size, size);
+
 		// Right face
 		gl.glTexCoord2f(textureRight, textureBottom);
-		gl.glVertex3f(size, -0.5f * size, -0.5f * size);
+		gl.glVertex3f(size, -size, -size);
 		gl.glTexCoord2f(textureRight, textureTop);
-		gl.glVertex3f(size, 0.5f * size, -0.5f * size);
+		gl.glVertex3f(size, size, -size);
 		gl.glTexCoord2f(textureLeft, textureTop);
-		gl.glVertex3f(size, 0.5f * size, 0.5f * size);
+		gl.glVertex3f(size, size, size);
 		gl.glTexCoord2f(textureLeft, textureBottom);
-		gl.glVertex3f(size, -0.5f * size, 0.5f * size);
-		gl.glEnd();
+		gl.glVertex3f(size, -size, size);
 
-		// carFront
-		textures[12].enable(gl);
-		textures[12].bind(gl);
-		gl.glBegin(GL_QUADS);
 		// Left Face
 		gl.glTexCoord2f(textureLeft, textureBottom);
-		gl.glVertex3f(-size, -0.5f * size, -0.5f * size);
+		gl.glVertex3f(-size, -size, -size);
 		gl.glTexCoord2f(textureRight, textureBottom);
-		gl.glVertex3f(-size, -0.5f * size, 0.5f * size);
+		gl.glVertex3f(-size, -size, size);
 		gl.glTexCoord2f(textureRight, textureTop);
-		gl.glVertex3f(-size, 0.5f * size, 0.5f * size);
+		gl.glVertex3f(-size, size, size);
 		gl.glTexCoord2f(textureLeft, textureTop);
-		gl.glVertex3f(-size, 0.5f * size, -0.5f * size);
+		gl.glVertex3f(-size, size, -size);
+
 		gl.glEnd();
 	}
 
 	@Override
 	public void refresh() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

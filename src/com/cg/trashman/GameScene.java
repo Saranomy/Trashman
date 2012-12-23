@@ -14,16 +14,12 @@ import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLU;
 
 import com.cg.trashman.object.Car;
-import com.cg.trashman.object.Cube;
 import com.cg.trashman.object.Maze;
-import com.cg.trashman.object.Pyramid;
 import com.cg.trashman.object.Trash;
 import com.jogamp.opengl.util.awt.TextRenderer;
 import com.jogamp.opengl.util.texture.Texture;
 
 public class GameScene implements IScene {
-	private Cube cube;
-	private Pyramid pyramid;
 	private CameraController cameraController;
 	private Maze maze;
 	private Car car;
@@ -65,9 +61,6 @@ public class GameScene implements IScene {
 	}
 
 	public void initComponent() {
-
-		cube = new Cube();
-		pyramid = new Pyramid();
 		cameraController = new CameraController();
 		maze = MazeGenerator.createMaze(19, 19, 0.4f, textures);
 		trashes = TrashGenerator.create(maze.getGrid(), textures);
@@ -87,8 +80,6 @@ public class GameScene implements IScene {
 		gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear color
 																// and depth
 																// buffers
-		pyramid.update(gl, null);
-		cube.update(gl, null);
 		maze.update(gl, null);
 		car.update(gl, null);
 
@@ -119,6 +110,8 @@ public class GameScene implements IScene {
 		gl.glMatrixMode(GL_MODELVIEW);
 		gl.glLoadIdentity();
 
+		// draw a background of text
+		
 		// draw score
 		textRenderer.beginRendering(drawable.getWidth(), drawable.getHeight());
 		textRenderer.setColor(1f, 1f, 1f, 1f);
@@ -128,7 +121,7 @@ public class GameScene implements IScene {
 		// draw time
 		textRenderer.beginRendering(drawable.getWidth(), drawable.getHeight());
 		textRenderer.setColor(1f, 1f, 1f, 1f);
-		textRenderer.draw("Time: " + timer.getTime(), 50, 42);
+		textRenderer.draw("Time: " + timer.getTime(), 50, 40);
 		textRenderer.endRendering();
 		// move to leaderboard if finish
 		if (timer.getTime() <= 5) {
