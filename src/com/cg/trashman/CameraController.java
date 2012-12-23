@@ -15,20 +15,25 @@ public class CameraController {
 	private float pX;
 	private float pY;
 	private float pZ;
-	private float pSpeed = 0.4f;
+	private float pSpeed = 0.0f;
 	private float rSpeed = 0.2f;
 	private float r;
 	private float rX;
 	private float rY;
 	private float rZ;
 	
+	private float desX;
+	private float desY;
+	private float desZ;
+	
 	private static final float START_CAMERA_X = -11.0f;
 	private static final float START_CAMERA_Y = -19.2f;
 	private static final float START_CAMERA_Z = -2.0f;
-	private static final float START_ROT = 32.59f;
+	private static final float START_ROT = 32.6f;
 	private static final float START_ROT_X = 1.0f;
 	private static final float START_ROT_Y = 0.0f;
 	private static final float START_ROT_Z = 0.0f;
+	private static final float CAMERA_ACC = 0.01f;
 
 	public CameraController() { 
 		pX = START_CAMERA_X;
@@ -38,6 +43,9 @@ public class CameraController {
 		rX = START_ROT_X;
 		rY = START_ROT_Y;
 		rZ = START_ROT_Z;
+		desX = pX;
+		desY = pY;
+		desZ = pZ;
 	}
 
 	public void setGL(GL2 gl, GLU glu) {
@@ -88,6 +96,32 @@ public class CameraController {
 			rY = 0;
 			rZ = 0;
 		}
+	}
+	
+	public void setDestination(float x,float y,float z){
+		this.desX = x;
+		this.desY = y;
+		this.desZ = z;
+	}
+	
+	public void move(){
+		if( this.desX == pX && this.desY == pY && this.desZ == pZ){
+			pSpeed = 0;
+			return;
+		}
+		this.pX += Math.signum( desX - pX ) * pSpeed;
+		if (Math.abs((this.pX - this.desX) * 1000f) / 1000f < pSpeed) {
+			this.pX = this.desX;
+		} 
+		this.pY += Math.signum( desY - pY ) * pSpeed;
+		if (Math.abs((this.pY - this.desY) * 1000f) / 1000f < pSpeed) {
+			this.pY = this.desY;
+		} 
+		this.pZ += Math.signum( desZ - pZ ) * pSpeed;
+		if (Math.abs((this.pZ - this.desZ) * 1000f) / 1000f < pSpeed) {
+			this.pZ = this.desZ;
+		} 
+		pSpeed += CAMERA_ACC;
 	}
 
 	public void keyReleased(KeyEvent event) {
