@@ -93,7 +93,7 @@ public class GameScene implements IScene {
 		float[] r = cameraController.getRotation();
 
 		cameraController.update();
-		cameraController.setDestination(-car.getX(), -14.2f, -10f + car.getZ());
+		cameraController.setDestination(-car.getX(), -14.2f, -8f + car.getZ());
 
 		// Update camera translation
 		gl.glMatrixMode(GL_PROJECTION);
