@@ -37,7 +37,7 @@ public class Maze implements ISimpleObject {
 		grid[row][col] = true;
 	}
 
-	public boolean[][] getMap() {
+	public boolean[][] getGrid() {
 		return grid;
 	}
 

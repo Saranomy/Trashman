@@ -15,6 +15,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
@@ -30,6 +31,7 @@ import com.cg.trashman.object.Car;
 import com.cg.trashman.object.Cube;
 import com.cg.trashman.object.Maze;
 import com.cg.trashman.object.Pyramid;
+import com.cg.trashman.object.Trash;
 import com.jogamp.opengl.util.FPSAnimator;
 // GL constants
 // GL2 constants
@@ -54,6 +56,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 	private CameraController cameraController;
 	private Maze maze;
 	private Car car;
+	private List<Trash> trashes;
 
 	// Define constants for the top-level container
 	private static String TITLE = "Trashman Alpha 0.1.0"; // window's
@@ -158,7 +161,8 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		pyramid = new Pyramid();
 		cameraController = new CameraController();
 		maze = MazeGenerator.createMaze(19, 19, 0.4f);
-		car = new Car();
+		trashes = TrashGenerator.create(maze.getGrid());
+		car = new Car(maze.getGrid());
 	}
 
 	/**
@@ -203,6 +207,8 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		cube.update(gl, null);
 		maze.update(gl, null);
 		car.update(gl, null);
+		
+		// update trash
 
 		// Update Camera Parameter
 		float[] t = cameraController.getTranslation();

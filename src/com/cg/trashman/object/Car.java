@@ -15,17 +15,25 @@ public class Car implements ISimpleObject {
 	private float pSpeed = 0f;
 	private float pAcc = 0.07f;
 	private Direction direction;
+	private boolean[][] mazeGrid;
+	private int gridX;
+	private int gridZ;
+
 	enum Direction {
 		Stop, Up, Down, Left, Right
 	}
+
 	private static final float size = 0.4f;
 
-	public Car() {
+	public Car(boolean[][] mazeGrid) {
 		pX = 0f;
 		pZ = 0f;
 		desX = pX;
 		desZ = pZ;
 		direction = Direction.Stop;
+		this.mazeGrid = mazeGrid;
+		gridX = 0;
+		gridZ = 0;
 	}
 
 	public void updateMazePosition(int row, int col) {
@@ -34,19 +42,50 @@ public class Car implements ISimpleObject {
 	}
 
 	public void addMazePositionX(int dX) {
-		desX += dX * 2f;
+		// out of range
+		if (gridX + dX >= mazeGrid.length || gridX + dX < 0) {
+			direction = Direction.Stop;
+			return;
+		}
+		if (mazeGrid[gridX + dX][gridZ]) {
+			direction = Direction.Stop;
+		} else {
+			gridX += dX;
+			desX += dX * 2f;
+		}
 	}
 
 	public void addMazePositionZ(int dZ) {
-		desZ += dZ * 2f;
+		// out of range
+		if (gridZ + dZ >= mazeGrid[0].length || gridZ + dZ < 0) {
+			direction = Direction.Stop;
+			return;
+		}
+		if (mazeGrid[gridX][gridZ + dZ]) {
+			direction = Direction.Stop;
+		} else {
+			gridZ += dZ;
+			desZ += dZ * 2f;
+		}
 	}
 
 	@Override
 	public void update(GL2 gl, Object arg) {
 		render(gl);
-		
-		if (this.desX == pX && this.desZ == pZ) {
+
+		if (isStable()) {
 			pSpeed = 0;
+
+			// next move
+			if (direction == Direction.Left) {
+				addMazePositionX(-1);
+			} else if (direction == Direction.Right) {
+				addMazePositionX(1);
+			} else if (direction == Direction.Up) {
+				addMazePositionZ(1);
+			} else if (direction == Direction.Down) {
+				addMazePositionZ(-1);
+			}
 			return;
 		}
 		this.pX += Math.signum(desX - pX) * pSpeed;
@@ -122,22 +161,22 @@ public class Car implements ISimpleObject {
 		gl.glEnd(); // of the color cube
 	}
 
+	public boolean isStable() {
+		return pX == desX && pZ == desZ;
+	}
+
 	public void keyPressed(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.VK_I) {
 			direction = Direction.Up;
-			addMazePositionZ(1);
 		}
 		if (event.getKeyCode() == KeyEvent.VK_K) {
 			direction = Direction.Down;
-			addMazePositionZ(-1);
 		}
 		if (event.getKeyCode() == KeyEvent.VK_J) {
 			direction = Direction.Left;
-			addMazePositionX(-1);
 		}
 		if (event.getKeyCode() == KeyEvent.VK_L) {
 			direction = Direction.Right;
-			addMazePositionX(1);
 		}
 	}
 
