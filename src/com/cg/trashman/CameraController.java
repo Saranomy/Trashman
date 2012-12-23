@@ -32,7 +32,7 @@ public class CameraController {
 	private static final float START_ROT_X = 1.0f;
 	private static final float START_ROT_Y = 0.0f;
 	private static final float START_ROT_Z = 0.0f;
-	private static final float CAMERA_ACC = 0.001f; // must < car speed
+	private static final float CAMERA_ACC = 0.008f; // must < car speed
 
 	public CameraController() { 
 		pX = START_CAMERA_X;

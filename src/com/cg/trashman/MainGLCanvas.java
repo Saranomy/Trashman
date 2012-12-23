@@ -207,8 +207,11 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		cube.update(gl, null);
 		maze.update(gl, null);
 		car.update(gl, null);
-		
+
 		// update trash
+		for (Trash t : trashes) {
+			t.update(gl, null);
+		}
 
 		// Update Camera Parameter
 		float[] t = cameraController.getTranslation();

@@ -12,8 +12,8 @@ public class Car implements ISimpleObject {
 	private float pZ;
 	private float desX;
 	private float desZ;
-	private float pSpeed = 0f;
-	private float pAcc = 0.07f;
+	private float pSpeed = 0.1f;
+	private float pDefaultSpeed = 0.1f;
 	private Direction direction;
 	private boolean[][] mazeGrid;
 	private int gridX;
@@ -96,7 +96,7 @@ public class Car implements ISimpleObject {
 		if (Math.abs((this.pZ - this.desZ) * 1000f) / 1000f < pSpeed) {
 			this.pZ = this.desZ;
 		}
-		pSpeed += pAcc;
+		pSpeed = pDefaultSpeed;
 	}
 
 	public float getX() {
