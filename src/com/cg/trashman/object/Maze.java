@@ -60,22 +60,26 @@ public class Maze implements ISimpleObject {
 	}
 
 	private void render(GL2 gl) {
-		Random random = new Random(0);
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < col; j++) {
 				if (!grid[i][j]) {
 					gl.glLoadIdentity(); // reset the current model-view matrix
 					gl.glTranslatef(2f * i, -2f, -2f * j);
+					gl.glColor3f(1f, 1f, 1f);
+					// road
+					textures[2].enable(gl);
+					textures[2].bind(gl);
 
 					gl.glBegin(GL_QUADS); // of the color cube
 
 					// Top-face
-					float rand = 0.5f + (0.5f * random.nextFloat());
-					//gl.glColor3f(rand, rand, rand); // green
-					gl.glColor3f(1f, 1f, 1f);
+					gl.glTexCoord2f(textureLeft, textureTop);
 					gl.glVertex3f(1.0f, 1.0f, -1.0f);
+					gl.glTexCoord2f(textureLeft, textureBottom);
 					gl.glVertex3f(-1.0f, 1.0f, -1.0f);
+					gl.glTexCoord2f(textureRight, textureBottom);
 					gl.glVertex3f(-1.0f, 1.0f, 1.0f);
+					gl.glTexCoord2f(textureRight, textureTop);
 					gl.glVertex3f(1.0f, 1.0f, 1.0f);
 					gl.glEnd();
 				} else {
@@ -85,9 +89,8 @@ public class Maze implements ISimpleObject {
 					// building
 					textures[0].enable(gl);
 					textures[0].bind(gl);
-					
+
 					gl.glBegin(GL_QUADS);
-					gl.glColor3f(1f, 1f, 1f);
 					// Front Face
 					gl.glTexCoord2f(textureLeft, textureBottom);
 					gl.glVertex3f(-1.0f, -1.0f, 1.0f); // bottom-left of the
@@ -111,13 +114,13 @@ public class Maze implements ISimpleObject {
 					gl.glVertex3f(1.0f, 1.0f, -1.0f);
 					gl.glTexCoord2f(textureLeft, textureBottom);
 					gl.glVertex3f(1.0f, -1.0f, -1.0f);
-					
+
 					gl.glEnd();
 					// roof
 					textures[1].enable(gl);
 					textures[1].bind(gl);
 					gl.glBegin(GL_QUADS);
-					
+
 					// Top Face
 					gl.glTexCoord2f(textureLeft, textureTop);
 					gl.glVertex3f(-1.0f, 1.0f, -1.0f);
@@ -133,7 +136,7 @@ public class Maze implements ISimpleObject {
 					textures[0].enable(gl);
 					textures[0].bind(gl);
 					gl.glBegin(GL_QUADS);
-					
+
 					// Bottom Face
 					gl.glTexCoord2f(textureRight, textureTop);
 					gl.glVertex3f(-1.0f, -1.0f, -1.0f);

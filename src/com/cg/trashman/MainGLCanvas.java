@@ -21,7 +21,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.List;
-
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCapabilities;
@@ -152,22 +151,24 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 
 		/* fog config */
 		// Set up fog mode
-		// float[] fogColor = { 0.0f, 0.0f, 0.0f, 1.0f };
-		// gl.glFogfv(GL_FOG_COLOR, fogColor, 0); // set fog color
-		// gl.glFogf(GL_FOG_DENSITY, 0.04f); // how dense will the fog be
-		// gl.glHint(GL_FOG_HINT, GL_DONT_CARE); // fog hint value
-		// gl.glFogf(GL_FOG_START, 1.0f); // fog start depth
-		// gl.glFogf(GL_FOG_END, 20.0f); // fog end depth
-		// gl.glEnable(GL_FOG); // enables GL_FOG
-		// gl.glFogi(GL_FOG_MODE, GL_EXP);
+//		float[] fogColor = { 0.0f, 0.0f, 0.5f, 1.0f };
+//		gl.glFogfv(GL2.GL_FOG_COLOR, fogColor, 0); // set fog color
+//		gl.glFogf(GL2.GL_FOG_DENSITY, 0.04f); // how dense will the fog be
+//		gl.glHint(GL2.GL_FOG_HINT, GL2.GL_DONT_CARE); // fog hint value
+//		gl.glFogf(GL2.GL_FOG_START, 1.0f); // fog start depth
+//		gl.glFogf(GL2.GL_FOG_END, 20.0f); // fog end depth
+//		gl.glEnable(GL2.GL_FOG); // enables GL_FOG
+//		gl.glFogi(GL2.GL_FOG_MODE, GL2.GL_EXP);
 
 		/* load texture */
 		try {
-			textures = new Texture[2];
+			textures = new Texture[3];
 			textures[0] = TextureIO.newTexture(getClass().getClassLoader()
 					.getResource("img/building.png"), false, ".png");
 			textures[1] = TextureIO.newTexture(getClass().getClassLoader()
 					.getResource("img/roof.png"), false, ".png");
+			textures[2] = TextureIO.newTexture(getClass().getClassLoader()
+					.getResource("img/road.png"), false, ".png");
 			// Use linear filter for texture if image is larger than the
 			// original texture
 			gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
