@@ -58,8 +58,8 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 	// Define constants for the top-level container
 	private static String TITLE = "Trashman Alpha 0.1.0"; // window's
 															// title
-	private static final int CANVAS_WIDTH = 320; // width of the drawable
-	private static final int CANVAS_HEIGHT = 240; // height of the drawable
+	private static final int CANVAS_WIDTH = 800; // width of the drawable
+	private static final int CANVAS_HEIGHT = 600; // height of the drawable
 	private static final int FPS = 60; // animator's target frames per second
 
 	/** The entry main() method to setup the top-level container and animator */
@@ -210,7 +210,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 
 		cameraController.update();
 
-		cameraController.setDestination(11 + car.getX(), 19 + car.getY(), 2);
+		cameraController.setDestination(-11 - car.getX(), -19, -2 + car.getZ());
 
 		// Update camera translation
 		gl.glMatrixMode(GL_PROJECTION);
