@@ -153,7 +153,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 
 		/* load texture */
 		try {
-			textures = new Texture[16];
+			textures = new Texture[18];
 			// buildings
 			textures[0] = TextureIO.newTexture(getClass().getClassLoader()
 					.getResource("img/building.png"), false, ".png");
@@ -191,6 +191,10 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 			// trash
 			textures[15] = TextureIO.newTexture(getClass().getClassLoader()
 					.getResource("img/trash.png"), false, ".png");
+			textures[16] = TextureIO.newTexture(getClass().getClassLoader()
+					.getResource("img/trash2.png"), false, ".png");
+			textures[17] = TextureIO.newTexture(getClass().getClassLoader()
+					.getResource("img/trash3.png"), false, ".png");
 
 			gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
