@@ -75,7 +75,7 @@ public class MenuScene implements IScene {
 		angleCar += 0.4f;
 
 		// draw title
-		String str = "Trashman";
+		String str = "Trashma	n";
 		textTitle.beginRendering(drawable.getWidth(), drawable.getHeight());
 		textTitle.setColor(1f, 1f, 1f, 1f);
 		Rectangle2D textBox = textTitle.getBounds(str);
@@ -199,6 +199,12 @@ public class MenuScene implements IScene {
 		gl.glTexCoord2f(textureLeft, textureTop);
 		gl.glVertex3f(-size, 0.5f * size, -0.5f * size);
 		gl.glEnd();
+	}
+
+	@Override
+	public void refresh() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
