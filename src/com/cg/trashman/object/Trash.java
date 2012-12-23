@@ -11,7 +11,6 @@ import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureCoords;
 
 public class Trash implements ISimpleObject {
-	private static final float size = 0.4f;
 	private int row;
 	private int col;
 	private Texture[] textures;
@@ -24,6 +23,7 @@ public class Trash implements ISimpleObject {
 	private int score;
 
 	private float angle;
+	private float size = 0.6f;
 
 	public Trash(int row, int col, Texture[] textures) {
 		this.row = row;
@@ -37,7 +37,6 @@ public class Trash implements ISimpleObject {
 
 		rotation = new Random().nextFloat() * 360f;
 		textureId = 15 + new Random().nextInt(4);
-		score = 50 + new Random().nextInt(50);
 		angle = 0f;
 	}
 
@@ -55,7 +54,11 @@ public class Trash implements ISimpleObject {
 
 	@Override
 	public void update(GL2 gl, Object arg) {
-		angle += 0.3f;
+		angle += 0.6f;
+		if (size >= 0.3f) {
+			size -= 0.0005f;
+			score = 1 + (int) (size * 500f);
+		}
 		render(gl);
 	}
 

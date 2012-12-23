@@ -2,12 +2,9 @@ package com.cg.trashman;
 
 import static javax.media.opengl.GL.GL_COLOR_BUFFER_BIT;
 import static javax.media.opengl.GL.GL_DEPTH_BUFFER_BIT;
-import static javax.media.opengl.GL2ES1.GL_FOG_MODE;
 import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_AMBIENT;
-import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_DIFFUSE;
 import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_LIGHT1;
 import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_LIGHTING;
-import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_POSITION;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 
@@ -37,7 +34,8 @@ public class GameScene implements IScene {
 	private GLU glu;
 	private MainGLCanvas mainGLCanvas;
 
-	private TextRenderer textRenderer;
+	private TextRenderer textInfo;
+	private TextRenderer textUpdate;
 
 	private int frame_counter = 0;
 	private int FPS = 60;
@@ -59,7 +57,8 @@ public class GameScene implements IScene {
 		textures = mainGLCanvas.textures;
 
 		// init text
-		textRenderer = new TextRenderer(new Font("SansSerif", Font.BOLD, 30));
+		textInfo = new TextRenderer(new Font("SansSerif", Font.BOLD, 30));
+		textUpdate = new TextRenderer(new Font("SansSerif", Font.BOLD, 50));
 
 		initComponent();
 		// Set up CameraController before using it
@@ -140,16 +139,33 @@ public class GameScene implements IScene {
 		// draw a background of text
 
 		// draw score
-		textRenderer.beginRendering(drawable.getWidth(), drawable.getHeight());
-		textRenderer.setColor(1f, 1f, 0f, 1f);
-		textRenderer.draw(String.format("SCORE: %04d", car.getScore()), 50, 70);
-		textRenderer.endRendering();
+		textInfo.beginRendering(drawable.getWidth(), drawable.getHeight());
+		textInfo.setColor(1f, 1f, 0f, 0.6f);
+		textInfo.draw("MONEY", 150, 86);
+		textInfo.endRendering();
+
+		textUpdate.beginRendering(drawable.getWidth(), drawable.getHeight());
+		textUpdate.setColor(1f, 1f, 0f, 0.6f);
+		textUpdate.draw(String.format("%04d", car.getScore()), 150, 40);
+		textUpdate.endRendering();
 
 		// draw time
-		textRenderer.beginRendering(drawable.getWidth(), drawable.getHeight());
-		textRenderer.setColor(1f, 1f, 0f, 1f);
-		textRenderer.draw("TIME: " + timer.getTime(), 50, 40);
-		textRenderer.endRendering();
+		textInfo.beginRendering(drawable.getWidth(), drawable.getHeight());
+		textInfo.setColor(1f, 1f, 0f, 0.6f);
+		textInfo.draw("TIME", 50, 86);
+		textInfo.endRendering();
+
+		textUpdate.beginRendering(drawable.getWidth(), drawable.getHeight());
+		textUpdate.setColor(1f, 1f, 0f, 0.6f);
+		textUpdate.draw(String.format("%02d", timer.getTime()), 50, 40);
+		textUpdate.endRendering();
+
+		// draw Esc
+		textInfo.beginRendering(drawable.getWidth(), drawable.getHeight());
+		textInfo.setColor(1f, 1f, 1f, 0.4f);
+		textInfo.draw("[Esc]", 20, 560);
+		textInfo.endRendering();
+
 		// move to leaderboard if finish
 		if (timer.getTime() <= 0) {
 			mainGLCanvas.setScene(2);
@@ -172,6 +188,10 @@ public class GameScene implements IScene {
 	public void keyPressed(KeyEvent event) {
 		cameraController.keyPressed(event);
 		car.keyPressed(event);
+		// quick exit
+		if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			mainGLCanvas.setScene(0);
+		}
 	}
 
 	@Override

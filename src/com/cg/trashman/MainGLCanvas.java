@@ -48,7 +48,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 															// title
 	private static final int CANVAS_WIDTH = 800; // width of the drawable
 	private static final int CANVAS_HEIGHT = 600; // height of the drawable
-	private static final int FPS = 60; // animator's target frames per second
+	private static final int FPS = 30; // animator's target frames per second
 
 	/** The entry main() method to setup the top-level container and animator */
 	public static void main(String[] args) {
@@ -128,16 +128,15 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 																// correction
 		gl.glShadeModel(GL_SMOOTH); // blends colors nicely, and smoothes out
 									// lighting
-		/* fog config */
 		// Set up fog mode
-		// float[] fogColor = { 0.0f, 0.0f, 0.5f, 1.0f };
-		// gl.glFogfv(GL2.GL_FOG_COLOR, fogColor, 0); // set fog color
-		// gl.glFogf(GL2.GL_FOG_DENSITY, 0.04f); // how dense will the fog be
-		// gl.glHint(GL2.GL_FOG_HINT, GL2.GL_DONT_CARE); // fog hint value
-		// gl.glFogf(GL2.GL_FOG_START, 1.0f); // fog start depth
-		// gl.glFogf(GL2.GL_FOG_END, 20.0f); // fog end depth
-		// gl.glEnable(GL2.GL_FOG); // enables GL_FOG
-		// gl.glFogi(GL2.GL_FOG_MODE, GL2.GL_EXP) ;
+		float[] fogColor = { 0.0f, 0.0f, 0.4f, 1.0f };
+		gl.glFogfv(GL2.GL_FOG_COLOR, fogColor, 0); // set fog color
+		gl.glFogf(GL2.GL_FOG_DENSITY, 0.04f); // how dense will the fog be
+		gl.glHint(GL2.GL_FOG_HINT, GL2.GL_DONT_CARE); // fog hint value
+		gl.glFogf(GL2.GL_FOG_START, 0.0f); // fog start depth
+		gl.glFogf(GL2.GL_FOG_END, 100.0f); // fog end depth
+		gl.glEnable(GL2.GL_FOG); // enables GL_FOG
+		gl.glFogi(GL2.GL_FOG_MODE, GL2.GL_LINEAR);
 
 		/* load texture */
 		try {

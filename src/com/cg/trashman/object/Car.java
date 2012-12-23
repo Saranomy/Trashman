@@ -2,12 +2,15 @@ package com.cg.trashman.object;
 
 import static javax.media.opengl.GL2.GL_QUADS;
 
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.util.List;
 
 import javax.media.opengl.GL2;
+
 import com.cg.trashman.ISimpleObject;
 import com.cg.trashman.Score;
+import com.jogamp.opengl.util.awt.TextRenderer;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureCoords;
 
@@ -16,7 +19,7 @@ public class Car implements ISimpleObject {
 	private float pZ;
 	private float desX;
 	private float desZ;
-	private float pDefaultSpeed = 0.1f;
+	private float pDefaultSpeed = 0.2000000000000000000000f;
 	private float pSpeed = pDefaultSpeed;
 	private Direction direction;
 	private boolean[][] mazeGrid;
@@ -30,12 +33,15 @@ public class Car implements ISimpleObject {
 	private float textureRight;
 	private List<Trash> trashes;
 	public Score score;
+	private TextRenderer textScore;
+	private int lastScore;
+	private float scoreTrans;
 
 	enum Direction {
 		Stop, Up, Down, Left, Right
 	}
 
-	private static final float size = 0.8f;
+	private static float size = 0.85f;
 
 	public Car(boolean[][] mazeGrid, Texture[] textures, List<Trash> trashes) {
 		pX = 0f;
@@ -56,6 +62,10 @@ public class Car implements ISimpleObject {
 
 		this.trashes = trashes;
 		score = Score.getInstance();
+
+		textScore = new TextRenderer(new Font("SansSerif", Font.BOLD, 40));
+		lastScore = 0;
+		scoreTrans = 0f;
 	}
 
 	public void updateMazePosition(int row, int col) {
@@ -99,10 +109,11 @@ public class Car implements ISimpleObject {
 
 	@Override
 	public void update(GL2 gl, Object arg) {
-		render(gl);
-
+		// visibility of popup score
+		if (scoreTrans >= 0) {
+			scoreTrans -= 0.04f;
+		}
 		if (isStable()) {
-			pSpeed = 0;
 
 			// next move
 			if (direction == Direction.Left) {
@@ -114,17 +125,21 @@ public class Car implements ISimpleObject {
 			} else if (direction == Direction.Down) {
 				addMazePositionZ(-1);
 			}
-			return;
 		}
-		this.pX += Math.signum(desX - pX) * pSpeed;
-		if (Math.abs((this.pX - this.desX) * 1000f) / 1000f < pSpeed) {
+
+		if (Math.abs((this.pX - this.desX) * 1000f) / 1000f <= pSpeed) {
 			this.pX = this.desX;
+		} else {
+			this.pX += Math.signum(desX - pX) * pSpeed;
 		}
-		this.pZ += Math.signum(desZ - pZ) * pSpeed;
-		if (Math.abs((this.pZ - this.desZ) * 1000f) / 1000f < pSpeed) {
+		if (Math.abs((this.pZ - this.desZ) * 1000f) / 1000f <= pSpeed) {
 			this.pZ = this.desZ;
+		} else {
+			this.pZ += Math.signum(desZ - pZ) * pSpeed;
 		}
-		pSpeed = pDefaultSpeed;
+
+		render(gl);
+		drawPopupScore();
 
 	}
 
@@ -134,6 +149,15 @@ public class Car implements ISimpleObject {
 
 	public float getZ() {
 		return pZ;
+	}
+
+	private void drawPopupScore() {
+
+		// draw Popup Score
+		textScore.beginRendering(800, 600);
+		textScore.setColor(1f, 1f, 1f, scoreTrans);
+		textScore.draw("$" + lastScore, 380, 440 - (int) (scoreTrans * 50));
+		textScore.endRendering();
 	}
 
 	private void render(GL2 gl) {
@@ -233,7 +257,8 @@ public class Car implements ISimpleObject {
 	}
 
 	public boolean isStable() {
-		return pX == desX && pZ == desZ;
+		return Math.abs((this.pX - this.desX) * 1000f) / 1000f <= pSpeed
+				&& Math.abs((this.pZ - this.desZ) * 1000f) / 1000f <= pSpeed;
 	}
 
 	public void updateTrashCollision() {
@@ -241,8 +266,16 @@ public class Car implements ISimpleObject {
 			Trash t = trashes.get(i);
 			if (t.getRow() == gridX && t.getCol() == gridZ) {
 				// score on each id
-				score.add(t.getScore());
+				int trashPoint = t.getScore();
+				score.add(trashPoint);
 				trashes.remove(t);
+				
+				// update popup Score
+				lastScore = trashPoint;
+				scoreTrans = 1f;
+				
+				// update Truck size
+				size = 0.85f + (score.getScore()/20000f);
 				i--;
 			}
 		}

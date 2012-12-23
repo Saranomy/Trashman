@@ -82,7 +82,7 @@ public class LeaderboardScene implements IScene {
 		angleCar += 0.4f;
 
 		// draw title
-		String str = "Your Score";
+		String str = "You got";
 		textTitle.beginRendering(drawable.getWidth(), drawable.getHeight());
 		textTitle.setColor(1f, 1f, 1f, 1f);
 		Rectangle2D textBox = textTitle.getBounds(str);
@@ -90,11 +90,11 @@ public class LeaderboardScene implements IScene {
 		textTitle.endRendering();
 
 		// draw score
-		str = String.format("%04d", score.getScore());
+		str = String.format("$%04d", score.getScore());
 		textTitle.beginRendering(drawable.getWidth(), drawable.getHeight());
 		textTitle.setColor(1f, 1f, 1f, 1f);
 		textBox = textTitle.getBounds(str);
-		textTitle.draw(str, 400 - ((int) textBox.getWidth() / 2), 370);
+		textTitle.draw(str, 400 - ((int) textBox.getWidth() / 2), 360);
 		textTitle.endRendering();
 
 		// draw info

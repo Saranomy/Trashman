@@ -12,10 +12,7 @@ public class CameraController {
 	private float pX;
 	private float pY;
 	private float pZ;
-	private float xSpeed = 0.051f;
-	private float ySpeed = 0.051f;
-	private float zSpeed = 0.051f;
-	private float rSpeed = 0.2f;
+	private float pSpeed = 0.199000000000000000000000f;
 	private float r;
 	private float rX;
 	private float rY;
@@ -67,7 +64,6 @@ public class CameraController {
 	}
 
 	public void setDestination(float x, float y, float z) {
-
 		desX = x;
 		desY = y;
 		desZ = z;
@@ -80,20 +76,20 @@ public class CameraController {
 			return;
 		}
 
-		this.pX += Math.signum(desX - pX) * xSpeed;
-		this.pY += Math.signum(desY - pY) * ySpeed;
-		this.pZ += Math.signum(desZ - pZ) * zSpeed;
-
-		if (Math.abs((this.pX - this.desX) * 1000f) / 1000f < Math.abs(xSpeed)) {
+		if (Math.abs((this.pX - this.desX) * 1000f) / 1000f <= pSpeed) {
 			this.pX = this.desX;
+		} else {
+			this.pX += Math.signum(desX - pX) * pSpeed;
 		}
-
-		if (Math.abs((this.pY - this.desY) * 1000f) / 1000f < Math.abs(ySpeed)) {
+		if (Math.abs((this.pY - this.desY) * 1000f) / 1000f <= pSpeed) {
 			this.pY = this.desY;
+		} else {
+			this.pY += Math.signum(desY - pY) * pSpeed;
 		}
-
-		if (Math.abs((this.pZ - this.desZ) * 1000f) / 1000f < Math.abs(zSpeed)) {
+		if (Math.abs((this.pZ - this.desZ) * 1000f) / 1000f <= pSpeed) {
 			this.pZ = this.desZ;
+		} else {
+			this.pZ += Math.signum(desZ - pZ) * pSpeed;
 		}
 
 	}

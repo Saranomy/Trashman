@@ -58,8 +58,9 @@ public class MenuScene implements IScene {
 
 		angleCar = 0f;
 		textTitle = new TextRenderer(new Font("SansSerif", Font.BOLD, 90));
-		textCredit = new TextRenderer(new Font("SansSerif", Font.BOLD, 20));
 		textInfo = new TextRenderer(new Font("SansSerif", Font.BOLD, 40));
+		textCredit = new TextRenderer(new Font("SansSerif", Font.BOLD, 20));
+
 	}
 
 	@Override
@@ -80,7 +81,7 @@ public class MenuScene implements IScene {
 		gl.glColor3f(1f, 1f, 1f);
 
 		drawBigCar();
-		angleCar += 0.4f;
+		angleCar += 0.8f;
 
 		// draw title
 		String str = "Trashman";
@@ -91,11 +92,11 @@ public class MenuScene implements IScene {
 		textTitle.endRendering();
 
 		// draw credit
-		str = "by 8-bit builder";
+		str = "made by 8-bit builder";
 		textCredit.beginRendering(drawable.getWidth(), drawable.getHeight());
 		textCredit.setColor(1f, 1f, 1f, 1f);
 		textBox = textCredit.getBounds(str);
-		textCredit.draw(str, 400 - ((int) textBox.getWidth() / 2), 440);
+		textCredit.draw(str, 400 - ((int) textBox.getWidth() / 2), 436);
 		textCredit.endRendering();
 
 		// draw info
@@ -105,6 +106,28 @@ public class MenuScene implements IScene {
 		textBox = textInfo.getBounds(str);
 		textInfo.draw(str, 400 - ((int) textBox.getWidth() / 2), 150);
 		textInfo.endRendering();
+
+		// How to play
+		str = "Tip : use Arrow key or WASD to move the truck";
+		textCredit.beginRendering(drawable.getWidth(), drawable.getHeight());
+		textCredit.setColor(1f, 1f, 0f, 1f);
+		textBox = textCredit.getBounds(str);
+		textCredit.draw(str, 400 - ((int) textBox.getWidth() / 2), 120);
+		textCredit.endRendering();
+
+		// credit
+		str = "Thanakorn Panyapiang";
+		textCredit.beginRendering(drawable.getWidth(), drawable.getHeight());
+		textCredit.setColor(0.4f, 0.4f, 0.4f, 1f);
+		textCredit.draw(str, 20, 20);
+		textCredit.endRendering();
+
+		str = "Saran Siripuekpong";
+		textCredit.beginRendering(drawable.getWidth(), drawable.getHeight());
+		textCredit.setColor(0.4f, 0.4f, 0.4f, 1f);
+		textCredit.draw(str, 20, 50);
+		textCredit.endRendering();
+
 	}
 
 	@Override
@@ -117,6 +140,7 @@ public class MenuScene implements IScene {
 	public void keyPressed(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.VK_ENTER) {
 			mainGLCanvas.setScene(1);
+
 		}
 	}
 
