@@ -71,7 +71,8 @@ public class Maze implements ISimpleObject {
 
 					// Top-face
 					float rand = 0.5f + (0.5f * random.nextFloat());
-					gl.glColor3f(rand, rand, rand); // green
+					//gl.glColor3f(rand, rand, rand); // green
+					gl.glColor3f(1f, 1f, 1f);
 					gl.glVertex3f(1.0f, 1.0f, -1.0f);
 					gl.glVertex3f(-1.0f, 1.0f, -1.0f);
 					gl.glVertex3f(-1.0f, 1.0f, 1.0f);
@@ -93,7 +94,7 @@ public class Maze implements ISimpleObject {
 										// texture.getTextureObject());
 
 					gl.glBegin(GL_QUADS);
-
+					gl.glColor3f(1f, 1f, 1f);
 					// Front Face
 					gl.glTexCoord2f(textureLeft, textureBottom);
 					gl.glVertex3f(-1.0f, -1.0f, 1.0f); // bottom-left of the
