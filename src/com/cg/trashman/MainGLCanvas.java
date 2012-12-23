@@ -1,54 +1,29 @@
 package com.cg.trashman;
 
-import static javax.media.opengl.GL.GL_COLOR_BUFFER_BIT;
-import static javax.media.opengl.GL.GL_DEPTH_BUFFER_BIT;
 import static javax.media.opengl.GL.GL_DEPTH_TEST;
 import static javax.media.opengl.GL.GL_LEQUAL;
-import static javax.media.opengl.GL.GL_LINEAR;
 import static javax.media.opengl.GL.GL_NICEST;
-import static javax.media.opengl.GL.GL_TEXTURE_2D;
-import static javax.media.opengl.GL.GL_TEXTURE_MAG_FILTER;
-import static javax.media.opengl.GL.GL_TEXTURE_MIN_FILTER;
 import static javax.media.opengl.GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT;
 import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_AMBIENT;
-import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_DIFFUSE;
-import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_LIGHT1;
-import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_LIGHTING;
-import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_POSITION;
 import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_SMOOTH;
-import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
-import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLEventListener;
-import javax.media.opengl.GLException;
 import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
-import com.cg.trashman.object.Car;
-import com.cg.trashman.object.Cube;
-import com.cg.trashman.object.Maze;
-import com.cg.trashman.object.Pyramid;
-import com.cg.trashman.object.Trash;
 import com.jogamp.opengl.util.FPSAnimator;
-import com.jogamp.opengl.util.awt.TextRenderer;
-import com.jogamp.opengl.util.texture.Texture;
-import com.jogamp.opengl.util.texture.TextureIO;
-// GL constants
-// GL2 constants
 
 /**
  * JOGL 2.0 Example 2: Rotating 3D Shapes (GLCanvas)
@@ -56,16 +31,8 @@ import com.jogamp.opengl.util.texture.TextureIO;
 @SuppressWarnings("serial")
 public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		KeyListener {
-
-	private Cube cube;
-	private Pyramid pyramid;
-	private CameraController cameraController;
-	private Maze maze;
-	private Car car;
-	private List<Trash> trashes;
-	private Texture[] textures;
-
-	private TextRenderer textRenderer;
+	private List<IScene> scenes;
+	private IScene currentScene;
 
 	// Define constants for the top-level container
 	private static String TITLE = "Trashman Alpha 0.1.0"; // window's
@@ -140,6 +107,21 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 
 		GL2 gl = drawable.getGL().getGL2(); // get the OpenGL graphics context
 		glu = new GLU(); // get GL Utilities
+
+		/***
+		 * SCENE CREATOR
+		 */
+		scenes = new ArrayList<IScene>();
+		scenes.add(new GameScene());
+		currentScene = scenes.get(0);
+
+		/***
+		 * INIT ALL SCENES
+		 */
+		for (IScene scene : scenes) {
+			scene.init(gl, glu);
+		}
+
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f); // set background (clear) color
 		gl.glClearDepth(1.0f); // set clear depth value to farthest
 		gl.glEnable(GL_DEPTH_TEST); // enables depth testing
@@ -161,7 +143,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		gl.glEnable(GL2.GL_LIGHT1);
 		gl.glEnable(GL2.GL_LIGHT2);
 		gl.glEnable(GL2.GL_LIGHT3);
-		
+
 		/* fog config */
 		// Set up fog mode
 		// float[] fogColor = { 0.0f, 0.0f, 0.5f, 1.0f };
@@ -171,73 +153,8 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		// gl.glFogf(GL2.GL_FOG_START, 1.0f); // fog start depth
 		// gl.glFogf(GL2.GL_FOG_END, 20.0f); // fog end depth
 		// gl.glEnable(GL2.GL_FOG); // enables GL_FOG
-		// gl.glFogi(GL2.GL_FOG_MODE, GL2.GL_EXP);
+		// gl.glFogi(GL2.GL_FOG_MODE, GL2.GL_EXP)	;
 
-		/* load texture */
-		try {
-			textures = new Texture[16];
-			// buildings
-			textures[0] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/building.png"), false, ".png");
-			textures[1] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/building2.png"), false, ".png");
-			textures[2] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/building3.png"), false, ".png");
-			textures[3] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/building4.png"), false, ".png");
-			textures[4] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/building5.png"), false, ".png");
-			// roofs
-			textures[5] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/roof.png"), false, ".png");
-			textures[6] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/roof2.png"), false, ".png");
-			textures[7] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/roof3.png"), false, ".png");
-			textures[8] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/roof4.png"), false, ".png");
-			textures[9] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/roof5.png"), false, ".png");
-			// road
-			textures[10] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/road.png"), false, ".png");
-			// car
-			textures[11] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/carSide.png"), false, ".png");
-			textures[12] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/carFront.png"), false, ".png");
-			textures[13] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/carBack.png"), false, ".png");
-			textures[14] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/carTop.png"), false, ".png");
-			// trash
-			textures[15] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/trash.png"), false, ".png");
-
-			gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-		} catch (GLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		// init text
-		textRenderer = new TextRenderer(new Font("SansSerif", Font.BOLD, 30));
-
-		initComponent();
-		// Set up CameraController before using it
-		cameraController.setGL(gl, glu);
-	}
-
-	public void initComponent() {
-		cube = new Cube();
-		pyramid = new Pyramid();
-		cameraController = new CameraController();
-		maze = MazeGenerator.createMaze(19, 19, 0.4f, textures);
-		trashes = TrashGenerator.create(maze.getGrid(), textures);
-		car = new Car(maze.getGrid(), textures, trashes);
 	}
 
 	/**
@@ -247,25 +164,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
 			int height) {
-		GL2 gl = drawable.getGL().getGL2(); // get the OpenGL 2 graphics context
-
-		if (height == 0)
-			height = 1; // prevent divide by zero
-		float aspect = (float) width / height;
-
-		// Set the view port (display area) to cover the entire window
-		gl.glViewport(0, 0, width, height);
-
-		// Setup perspective projection, with aspect ratio matches viewport
-		gl.glMatrixMode(GL_PROJECTION); // choose projection matrix
-		gl.glLoadIdentity(); // reset projection matrix
-
-		glu.gluPerspective(45.0, aspect, 0.1, 100.0); // fovy, aspect,
-														// zNear,zFar
-
-		// Enable the model-view transform
-		gl.glMatrixMode(GL_MODELVIEW);
-		gl.glLoadIdentity(); // reset
+		currentScene.reshape(drawable, x, y, width, height);
 	}
 
 	/**
@@ -273,6 +172,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 	 */
 	@Override
 	public void display(GLAutoDrawable drawable) {
+<<<<<<< HEAD
 		GL2 gl = drawable.getGL().getGL2(); // get the OpenGL 2 graphics context
 		gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear color
 																// and depth
@@ -315,6 +215,9 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		textRenderer.setColor(1f, 1f, 1f, 1f);
 		textRenderer.draw("Score: " + car.getScore(), 100, 100);
 		textRenderer.endRendering();
+=======
+		currentScene.display(drawable);
+>>>>>>> Update Scene Manager
 	}
 
 	/**
@@ -327,19 +230,16 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 
 	@Override
 	public void keyPressed(KeyEvent event) {
-		cameraController.keyPressed(event);
-		car.keyPressed(event);
+		currentScene.keyPressed(event);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent event) {
-		cameraController.keyReleased(event);
-		car.keyReleased(event);
+		currentScene.keyReleased(event);
 	}
 
 	@Override
 	public void keyTyped(KeyEvent event) {
-		cameraController.keyTyped(event);
-		car.keyTyped(event);
+		currentScene.keyTyped(event);
 	}
 }
