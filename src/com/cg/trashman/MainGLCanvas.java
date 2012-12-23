@@ -4,7 +4,11 @@ import static javax.media.opengl.GL.GL_COLOR_BUFFER_BIT;
 import static javax.media.opengl.GL.GL_DEPTH_BUFFER_BIT;
 import static javax.media.opengl.GL.GL_DEPTH_TEST;
 import static javax.media.opengl.GL.GL_LEQUAL;
+import static javax.media.opengl.GL.GL_LINEAR;
 import static javax.media.opengl.GL.GL_NICEST;
+import static javax.media.opengl.GL.GL_TEXTURE_2D;
+import static javax.media.opengl.GL.GL_TEXTURE_MAG_FILTER;
+import static javax.media.opengl.GL.GL_TEXTURE_MIN_FILTER;
 import static javax.media.opengl.GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT;
 import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_SMOOTH;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
@@ -15,12 +19,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.List;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLEventListener;
+import javax.media.opengl.GLException;
 import javax.media.opengl.GLProfile;
 import javax.media.opengl.awt.GLCanvas;
 import javax.media.opengl.glu.GLU;
@@ -33,8 +39,11 @@ import com.cg.trashman.object.Maze;
 import com.cg.trashman.object.Pyramid;
 import com.cg.trashman.object.Trash;
 import com.jogamp.opengl.util.FPSAnimator;
+import com.jogamp.opengl.util.texture.Texture;
 // GL constants
 // GL2 constants
+import com.jogamp.opengl.util.texture.TextureCoords;
+import com.jogamp.opengl.util.texture.TextureIO;
 
 /**
  * JOGL 2.0 Example 2: Rotating 3D Shapes (GLCanvas)
@@ -57,6 +66,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 	private Maze maze;
 	private Car car;
 	private List<Trash> trashes;
+	private Texture textureBuilding;
 
 	// Define constants for the top-level container
 	private static String TITLE = "Trashman Alpha 0.1.0"; // window's
@@ -151,6 +161,32 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		// gl.glEnable(GL_FOG); // enables GL_FOG
 		// gl.glFogi(GL_FOG_MODE, GL_EXP);
 
+		/* load texture */
+		try {
+			// Create a OpenGL Texture object from (URL, mipmap, file suffix)
+			// Use URL so that can read from JAR and disk file.
+			textureBuilding = TextureIO.newTexture(getClass().getClassLoader()
+					.getResource("img/building.png"), // relative to project
+														// root
+					false, ".png");
+
+			// Use linear filter for texture if image is larger than the
+			// original texture
+			gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			// Use linear filter for texture if image is smaller than the
+			// original texture
+			gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+			// Texture image flips vertically. Shall use TextureCoords class to
+			// retrieve
+			// the top, bottom, left and right coordinates, instead of using
+			// 0.0f and 1.0f.
+		} catch (GLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		initComponent();
 		// Set up CameraController before using it
 		cameraController.setGL(gl, glu);
@@ -160,7 +196,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		cube = new Cube();
 		pyramid = new Pyramid();
 		cameraController = new CameraController();
-		maze = MazeGenerator.createMaze(19, 19, 0.4f);
+		maze = MazeGenerator.createMaze(19, 19, 0.4f, textureBuilding);
 		trashes = TrashGenerator.create(maze.getGrid());
 		car = new Car(maze.getGrid());
 	}
