@@ -41,6 +41,9 @@ public class GameScene implements IScene {
 	private MainGLCanvas mainGLCanvas;
 
 	private TextRenderer textRenderer;
+	
+	private int frame_counter = 0;
+	private int FPS = 60;
 
 	public GameScene() {
 
@@ -188,6 +191,12 @@ public class GameScene implements IScene {
 		textRenderer.setColor(1f, 1f, 1f, 1f);
 		textRenderer.draw("Score: " + car.getScore(), 100, 100);
 		textRenderer.endRendering();
+		
+		frame_counter++;
+		if( frame_counter == 2 * FPS ){
+			frame_counter = 0;
+			trashes.add(TrashGenerator.newTrash(maze.grid, trashes, textures));
+		}
 	}
 
 	@Override

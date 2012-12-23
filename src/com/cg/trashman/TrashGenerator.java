@@ -21,16 +21,21 @@ public class TrashGenerator {
 		return trashes;
 	}
 	public static Trash newTrash(boolean[][] grid,List<Trash> trashes, Texture[] textures){
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid[0].length; j++) {
-				if (!grid[i][j] ) {
-					for( Trash t : trashes ){
-						if( t.getRow() != i && t.getCol() != j )
-							return new Trash(i,j,textures);
-					}
-				}
+		Random r = new Random(System.currentTimeMillis());
+		while( true ){
+			int i = r.nextInt(grid.length);
+			int j = r.nextInt(grid[0].length);
+			if (!grid[i][j] && !hasTrashAt(i,j,trashes) ) {
+				return new Trash(i,j,textures);
 			}
 		}
-		return null;
+		//return null;
+	}
+	private static boolean hasTrashAt(int row,int col,List<Trash> trashes){
+		for( Trash t : trashes ){
+			if( t.getRow() == row && t.getCol() == col )
+				return true;
+		}
+		return false;
 	}
 }
