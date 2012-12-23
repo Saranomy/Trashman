@@ -14,7 +14,7 @@ public class MazeGenerator {
 		}
 	}
 
-	public static Maze createMaze(int row,int col){
+	public static Maze createMaze(int row,int col,float density){
 		
 		Maze maze = new Maze(row,col);
 		
@@ -23,15 +23,19 @@ public class MazeGenerator {
 		int group = 1;
 		
 		for(int i = 1 ; i < row - 1 ; i+=2 ){
-			for(int j = 1 ; j < col ; j+= 2){
+			for(int j = 1 ; j < col ; j+=2 ){
 				groups[i][j] = group;
 				group++;
 			}
 		}
 		
+		int wall_count = 81 ;
+		
 		while(true){
 			int x = random.nextInt(row);
 			int y = random.nextInt(col); 
+			
+			//System.out.printf("%d %d\n",x,y );
 			
 			int dir = random.nextInt(4);
 			int dx,dy;
@@ -73,16 +77,21 @@ public class MazeGenerator {
 			}
 			
 			maze.grid[mx][my] = true;
+			wall_count++;
 			
-			boolean done = true;
-			for(int i = 1 ; i < row - 1 && done; i+=2){
-				for(int j = 1 ; j < col -1 && done; j+=2){
-					if( groups[i][j] != id )
-						done = false;
-				}
-			}
+			System.out.println(wall_count);
 			
-			if(done) break;
+			if( (float)wall_count / (float)(row*col) >= density  ) break;
+			
+//			boolean done = true;
+//			for(int i = 1 ; i < row - 1 && done; i+=2){
+//				for(int j = 1 ; j < col -1 && done; j+=2){
+//					if( groups[i][j] != id )
+//						done = false;
+//				}
+//			}
+//			
+//			if(done) break;
 			
 		}
 		
