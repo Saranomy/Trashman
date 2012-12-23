@@ -35,10 +35,9 @@ public class MazeGenerator {
 		int wall_count = (int) (row / 2) * (int) (col / 2);
 
 		while (true) {
+			
 			int x = random.nextInt(row);
 			int y = random.nextInt(col);
-
-			// System.out.printf("%d %d\n",x,y );
 
 			int dir = random.nextInt(4);
 			int dx, dy;
