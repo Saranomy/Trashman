@@ -9,7 +9,7 @@ public class Car implements ISimpleObject {
 	private float pZ;
 	private float abstractX;
 	private float abstractZ;
-	private float pSpeed = 0.1f;
+	private float pSpeed = 0.07f;
 	private static final float size = 0.4f;
 
 	public Car() {

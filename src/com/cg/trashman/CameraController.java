@@ -26,11 +26,11 @@ public class CameraController {
 	private static final float START_CAMERA_X = -11.0f;
 	private static final float START_CAMERA_Y = -19.2f;
 	private static final float START_CAMERA_Z = -2.0f;
-	private static final float START_ROT = 45f; // 32.6f;
+	private static final float START_ROT = 32.6f;
 	private static final float START_ROT_X = 1.0f;
 	private static final float START_ROT_Y = 0.0f;
 	private static final float START_ROT_Z = 0.0f;
-	private static final float CAMERA_ACC = 1f; // must < car speed
+	private static final float CAMERA_ACC = 0.001f; // must < car speed
 
 	public CameraController() { 
 		pX = START_CAMERA_X;
