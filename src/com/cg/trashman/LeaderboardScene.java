@@ -92,7 +92,7 @@ public class LeaderboardScene implements IScene {
 		// draw score
 		str = String.format("$%04d", score.getScore());
 		textTitle.beginRendering(drawable.getWidth(), drawable.getHeight());
-		textTitle.setColor(1f, 1f, 1f, 1f);
+		textTitle.setColor(1f, 1f, 0f, 1f);
 		textBox = textTitle.getBounds(str);
 		textTitle.draw(str, 400 - ((int) textBox.getWidth() / 2), 360);
 		textTitle.endRendering();

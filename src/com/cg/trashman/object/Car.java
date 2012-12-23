@@ -22,6 +22,7 @@ public class Car implements ISimpleObject {
 	private float pDefaultSpeed = 0.2000000000000000000000f;
 	private float pSpeed = pDefaultSpeed;
 	private Direction direction;
+	private Direction lastDirection;
 	private boolean[][] mazeGrid;
 	private int gridX;
 	private int gridZ;
@@ -41,7 +42,7 @@ public class Car implements ISimpleObject {
 		Stop, Up, Down, Left, Right
 	}
 
-	private static float size = 0.85f;
+	private float size;
 
 	public Car(boolean[][] mazeGrid, Texture[] textures, List<Trash> trashes) {
 		pX = 0f;
@@ -49,6 +50,7 @@ public class Car implements ISimpleObject {
 		desX = pX;
 		desZ = pZ;
 		direction = Direction.Stop;
+		lastDirection = Direction.Stop;
 		this.mazeGrid = mazeGrid;
 		gridX = 0;
 		gridZ = 0;
@@ -66,6 +68,7 @@ public class Car implements ISimpleObject {
 		textScore = new TextRenderer(new Font("SansSerif", Font.BOLD, 40));
 		lastScore = 0;
 		scoreTrans = 0f;
+		size = 0.85f;
 	}
 
 	public void updateMazePosition(int row, int col) {
@@ -76,10 +79,12 @@ public class Car implements ISimpleObject {
 	public void addMazePositionX(int dX) {
 		// out of range
 		if (gridX + dX >= mazeGrid.length || gridX + dX < 0) {
+			lastDirection = direction;
 			direction = Direction.Stop;
 			return;
 		}
 		if (mazeGrid[gridX + dX][gridZ]) {
+			lastDirection = direction;
 			direction = Direction.Stop;
 		} else {
 			gridX += dX;
@@ -93,10 +98,12 @@ public class Car implements ISimpleObject {
 	public void addMazePositionZ(int dZ) {
 		// out of range
 		if (gridZ + dZ >= mazeGrid[0].length || gridZ + dZ < 0) {
+			lastDirection = direction;
 			direction = Direction.Stop;
 			return;
 		}
 		if (mazeGrid[gridX][gridZ + dZ]) {
+			lastDirection = direction;
 			direction = Direction.Stop;
 		} else {
 			gridZ += dZ;
@@ -167,13 +174,16 @@ public class Car implements ISimpleObject {
 		// screen
 		gl.glTranslatef(0, 0, -pZ);
 		gl.glTranslatef(pX, 0, 0);
-		if (direction == Direction.Up)
+		Direction movingDirection = direction;
+		if (direction == Direction.Stop)
+			movingDirection = lastDirection;
+		if (movingDirection == Direction.Up)
 			gl.glRotatef(-90f, 0f, 1f, 0f);
-		else if (direction == Direction.Down)
+		else if (movingDirection == Direction.Down)
 			gl.glRotatef(90f, 0f, 1f, 0f);
-		else if (direction == Direction.Left)
+		else if (movingDirection == Direction.Left)
 			gl.glRotatef(0f, 0f, 1f, 0f);
-		else if (direction == Direction.Right)
+		else if (movingDirection == Direction.Right)
 			gl.glRotatef(180f, 0f, 1f, 0f);
 
 		// side car (for front face)
@@ -269,13 +279,13 @@ public class Car implements ISimpleObject {
 				int trashPoint = t.getScore();
 				score.add(trashPoint);
 				trashes.remove(t);
-				
+
 				// update popup Score
 				lastScore = trashPoint;
 				scoreTrans = 1f;
-				
+
 				// update Truck size
-				size = 0.85f + (score.getScore()/20000f);
+				size = 0.85f + (score.getScore() / 15000f);
 				i--;
 			}
 		}
