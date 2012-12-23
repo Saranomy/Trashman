@@ -108,7 +108,7 @@ public class MenuScene implements IScene {
 		textInfo.endRendering();
 
 		// How to play
-		str = "Tip : use Arrow key or WASD to move the truck";
+		str = "Tip : Use arrow keys or WASD to move the truck";
 		textCredit.beginRendering(drawable.getWidth(), drawable.getHeight());
 		textCredit.setColor(1f, 1f, 0f, 1f);
 		textBox = textCredit.getBounds(str);

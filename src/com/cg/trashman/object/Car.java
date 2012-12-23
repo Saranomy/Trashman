@@ -64,6 +64,7 @@ public class Car implements ISimpleObject {
 
 		this.trashes = trashes;
 		score = Score.getInstance();
+		score.reset();
 
 		textScore = new TextRenderer(new Font("SansSerif", Font.BOLD, 40));
 		lastScore = 0;
