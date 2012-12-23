@@ -15,7 +15,7 @@ public class Maze implements ISimpleObject {
 	public boolean grid[][];
 	private int row;
 	private int col;
-	public Texture[] textures;
+	private Texture[] textures;
 	private float textureTop;
 	private float textureBottom;
 	private float textureLeft;

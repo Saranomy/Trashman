@@ -31,7 +31,7 @@ public class Car implements ISimpleObject {
 		Stop, Up, Down, Left, Right
 	}
 
-	private static final float size = 3f;
+	private static final float size = 0.8f;
 
 	public Car(boolean[][] mazeGrid, Texture[] textures) {
 		pX = 0f;
@@ -130,14 +130,14 @@ public class Car implements ISimpleObject {
 		gl.glTranslatef(0, 0, -pZ);
 		gl.glTranslatef(pX, 0, 0);
 		if (direction == Direction.Up)
-			gl.glRotatef(90f, 0f, 1f, 0f);
-		else if (direction == Direction.Down)
 			gl.glRotatef(-90f, 0f, 1f, 0f);
+		else if (direction == Direction.Down)
+			gl.glRotatef(90f, 0f, 1f, 0f);
 		else if (direction == Direction.Left)
 			gl.glRotatef(0f, 0f, 1f, 0f);
 		else if (direction == Direction.Right)
 			gl.glRotated(180, 0f, 1f, 0f);
-		
+
 		// side car (for front face)
 		textures[11].enable(gl);
 		textures[11].bind(gl);
@@ -153,24 +153,24 @@ public class Car implements ISimpleObject {
 		gl.glVertex3f(-size, 0.5f * size, 0.5f * size);
 		gl.glEnd();
 
-		// side car (inverse front face)
+		// inverse front face
 		textures[11].enable(gl);
 		textures[11].bind(gl);
 		gl.glBegin(GL_QUADS);
 		// Back Face
-		gl.glTexCoord2f(textureRight, textureBottom);
-		gl.glVertex3f(-size, -0.5f * size, -0.5f * size);
-		gl.glTexCoord2f(textureRight, textureTop);
-		gl.glVertex3f(-size, 0.5f * size, -0.5f * size);
-		gl.glTexCoord2f(textureLeft, textureTop);
-		gl.glVertex3f(size, 0.5f * size, -0.5f * size);
 		gl.glTexCoord2f(textureLeft, textureBottom);
+		gl.glVertex3f(-size, -0.5f * size, -0.5f * size);
+		gl.glTexCoord2f(textureLeft, textureTop);
+		gl.glVertex3f(-size, 0.5f * size, -0.5f * size);
+		gl.glTexCoord2f(textureRight, textureTop);
+		gl.glVertex3f(size, 0.5f * size, -0.5f * size);
+		gl.glTexCoord2f(textureRight, textureBottom);
 		gl.glVertex3f(size, -0.5f * size, -0.5f * size);
 		gl.glEnd();
 
-		// back car (for Top face)
-		textures[13].enable(gl);
-		textures[13].bind(gl);
+		// top car (for Top face)
+		textures[14].enable(gl);
+		textures[14].bind(gl);
 		gl.glBegin(GL_QUADS);
 		// Top Face
 		gl.glTexCoord2f(textureLeft, textureTop);
@@ -182,22 +182,11 @@ public class Car implements ISimpleObject {
 		gl.glTexCoord2f(textureRight, textureTop);
 		gl.glVertex3f(size, 0.5f * size, -0.5f * size);
 		gl.glEnd();
-		
-		// go back to building (0,4)
-		textures[11].enable(gl);
-		textures[11].bind(gl);
+
+		// carBack
+		textures[13].enable(gl);
+		textures[13].bind(gl);
 		gl.glBegin(GL_QUADS);
-
-		// Bottom Face
-		gl.glTexCoord2f(textureRight, textureTop);
-		gl.glVertex3f(-size, -0.5f * size, -0.5f * size);
-		gl.glTexCoord2f(textureLeft, textureTop);
-		gl.glVertex3f(size, -0.5f * size, -0.5f * size);
-		gl.glTexCoord2f(textureLeft, textureBottom);
-		gl.glVertex3f(size, -0.5f * size, 0.5f * size);
-		gl.glTexCoord2f(textureRight, textureBottom);
-		gl.glVertex3f(-size, -0.5f * size, 0.5f * size);
-
 		// Right face
 		gl.glTexCoord2f(textureRight, textureBottom);
 		gl.glVertex3f(size, -0.5f * size, -0.5f * size);
@@ -207,7 +196,12 @@ public class Car implements ISimpleObject {
 		gl.glVertex3f(size, 0.5f * size, 0.5f * size);
 		gl.glTexCoord2f(textureLeft, textureBottom);
 		gl.glVertex3f(size, -0.5f * size, 0.5f * size);
+		gl.glEnd();
 
+		// carFront
+		textures[12].enable(gl);
+		textures[12].bind(gl);
+		gl.glBegin(GL_QUADS);
 		// Left Face
 		gl.glTexCoord2f(textureLeft, textureBottom);
 		gl.glVertex3f(-size, -0.5f * size, -0.5f * size);
@@ -217,7 +211,6 @@ public class Car implements ISimpleObject {
 		gl.glVertex3f(-size, 0.5f * size, 0.5f * size);
 		gl.glTexCoord2f(textureLeft, textureTop);
 		gl.glVertex3f(-size, 0.5f * size, -0.5f * size);
-
 		gl.glEnd();
 	}
 
