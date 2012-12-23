@@ -209,7 +209,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		float[] r = cameraController.getRotation();
 
 		cameraController.update();
-		cameraController.setDestination(-car.getX(), -19, -5 + car.getZ());
+		cameraController.setDestination(-car.getX(), -19, -10 + car.getZ());
 
 		// Update camera translation
 		gl.glMatrixMode(GL_PROJECTION);

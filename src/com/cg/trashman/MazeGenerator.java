@@ -79,8 +79,6 @@ public class MazeGenerator {
 			maze.grid[mx][my] = true;
 			wall_count++;
 			
-			System.out.println(wall_count);
-			
 			if( (float)wall_count / (float)(row*col) >= density  ) break;
 			
 //			boolean done = true;
