@@ -162,24 +162,36 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 
 		/* load texture */
 		try {
-			textures = new Texture[3];
+			textures = new Texture[11];
+			// buildings
 			textures[0] = TextureIO.newTexture(getClass().getClassLoader()
 					.getResource("img/building.png"), false, ".png");
 			textures[1] = TextureIO.newTexture(getClass().getClassLoader()
-					.getResource("img/roof.png"), false, ".png");
+					.getResource("img/building2.png"), false, ".png");
 			textures[2] = TextureIO.newTexture(getClass().getClassLoader()
+					.getResource("img/building3.png"), false, ".png");
+			textures[3] = TextureIO.newTexture(getClass().getClassLoader()
+					.getResource("img/building2.png"), false, ".png");
+			textures[4] = TextureIO.newTexture(getClass().getClassLoader()
+					.getResource("img/building2.png"), false, ".png");
+			// roofs
+			textures[5] = TextureIO.newTexture(getClass().getClassLoader()
+					.getResource("img/roof.png"), false, ".png");
+			textures[6] = TextureIO.newTexture(getClass().getClassLoader()
+					.getResource("img/roof2.png"), false, ".png");
+			textures[7] = TextureIO.newTexture(getClass().getClassLoader()
+					.getResource("img/roof3.png"), false, ".png");
+			textures[8] = TextureIO.newTexture(getClass().getClassLoader()
+					.getResource("img/roof2.png"), false, ".png");
+			textures[9] = TextureIO.newTexture(getClass().getClassLoader()
+					.getResource("img/roof2.png"), false, ".png");
+			// road
+			textures[10] = TextureIO.newTexture(getClass().getClassLoader()
 					.getResource("img/road.png"), false, ".png");
-			// Use linear filter for texture if image is larger than the
-			// original texture
+			
 			gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			// Use linear filter for texture if image is smaller than the
-			// original texture
 			gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
-			// Texture image flips vertically. Shall use TextureCoords class to
-			// retrieve
-			// the top, bottom, left and right coordinates, instead of using
-			// 0.0f and 1.0f.
+			
 		} catch (GLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

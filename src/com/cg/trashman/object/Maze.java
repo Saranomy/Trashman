@@ -60,6 +60,7 @@ public class Maze implements ISimpleObject {
 	}
 
 	private void render(GL2 gl) {
+		Random random = new Random(0);
 		for (int i = 0; i < row; i++) {
 			for (int j = 0; j < col; j++) {
 				if (!grid[i][j]) {
@@ -67,8 +68,8 @@ public class Maze implements ISimpleObject {
 					gl.glTranslatef(2f * i, -2f, -2f * j);
 					gl.glColor3f(1f, 1f, 1f);
 					// road
-					textures[2].enable(gl);
-					textures[2].bind(gl);
+					textures[10].enable(gl);
+					textures[10].bind(gl);
 
 					gl.glBegin(GL_QUADS); // of the color cube
 
@@ -83,12 +84,17 @@ public class Maze implements ISimpleObject {
 					gl.glVertex3f(1.0f, 1.0f, 1.0f);
 					gl.glEnd();
 				} else {
+					// random building id (0,4)
+					int buildingId = random.nextInt(4);
+					// random roof id (5,9)
+					int roofId = 5 + buildingId;
+					
 					gl.glLoadIdentity(); // reset the current model-view matrix
 					gl.glTranslatef(2f * i, 0f, -2f * j);
 
-					// building
-					textures[0].enable(gl);
-					textures[0].bind(gl);
+					// building (0,4)
+					textures[buildingId].enable(gl);
+					textures[buildingId].bind(gl);
 
 					gl.glBegin(GL_QUADS);
 					// Front Face
@@ -116,9 +122,9 @@ public class Maze implements ISimpleObject {
 					gl.glVertex3f(1.0f, -1.0f, -1.0f);
 
 					gl.glEnd();
-					// roof
-					textures[1].enable(gl);
-					textures[1].bind(gl);
+					// roof (5,9)
+					textures[roofId].enable(gl);
+					textures[roofId].bind(gl);
 					gl.glBegin(GL_QUADS);
 
 					// Top Face
@@ -132,9 +138,9 @@ public class Maze implements ISimpleObject {
 					gl.glVertex3f(1.0f, 1.0f, -1.0f);
 
 					gl.glEnd();
-					// go back to building
-					textures[0].enable(gl);
-					textures[0].bind(gl);
+					// go back to building (0,4)
+					textures[buildingId].enable(gl);
+					textures[buildingId].bind(gl);
 					gl.glBegin(GL_QUADS);
 
 					// Bottom Face
