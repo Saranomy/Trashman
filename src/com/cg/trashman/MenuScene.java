@@ -7,12 +7,15 @@ import static javax.media.opengl.GL2.GL_QUADS;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 
+import java.awt.Font;
 import java.awt.event.KeyEvent;
+import java.awt.geom.Rectangle2D;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLU;
 
+import com.jogamp.opengl.util.awt.TextRenderer;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureCoords;
 
@@ -25,6 +28,10 @@ public class MenuScene implements IScene {
 	private float textureBottom;
 	private float textureLeft;
 	private float textureRight;
+
+	private float angleCar;
+	private TextRenderer textTitle;
+	private TextRenderer textInfo;
 
 	public MenuScene() {
 
@@ -41,121 +48,47 @@ public class MenuScene implements IScene {
 		textureBottom = textureCoords.bottom();
 		textureLeft = textureCoords.left();
 		textureRight = textureCoords.right();
+
+		angleCar = 0f;
+		textTitle = new TextRenderer(new Font("SansSerif", Font.BOLD, 90));
+		textInfo = new TextRenderer(new Font("SansSerif", Font.BOLD, 40));
 	}
 
 	@Override
-	public void reshape(GLAutoDrawable drawable, int x, int y, int width, int height) {
-		
+	public void reshape(GLAutoDrawable drawable, int x, int y, int width,
+			int height) {
+
 	}
 
 	@Override
 	public void display(GLAutoDrawable drawable) {
-		GL2 gl = drawable.getGL().getGL2(); // get the OpenGL 2 graphics context
-		gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear color
-																// and depth
-																// buffers
-		gl.glLoadIdentity(); // reset the model-view matrix
-
-		// ----- Render the Pyramid -----
-		gl.glLoadIdentity(); // reset the model-view matrix
-		gl.glTranslatef(-1.5f, 0.0f, -6.0f); // translate left and into the
-												// screen
-		// gl.glRotatef(anglePyramid, 0.1f, 1.0f, -0.1f); // rotate about the
-		// y-axis
-
-		gl.glBegin(GL_TRIANGLES); // of the pyramid
-
-		// Font-face triangle
-		gl.glColor3f(1.0f, 0.0f, 0.0f); // Red
-		gl.glVertex3f(0.0f, 1.0f, 0.0f);
-		gl.glColor3f(0.0f, 1.0f, 0.0f); // Green
-		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
-		gl.glColor3f(0.0f, 0.0f, 1.0f); // Blue
-		gl.glVertex3f(1.0f, -1.0f, 1.0f);
-
-		// Right-face triangle
-		gl.glColor3f(1.0f, 0.0f, 0.0f); // Red
-		gl.glVertex3f(0.0f, 1.0f, 0.0f);
-		gl.glColor3f(0.0f, 0.0f, 1.0f); // Blue
-		gl.glVertex3f(1.0f, -1.0f, 1.0f);
-		gl.glColor3f(0.0f, 1.0f, 0.0f); // Green
-		gl.glVertex3f(1.0f, -1.0f, -1.0f);
-
-		// Back-face triangle
-		gl.glColor3f(1.0f, 0.0f, 0.0f); // Red
-		gl.glVertex3f(0.0f, 1.0f, 0.0f);
-		gl.glColor3f(0.0f, 1.0f, 0.0f); // Green
-		gl.glVertex3f(1.0f, -1.0f, -1.0f);
-		gl.glColor3f(0.0f, 0.0f, 1.0f); // Blue
-		gl.glVertex3f(-1.0f, -1.0f, -1.0f);
-
-		// Left-face triangle
-		gl.glColor3f(1.0f, 0.0f, 0.0f); // Red
-		gl.glVertex3f(0.0f, 1.0f, 0.0f);
-		gl.glColor3f(0.0f, 0.0f, 1.0f); // Blue
-		gl.glVertex3f(-1.0f, -1.0f, -1.0f);
-		gl.glColor3f(0.0f, 1.0f, 0.0f); // Green
-		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
-
-		gl.glEnd(); // of the pyramid
-
-		// ----- Render the Color Cube -----
-		gl.glLoadIdentity(); // reset the current model-view matrix
-		gl.glTranslatef(1.5f, 0.0f, -7.0f); // translate right and into the
-											// screen
-		// gl.glRotatef(angleCube, 1.0f, 1.0f, 1.0f); // rotate about the x, y
-		// and z-axes
-
-		gl.glBegin(GL_QUADS); // of the color cube
-
-		// Top-face
-		gl.glColor3f(0.0f, 1.0f, 0.0f); // green
-		gl.glVertex3f(1.0f, 1.0f, -1.0f);
-		gl.glVertex3f(-1.0f, 1.0f, -1.0f);
-		gl.glVertex3f(-1.0f, 1.0f, 1.0f);
-		gl.glVertex3f(1.0f, 1.0f, 1.0f);
-
-		// Bottom-face
-		gl.glColor3f(1.0f, 0.5f, 0.0f); // orange
-		gl.glVertex3f(1.0f, -1.0f, 1.0f);
-		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
-		gl.glVertex3f(-1.0f, -1.0f, -1.0f);
-		gl.glVertex3f(1.0f, -1.0f, -1.0f);
-
-		// Front-face
-		gl.glColor3f(1.0f, 0.0f, 0.0f); // red
-		gl.glVertex3f(1.0f, 1.0f, 1.0f);
-		gl.glVertex3f(-1.0f, 1.0f, 1.0f);
-		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
-		gl.glVertex3f(1.0f, -1.0f, 1.0f);
-
-		// Back-face
-		gl.glColor3f(1.0f, 1.0f, 0.0f); // yellow
-		gl.glVertex3f(1.0f, -1.0f, -1.0f);
-		gl.glVertex3f(-1.0f, -1.0f, -1.0f);
-		gl.glVertex3f(-1.0f, 1.0f, -1.0f);
-		gl.glVertex3f(1.0f, 1.0f, -1.0f);
-
-		// Left-face
-		gl.glColor3f(0.0f, 0.0f, 1.0f); // blue
-		gl.glVertex3f(-1.0f, 1.0f, 1.0f);
-		gl.glVertex3f(-1.0f, 1.0f, -1.0f);
-		gl.glVertex3f(-1.0f, -1.0f, -1.0f);
-		gl.glVertex3f(-1.0f, -1.0f, 1.0f);
-
-		// Right-face
-		gl.glColor3f(1.0f, 0.0f, 1.0f); // violet
-		gl.glVertex3f(1.0f, 1.0f, -1.0f);
-		gl.glVertex3f(1.0f, 1.0f, 1.0f);
-		gl.glVertex3f(1.0f, -1.0f, 1.0f);
-		gl.glVertex3f(1.0f, -1.0f, -1.0f);
-
-		gl.glEnd(); // of the color cube
-		
 		gl.glMatrixMode(GL_PROJECTION);
 		gl.glLoadIdentity();
 		glu.gluPerspective(45.0, 1.55f, 0.1, 100.0);
 		gl.glMatrixMode(GL_MODELVIEW);
+
+		GL2 gl = drawable.getGL().getGL2(); // get the OpenGL 2 graphics context
+		gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		gl.glColor3f(1f, 1f, 1f);
+
+		drawBigCar();
+		angleCar += 0.4f;
+
+		// draw title
+		String str = "Trashman";
+		textTitle.beginRendering(drawable.getWidth(), drawable.getHeight());
+		textTitle.setColor(1f, 1f, 1f, 1f);
+		Rectangle2D textBox = textTitle.getBounds(str);
+		textTitle.draw(str, 400 - ((int) textBox.getWidth() / 2), 460);
+		textTitle.endRendering();
+
+		// draw info
+		str = "Press Enter To Play";
+		textInfo.beginRendering(drawable.getWidth(), drawable.getHeight());
+		textInfo.setColor(1f, 1f, 1f, 1f);
+		textBox = textInfo.getBounds(str);
+		textInfo.draw(str, 400 - ((int) textBox.getWidth() / 2), 150);
+		textInfo.endRendering();
 	}
 
 	@Override
@@ -189,7 +122,9 @@ public class MenuScene implements IScene {
 		gl.glLoadIdentity(); // reset the current model-view matrix
 		// gl.glTranslatef(pX, 0, 0); // translate right and into the
 		// screen
-		gl.glTranslatef(-1.5f, 0.0f, -6.0f);
+
+		gl.glTranslatef(0f, 0.0f, -5.0f);
+		gl.glRotatef(angleCar, 0f, 1f, 0f);
 		// side car (for front face)
 		textures[11].enable(gl);
 		textures[11].bind(gl);

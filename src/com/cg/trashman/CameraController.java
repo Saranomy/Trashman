@@ -33,7 +33,7 @@ public class CameraController {
 	private static final int DECELERATE = -1;
 	
 	private static final float START_CAMERA_X = -11.0f;
-	private static final float START_CAMERA_Y = -19.2f;
+	private static final float START_CAMERA_Y = -14.2f;
 	private static final float START_CAMERA_Z = -2.0f;
 	private static final float START_ROT = 32.6f;
 	private static final float START_ROT_X = 1.0f;

@@ -30,13 +30,13 @@ public class GameScene implements IScene {
 	private List<Trash> trashes;
 	private Texture[] textures;
 	private CountDownTimer timer;
-	
+
 	private GL2 gl;
 	private GLU glu;
 	private MainGLCanvas mainGLCanvas;
 
 	private TextRenderer textRenderer;
-	
+
 	private int frame_counter = 0;
 	private int FPS = 60;
 
@@ -62,7 +62,7 @@ public class GameScene implements IScene {
 	public void initComponent() {
 		timer = new CountDownTimer();
 		timer.start();
-		
+
 		cube = new Cube();
 		pyramid = new Pyramid();
 		cameraController = new CameraController();
@@ -117,7 +117,7 @@ public class GameScene implements IScene {
 		float[] r = cameraController.getRotation();
 
 		cameraController.update();
-		cameraController.setDestination(-car.getX(), -19, -10 + car.getZ());
+		cameraController.setDestination(-car.getX(), -14.2f, -10f + car.getZ());
 
 		// Update camera translation
 		gl.glMatrixMode(GL_PROJECTION);
@@ -139,15 +139,15 @@ public class GameScene implements IScene {
 		textRenderer.setColor(1f, 1f, 1f, 1f);
 		textRenderer.draw("Score: " + car.getScore(), 50, 70);
 		textRenderer.endRendering();
-		
+
 		// draw time
 		textRenderer.beginRendering(drawable.getWidth(), drawable.getHeight());
 		textRenderer.setColor(1f, 1f, 1f, 1f);
 		textRenderer.draw("Time: " + timer.getTime(), 50, 5);
 		textRenderer.endRendering();
-		
+
 		frame_counter++;
-		if( frame_counter == FPS ){
+		if (frame_counter == FPS) {
 			frame_counter = 0;
 			trashes.add(TrashGenerator.newTrash(maze.grid, trashes, textures));
 		}
