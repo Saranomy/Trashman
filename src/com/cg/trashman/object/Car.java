@@ -1,34 +1,58 @@
 package com.cg.trashman.object;
 
 import static javax.media.opengl.GL2.GL_QUADS;
+
+import java.awt.event.KeyEvent;
+
 import javax.media.opengl.GL2;
 import com.cg.trashman.ISimpleObject;
 
 public class Car implements ISimpleObject {
 	private float pX;
 	private float pZ;
-	private float abstractX;
-	private float abstractZ;
-	private float pSpeed = 0.07f;
+	private float desX;
+	private float desZ;
+	private float pSpeed = 0f;
+	private float pAcc = 0.07f;
 	private static final float size = 0.4f;
 
 	public Car() {
 		pX = 0f;
 		pZ = 0f;
-		abstractX = pX;
-		abstractZ = pZ;
+		desX = pX;
+		desZ = pZ;
 	}
 
 	public void updateMazePosition(int row, int col) {
-		abstractX = row * 2f;
-		abstractZ = col * 2f;
+		desX = row * 2f;
+		desZ = col * 2f;
+	}
+
+	public void addMazePositionX(int dX) {
+		desX += dX * 2f;
+	}
+
+	public void addMazePositionZ(int dZ) {
+		desZ += dZ * 2f;
 	}
 
 	@Override
 	public void update(GL2 gl, Object arg) {
-		pX += pSpeed;
-		pZ += pSpeed;
 		render(gl);
+		
+		if (this.desX == pX && this.desZ == pZ) {
+			pSpeed = 0;
+			return;
+		}
+		this.pX += Math.signum(desX - pX) * pSpeed;
+		if (Math.abs((this.pX - this.desX) * 1000f) / 1000f < pSpeed) {
+			this.pX = this.desX;
+		}
+		this.pZ += Math.signum(desZ - pZ) * pSpeed;
+		if (Math.abs((this.pZ - this.desZ) * 1000f) / 1000f < pSpeed) {
+			this.pZ = this.desZ;
+		}
+		pSpeed += pAcc;
 	}
 
 	public float getX() {
@@ -42,8 +66,8 @@ public class Car implements ISimpleObject {
 	private void render(GL2 gl) {
 		// ----- Render the Color Cube -----
 		gl.glLoadIdentity(); // reset the current model-view matrix
-		//gl.glTranslatef(pX, 0, 0); // translate right and into the
-									// screen
+		// gl.glTranslatef(pX, 0, 0); // translate right and into the
+		// screen
 		gl.glTranslatef(0, 0, -pZ);
 		gl.glTranslatef(pX, 0, 0);
 		gl.glBegin(GL_QUADS); // of the color cube
@@ -91,5 +115,27 @@ public class Car implements ISimpleObject {
 		gl.glVertex3f(size, -size, -size);
 
 		gl.glEnd(); // of the color cube
+	}
+
+	public void keyPressed(KeyEvent event) {
+		if (event.getKeyCode() == KeyEvent.VK_I) {
+			addMazePositionZ(1);
+		}
+		if (event.getKeyCode() == KeyEvent.VK_K) {
+			addMazePositionZ(-1);
+		}
+		if (event.getKeyCode() == KeyEvent.VK_J) {
+			addMazePositionX(-1);
+		}
+		if (event.getKeyCode() == KeyEvent.VK_L) {
+			addMazePositionX(1);
+		}
+	}
+
+	public void keyReleased(KeyEvent event) {
+	}
+
+	public void keyTyped(KeyEvent event) {
+
 	}
 }

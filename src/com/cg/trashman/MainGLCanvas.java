@@ -209,7 +209,6 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		float[] r = cameraController.getRotation();
 
 		cameraController.update();
-
 		cameraController.setDestination(-car.getX(), -19, -5 + car.getZ());
 
 		// Update camera translation
@@ -240,15 +239,18 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 	@Override
 	public void keyPressed(KeyEvent event) {
 		cameraController.keyPressed(event);
+		car.keyPressed(event);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent event) {
 		cameraController.keyReleased(event);
+		car.keyReleased(event);
 	}
 
 	@Override
 	public void keyTyped(KeyEvent event) {
 		cameraController.keyTyped(event);
+		car.keyTyped(event);
 	}
 }
