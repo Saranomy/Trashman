@@ -2,21 +2,15 @@ package com.cg.trashman;
 
 import static javax.media.opengl.GL.GL_COLOR_BUFFER_BIT;
 import static javax.media.opengl.GL.GL_DEPTH_BUFFER_BIT;
-import static javax.media.opengl.GL.GL_LINEAR;
-import static javax.media.opengl.GL.GL_TEXTURE_2D;
-import static javax.media.opengl.GL.GL_TEXTURE_MAG_FILTER;
-import static javax.media.opengl.GL.GL_TEXTURE_MIN_FILTER;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 
 import java.awt.Font;
 import java.awt.event.KeyEvent;
-import java.io.IOException;
 import java.util.List;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GLException;
 import javax.media.opengl.glu.GLU;
 
 import com.cg.trashman.object.Car;
@@ -26,7 +20,6 @@ import com.cg.trashman.object.Pyramid;
 import com.cg.trashman.object.Trash;
 import com.jogamp.opengl.util.awt.TextRenderer;
 import com.jogamp.opengl.util.texture.Texture;
-import com.jogamp.opengl.util.texture.TextureIO;
 
 public class GameScene implements IScene {
 	private Cube cube;
@@ -143,7 +136,7 @@ public class GameScene implements IScene {
 		textRenderer.endRendering();
 		
 		frame_counter++;
-		if( frame_counter == 2 * FPS ){
+		if( frame_counter == FPS ){
 			frame_counter = 0;
 			trashes.add(TrashGenerator.newTrash(maze.grid, trashes, textures));
 		}

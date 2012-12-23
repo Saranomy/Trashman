@@ -13,7 +13,7 @@ public class TrashGenerator {
 		List<Trash> trashes = new ArrayList<Trash>();
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[0].length; j++) {
-				if (!grid[i][j] && random.nextFloat() < 0.2) {
+				if (!grid[i][j] && random.nextFloat() < 0.1) {
 					trashes.add(new Trash(i, j, textures));
 				}
 			}
