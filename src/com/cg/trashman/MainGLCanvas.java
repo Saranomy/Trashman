@@ -3,19 +3,8 @@ package com.cg.trashman;
 import static javax.media.opengl.GL.GL_COLOR_BUFFER_BIT;
 import static javax.media.opengl.GL.GL_DEPTH_BUFFER_BIT;
 import static javax.media.opengl.GL.GL_DEPTH_TEST;
-import static javax.media.opengl.GL.GL_DONT_CARE;
 import static javax.media.opengl.GL.GL_LEQUAL;
-import static javax.media.opengl.GL.GL_LINEAR;
 import static javax.media.opengl.GL.GL_NICEST;
-import static javax.media.opengl.GL2ES1.GL_EXP;
-import static javax.media.opengl.GL2ES1.GL_EXP2;
-import static javax.media.opengl.GL2ES1.GL_FOG;
-import static javax.media.opengl.GL2ES1.GL_FOG_COLOR;
-import static javax.media.opengl.GL2ES1.GL_FOG_DENSITY;
-import static javax.media.opengl.GL2ES1.GL_FOG_END;
-import static javax.media.opengl.GL2ES1.GL_FOG_HINT;
-import static javax.media.opengl.GL2ES1.GL_FOG_MODE;
-import static javax.media.opengl.GL2ES1.GL_FOG_START;
 import static javax.media.opengl.GL2ES1.GL_PERSPECTIVE_CORRECTION_HINT;
 import static javax.media.opengl.fixedfunc.GLLightingFunc.GL_SMOOTH;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
@@ -148,14 +137,15 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 
 		/* fog config */
 		// Set up fog mode
-		float[] fogColor = { 0.0f, 0.0f, 0.0f, 1.0f };
-		gl.glFogfv(GL_FOG_COLOR, fogColor, 0); // set fog color
-		gl.glFogf(GL_FOG_DENSITY, 0.04f); // how dense will the fog be
-		gl.glHint(GL_FOG_HINT, GL_DONT_CARE); // fog hint value
-		gl.glFogf(GL_FOG_START, 1.0f); // fog start depth
-		gl.glFogf(GL_FOG_END, 20.0f); // fog end depth
-		gl.glEnable(GL_FOG); // enables GL_FOG
-
+		//float[] fogColor = { 0.0f, 0.0f, 0.0f, 1.0f };
+		//gl.glFogfv(GL_FOG_COLOR, fogColor, 0); // set fog color
+		//gl.glFogf(GL_FOG_DENSITY, 0.04f); // how dense will the fog be
+		//gl.glHint(GL_FOG_HINT, GL_DONT_CARE); // fog hint value
+		//gl.glFogf(GL_FOG_START, 1.0f); // fog start depth
+		//gl.glFogf(GL_FOG_END, 20.0f); // fog end depth
+		//gl.glEnable(GL_FOG); // enables GL_FOG
+		//gl.glFogi(GL_FOG_MODE, GL_EXP);
+		
 		initComponent();
 		// Set up CameraController before using it
 		cameraController.setGL(gl, glu);
@@ -205,9 +195,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear color
 																// and depth
 																// buffers
-		/* fog config */
-		int[] fogModes = { GL_EXP, GL_EXP2, GL_LINEAR };
-		gl.glFogi(GL_FOG_MODE, GL_EXP2);
+
 
 		pyramid.update(gl, null);
 		cube.update(gl, null);
@@ -256,5 +244,4 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 	public void keyTyped(KeyEvent event) {
 		cameraController.keyTyped(event);
 	}
-
 }
