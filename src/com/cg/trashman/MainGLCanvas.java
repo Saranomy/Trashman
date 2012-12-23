@@ -139,15 +139,15 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 
 		/* fog config */
 		// Set up fog mode
-		//float[] fogColor = { 0.0f, 0.0f, 0.0f, 1.0f };
-		//gl.glFogfv(GL_FOG_COLOR, fogColor, 0); // set fog color
-		//gl.glFogf(GL_FOG_DENSITY, 0.04f); // how dense will the fog be
-		//gl.glHint(GL_FOG_HINT, GL_DONT_CARE); // fog hint value
-		//gl.glFogf(GL_FOG_START, 1.0f); // fog start depth
-		//gl.glFogf(GL_FOG_END, 20.0f); // fog end depth
-		//gl.glEnable(GL_FOG); // enables GL_FOG
-		//gl.glFogi(GL_FOG_MODE, GL_EXP);
-		
+		// float[] fogColor = { 0.0f, 0.0f, 0.0f, 1.0f };
+		// gl.glFogfv(GL_FOG_COLOR, fogColor, 0); // set fog color
+		// gl.glFogf(GL_FOG_DENSITY, 0.04f); // how dense will the fog be
+		// gl.glHint(GL_FOG_HINT, GL_DONT_CARE); // fog hint value
+		// gl.glFogf(GL_FOG_START, 1.0f); // fog start depth
+		// gl.glFogf(GL_FOG_END, 20.0f); // fog end depth
+		// gl.glEnable(GL_FOG); // enables GL_FOG
+		// gl.glFogi(GL_FOG_MODE, GL_EXP);
+
 		initComponent();
 		// Set up CameraController before using it
 		cameraController.setGL(gl, glu);
@@ -207,17 +207,19 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		// Update Camera Parameter
 		float[] t = cameraController.getTranslation();
 		float[] r = cameraController.getRotation();
-		
-		cameraController.move();
+
+		cameraController.update();
+
+		cameraController.setDestination(11 + car.getX(), 19 + car.getY(), 2);
 
 		// Update camera translation
 		gl.glMatrixMode(GL_PROJECTION);
 		gl.glLoadIdentity();
 		glu.gluPerspective(45.0, 1.55f, 0.1, 100.0);
 		// Do translation
-		gl.glRotatef(-1*r[0], -1*r[1], -1*r[2], -1*r[3]);
+		gl.glRotatef(-1 * r[0], -1 * r[1], -1 * r[2], -1 * r[3]);
 		gl.glTranslatef(t[0], t[1], t[2]);
-			
+
 		// Do rotation
 		gl.glTranslatef(-1 * t[0], -1 * t[1], -1 * t[2]);
 		gl.glRotatef(r[0], r[1], r[2], r[3]);

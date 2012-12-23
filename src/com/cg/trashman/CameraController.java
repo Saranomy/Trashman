@@ -1,8 +1,5 @@
 package com.cg.trashman;
 
-import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
-import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
-
 import java.awt.event.KeyEvent;
 
 import javax.media.opengl.GL2;
@@ -33,7 +30,7 @@ public class CameraController {
 	private static final float START_ROT_X = 1.0f;
 	private static final float START_ROT_Y = 0.0f;
 	private static final float START_ROT_Z = 0.0f;
-	private static final float CAMERA_ACC = 0.01f;
+	private static final float CAMERA_ACC = 0.0001f;
 
 	public CameraController() { 
 		pX = START_CAMERA_X;
@@ -110,7 +107,7 @@ public class CameraController {
 		this.desZ = z;
 	}
 	
-	public void move(){
+	public void update(){
 		if( this.desX == pX && this.desY == pY && this.desZ == pZ){
 			pSpeed = 0;
 			return;

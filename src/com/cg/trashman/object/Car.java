@@ -14,8 +14,8 @@ public class Car implements ISimpleObject {
 	private float pSpeed = 0.01f;
 
 	public Car() {
-		pX = 1f;
-		pY = 1f;
+		pX = 0f;
+		pY = 0f;
 		abstractX = pX;
 		abstractY = pY;
 	}
@@ -30,6 +30,14 @@ public class Car implements ISimpleObject {
 		pX += pSpeed;
 		pY += pSpeed;
 		render(gl);
+	}
+
+	public float getX() {
+		return pX;
+	}
+
+	public float getY() {
+		return pY;
 	}
 
 	private void render(GL2 gl) {
