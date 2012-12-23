@@ -153,7 +153,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		// gl.glFogf(GL2.GL_FOG_START, 1.0f); // fog start depth
 		// gl.glFogf(GL2.GL_FOG_END, 20.0f); // fog end depth
 		// gl.glEnable(GL2.GL_FOG); // enables GL_FOG
-		// gl.glFogi(GL2.GL_FOG_MODE, GL2.GL_EXP)	;
+		// gl.glFogi(GL2.GL_FOG_MODE, GL2.GL_EXP) ;
 
 	}
 
@@ -172,52 +172,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 	 */
 	@Override
 	public void display(GLAutoDrawable drawable) {
-<<<<<<< HEAD
-		GL2 gl = drawable.getGL().getGL2(); // get the OpenGL 2 graphics context
-		gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear color
-																// and depth
-																// buffers
-
-		pyramid.update(gl, null);
-		cube.update(gl, null);
-		maze.update(gl, null);
-		car.update(gl, null);
-
-		// update trash
-		for (Trash t : trashes) {
-			t.update(gl, null);
-		}
-
-		// Update Camera Parameter
-		float[] t = cameraController.getTranslation();
-		float[] r = cameraController.getRotation();
-
-		cameraController.update();
-		cameraController.setDestination(-1 * car.getX(), -19, -10 + car.getZ());
-
-		// Update camera translation
-		gl.glMatrixMode(GL_PROJECTION);
-		gl.glLoadIdentity();
-		glu.gluPerspective(45.0, 1.55f, 0.1, 100.0);
-		// Do translation
-		gl.glRotatef(-1 * r[0], -1 * r[1], -1 * r[2], -1 * r[3]);
-		gl.glTranslatef(t[0], t[1], t[2]);
-
-		// Do rotation
-		gl.glTranslatef(-1 * t[0], -1 * t[1], -1 * t[2]);
-		gl.glRotatef(r[0], r[1], r[2], r[3]);
-		gl.glTranslatef(t[0], t[1], t[2]);
-		gl.glMatrixMode(GL_MODELVIEW);
-		gl.glLoadIdentity();
-
-		// draw text
-		textRenderer.beginRendering(drawable.getWidth(), drawable.getHeight());
-		textRenderer.setColor(1f, 1f, 1f, 1f);
-		textRenderer.draw("Score: " + car.getScore(), 100, 100);
-		textRenderer.endRendering();
-=======
 		currentScene.display(drawable);
->>>>>>> Update Scene Manager
 	}
 
 	/**
