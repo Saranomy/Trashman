@@ -7,7 +7,7 @@ import javax.media.opengl.GL2;
 import com.cg.trashman.ISimpleObject;
 
 public class Trash implements ISimpleObject {
-	private static final float size = 0.1f;
+	private static final float size = 0.2f;
 	private int row;
 	private int col;
 

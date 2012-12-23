@@ -6,6 +6,8 @@ import java.awt.event.KeyEvent;
 
 import javax.media.opengl.GL2;
 import com.cg.trashman.ISimpleObject;
+import com.jogamp.opengl.util.texture.Texture;
+import com.jogamp.opengl.util.texture.TextureCoords;
 
 public class Car implements ISimpleObject {
 	private float pX;
@@ -19,13 +21,19 @@ public class Car implements ISimpleObject {
 	private int gridX;
 	private int gridZ;
 
+	private Texture[] textures;
+	private float textureTop;
+	private float textureBottom;
+	private float textureLeft;
+	private float textureRight;
+
 	enum Direction {
 		Stop, Up, Down, Left, Right
 	}
 
-	private static final float size = 0.4f;
+	private static final float size = 3f;
 
-	public Car(boolean[][] mazeGrid) {
+	public Car(boolean[][] mazeGrid, Texture[] textures) {
 		pX = 0f;
 		pZ = 0f;
 		desX = pX;
@@ -34,6 +42,13 @@ public class Car implements ISimpleObject {
 		this.mazeGrid = mazeGrid;
 		gridX = 0;
 		gridZ = 0;
+
+		this.textures = textures;
+		TextureCoords textureCoords = textures[0].getImageTexCoords();
+		textureTop = textureCoords.top();
+		textureBottom = textureCoords.bottom();
+		textureLeft = textureCoords.left();
+		textureRight = textureCoords.right();
 	}
 
 	public void updateMazePosition(int row, int col) {
@@ -114,51 +129,96 @@ public class Car implements ISimpleObject {
 		// screen
 		gl.glTranslatef(0, 0, -pZ);
 		gl.glTranslatef(pX, 0, 0);
-		gl.glBegin(GL_QUADS); // of the color cube
+		if (direction == Direction.Up)
+			gl.glRotatef(90f, 0f, 1f, 0f);
+		else if (direction == Direction.Down)
+			gl.glRotatef(-90f, 0f, 1f, 0f);
+		else if (direction == Direction.Left)
+			gl.glRotatef(90f, 1f, 0f, 0f);
+		else if (direction == Direction.Right)
+			gl.glRotated(-90, 1f, 0f, 0f);
+		
+		// side car (for front face)
+		textures[11].enable(gl);
+		textures[11].bind(gl);
+		gl.glBegin(GL_QUADS);
+		// Front Face
+		gl.glTexCoord2f(textureLeft, textureBottom);
+		gl.glVertex3f(-size, -0.5f * size, 0.5f * size);
+		gl.glTexCoord2f(textureRight, textureBottom);
+		gl.glVertex3f(size, -0.5f * size, 0.5f * size);
+		gl.glTexCoord2f(textureRight, textureTop);
+		gl.glVertex3f(size, 0.5f * size, 0.5f * size);
+		gl.glTexCoord2f(textureLeft, textureTop);
+		gl.glVertex3f(-size, 0.5f * size, 0.5f * size);
+		gl.glEnd();
 
-		// Top-face
-		gl.glColor3f(0.0f, size, 0.0f); // green
-		gl.glVertex3f(size, size, -size);
-		gl.glVertex3f(-size, size, -size);
-		gl.glVertex3f(-size, size, size);
-		gl.glVertex3f(size, size, size);
+		// side car (inverse front face)
+		textures[11].enable(gl);
+		textures[11].bind(gl);
+		gl.glBegin(GL_QUADS);
+		// Back Face
+		gl.glTexCoord2f(textureRight, textureBottom);
+		gl.glVertex3f(-size, -0.5f * size, -0.5f * size);
+		gl.glTexCoord2f(textureRight, textureTop);
+		gl.glVertex3f(-size, 0.5f * size, -0.5f * size);
+		gl.glTexCoord2f(textureLeft, textureTop);
+		gl.glVertex3f(size, 0.5f * size, -0.5f * size);
+		gl.glTexCoord2f(textureLeft, textureBottom);
+		gl.glVertex3f(size, -0.5f * size, -0.5f * size);
+		gl.glEnd();
 
-		// Bottom-face
-		gl.glColor3f(size, 0.5f, 0.0f); // orange
-		gl.glVertex3f(size, -size, size);
-		gl.glVertex3f(-size, -size, size);
-		gl.glVertex3f(-size, -size, -size);
-		gl.glVertex3f(size, -size, -size);
+		// back car (for Top face)
+		textures[13].enable(gl);
+		textures[13].bind(gl);
+		gl.glBegin(GL_QUADS);
+		// Top Face
+		gl.glTexCoord2f(textureLeft, textureTop);
+		gl.glVertex3f(-size, 0.5f * size, -0.5f * size);
+		gl.glTexCoord2f(textureLeft, textureBottom);
+		gl.glVertex3f(-size, 0.5f * size, 0.5f * size);
+		gl.glTexCoord2f(textureRight, textureBottom);
+		gl.glVertex3f(size, 0.5f * size, 0.5f * size);
+		gl.glTexCoord2f(textureRight, textureTop);
+		gl.glVertex3f(size, 0.5f * size, -0.5f * size);
+		gl.glEnd();
+		
+		// go back to building (0,4)
+		textures[11].enable(gl);
+		textures[11].bind(gl);
+		gl.glBegin(GL_QUADS);
 
-		// Front-face
-		gl.glColor3f(size, 0.0f, 0.0f); // red
-		gl.glVertex3f(size, size, size);
-		gl.glVertex3f(-size, size, size);
-		gl.glVertex3f(-size, -size, size);
-		gl.glVertex3f(size, -size, size);
+		// Bottom Face
+		gl.glTexCoord2f(textureRight, textureTop);
+		gl.glVertex3f(-size, -0.5f * size, -0.5f * size);
+		gl.glTexCoord2f(textureLeft, textureTop);
+		gl.glVertex3f(size, -0.5f * size, -0.5f * size);
+		gl.glTexCoord2f(textureLeft, textureBottom);
+		gl.glVertex3f(size, -0.5f * size, 0.5f * size);
+		gl.glTexCoord2f(textureRight, textureBottom);
+		gl.glVertex3f(-size, -0.5f * size, 0.5f * size);
 
-		// Back-face
-		gl.glColor3f(size, size, 0.0f); // yellow
-		gl.glVertex3f(size, -size, -size);
-		gl.glVertex3f(-size, -size, -size);
-		gl.glVertex3f(-size, size, -size);
-		gl.glVertex3f(size, size, -size);
+		// Right face
+		gl.glTexCoord2f(textureRight, textureBottom);
+		gl.glVertex3f(size, -0.5f * size, -0.5f * size);
+		gl.glTexCoord2f(textureRight, textureTop);
+		gl.glVertex3f(size, 0.5f * size, -0.5f * size);
+		gl.glTexCoord2f(textureLeft, textureTop);
+		gl.glVertex3f(size, 0.5f * size, 0.5f * size);
+		gl.glTexCoord2f(textureLeft, textureBottom);
+		gl.glVertex3f(size, -0.5f * size, 0.5f * size);
 
-		// Left-face
-		gl.glColor3f(0.0f, 0.0f, size); // blue
-		gl.glVertex3f(-size, size, size);
-		gl.glVertex3f(-size, size, -size);
-		gl.glVertex3f(-size, -size, -size);
-		gl.glVertex3f(-size, -size, size);
+		// Left Face
+		gl.glTexCoord2f(textureLeft, textureBottom);
+		gl.glVertex3f(-size, -0.5f * size, -0.5f * size);
+		gl.glTexCoord2f(textureRight, textureBottom);
+		gl.glVertex3f(-size, -0.5f * size, 0.5f * size);
+		gl.glTexCoord2f(textureRight, textureTop);
+		gl.glVertex3f(-size, 0.5f * size, 0.5f * size);
+		gl.glTexCoord2f(textureLeft, textureTop);
+		gl.glVertex3f(-size, 0.5f * size, -0.5f * size);
 
-		// Right-face
-		gl.glColor3f(size, 0.0f, size); // magenta
-		gl.glVertex3f(size, size, -size);
-		gl.glVertex3f(size, size, size);
-		gl.glVertex3f(size, -size, size);
-		gl.glVertex3f(size, -size, -size);
-
-		gl.glEnd(); // of the color cube
+		gl.glEnd();
 	}
 
 	public boolean isStable() {

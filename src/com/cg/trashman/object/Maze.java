@@ -85,7 +85,7 @@ public class Maze implements ISimpleObject {
 					gl.glEnd();
 				} else {
 					// random building id (0,4)
-					int buildingId = random.nextInt(4);
+					int buildingId = random.nextInt(5);
 					// random roof id (5,9)
 					int roofId = 5 + buildingId;
 					

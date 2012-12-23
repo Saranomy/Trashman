@@ -151,18 +151,18 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 
 		/* fog config */
 		// Set up fog mode
-//		float[] fogColor = { 0.0f, 0.0f, 0.5f, 1.0f };
-//		gl.glFogfv(GL2.GL_FOG_COLOR, fogColor, 0); // set fog color
-//		gl.glFogf(GL2.GL_FOG_DENSITY, 0.04f); // how dense will the fog be
-//		gl.glHint(GL2.GL_FOG_HINT, GL2.GL_DONT_CARE); // fog hint value
-//		gl.glFogf(GL2.GL_FOG_START, 1.0f); // fog start depth
-//		gl.glFogf(GL2.GL_FOG_END, 20.0f); // fog end depth
-//		gl.glEnable(GL2.GL_FOG); // enables GL_FOG
-//		gl.glFogi(GL2.GL_FOG_MODE, GL2.GL_EXP);
+		// float[] fogColor = { 0.0f, 0.0f, 0.5f, 1.0f };
+		// gl.glFogfv(GL2.GL_FOG_COLOR, fogColor, 0); // set fog color
+		// gl.glFogf(GL2.GL_FOG_DENSITY, 0.04f); // how dense will the fog be
+		// gl.glHint(GL2.GL_FOG_HINT, GL2.GL_DONT_CARE); // fog hint value
+		// gl.glFogf(GL2.GL_FOG_START, 1.0f); // fog start depth
+		// gl.glFogf(GL2.GL_FOG_END, 20.0f); // fog end depth
+		// gl.glEnable(GL2.GL_FOG); // enables GL_FOG
+		// gl.glFogi(GL2.GL_FOG_MODE, GL2.GL_EXP);
 
 		/* load texture */
 		try {
-			textures = new Texture[11];
+			textures = new Texture[15];
 			// buildings
 			textures[0] = TextureIO.newTexture(getClass().getClassLoader()
 					.getResource("img/building.png"), false, ".png");
@@ -188,10 +188,19 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 			// road
 			textures[10] = TextureIO.newTexture(getClass().getClassLoader()
 					.getResource("img/road.png"), false, ".png");
+			// car
+			textures[11] = TextureIO.newTexture(getClass().getClassLoader()
+					.getResource("img/carSide.png"), false, ".png");
+			textures[12] = TextureIO.newTexture(getClass().getClassLoader()
+					.getResource("img/carFront.png"), false, ".png");
+			textures[13] = TextureIO.newTexture(getClass().getClassLoader()
+					.getResource("img/carBack.png"), false, ".png");
+			textures[14] = TextureIO.newTexture(getClass().getClassLoader()
+					.getResource("img/carTop.png"), false, ".png");
 			
 			gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			
+
 		} catch (GLException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -209,7 +218,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		cameraController = new CameraController();
 		maze = MazeGenerator.createMaze(19, 19, 0.4f, textures);
 		trashes = TrashGenerator.create(maze.getGrid());
-		car = new Car(maze.getGrid());
+		car = new Car(maze.getGrid(), textures);
 	}
 
 	/**
