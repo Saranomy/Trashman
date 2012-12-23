@@ -197,7 +197,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 					.getResource("img/carBack.png"), false, ".png");
 			textures[14] = TextureIO.newTexture(getClass().getClassLoader()
 					.getResource("img/carTop.png"), false, ".png");
-			
+
 			gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 			gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
@@ -218,7 +218,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 		cameraController = new CameraController();
 		maze = MazeGenerator.createMaze(19, 19, 0.4f, textures);
 		trashes = TrashGenerator.create(maze.getGrid());
-		car = new Car(maze.getGrid(), textures);
+		car = new Car(maze.getGrid(), textures, trashes);
 	}
 
 	/**

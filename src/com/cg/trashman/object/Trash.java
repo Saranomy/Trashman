@@ -16,6 +16,14 @@ public class Trash implements ISimpleObject {
 		this.col = col;
 	}
 
+	public int getRow() {
+		return row;
+	}
+
+	public int getCol() {
+		return col;
+	}
+
 	@Override
 	public void update(GL2 gl, Object arg) {
 		// TODO Auto-generated method stub

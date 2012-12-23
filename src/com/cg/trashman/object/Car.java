@@ -3,6 +3,7 @@ package com.cg.trashman.object;
 import static javax.media.opengl.GL2.GL_QUADS;
 
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 import javax.media.opengl.GL2;
 import com.cg.trashman.ISimpleObject;
@@ -26,6 +27,7 @@ public class Car implements ISimpleObject {
 	private float textureBottom;
 	private float textureLeft;
 	private float textureRight;
+	private List<Trash> trashes;
 
 	enum Direction {
 		Stop, Up, Down, Left, Right
@@ -33,7 +35,7 @@ public class Car implements ISimpleObject {
 
 	private static final float size = 0.8f;
 
-	public Car(boolean[][] mazeGrid, Texture[] textures) {
+	public Car(boolean[][] mazeGrid, Texture[] textures, List<Trash> trashes) {
 		pX = 0f;
 		pZ = 0f;
 		desX = pX;
@@ -49,6 +51,8 @@ public class Car implements ISimpleObject {
 		textureBottom = textureCoords.bottom();
 		textureLeft = textureCoords.left();
 		textureRight = textureCoords.right();
+
+		this.trashes = trashes;
 	}
 
 	public void updateMazePosition(int row, int col) {
@@ -67,6 +71,9 @@ public class Car implements ISimpleObject {
 		} else {
 			gridX += dX;
 			desX += dX * 2f;
+
+			// check trash collision
+			updateTrashCollision();
 		}
 	}
 
@@ -81,6 +88,9 @@ public class Car implements ISimpleObject {
 		} else {
 			gridZ += dZ;
 			desZ += dZ * 2f;
+
+			// check trash collision
+			updateTrashCollision();
 		}
 	}
 
@@ -136,7 +146,7 @@ public class Car implements ISimpleObject {
 		else if (direction == Direction.Left)
 			gl.glRotatef(0f, 0f, 1f, 0f);
 		else if (direction == Direction.Right)
-			gl.glRotated(180, 0f, 1f, 0f);
+			gl.glRotatef(180f, 0f, 1f, 0f);
 
 		// side car (for front face)
 		textures[11].enable(gl);
@@ -216,6 +226,16 @@ public class Car implements ISimpleObject {
 
 	public boolean isStable() {
 		return pX == desX && pZ == desZ;
+	}
+
+	public void updateTrashCollision() {
+		for (int i = 0; i < trashes.size(); i++) {
+			Trash t = trashes.get(i);
+			if (t.getRow() == gridX && t.getCol() == gridZ) {
+				trashes.remove(t);
+				i--;
+			}
+		}
 	}
 
 	public void keyPressed(KeyEvent event) {
