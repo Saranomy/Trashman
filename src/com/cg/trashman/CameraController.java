@@ -105,11 +105,11 @@ public class CameraController {
 			this.pY = this.desY;
 			ySpeed = 0;
 		}
-//		this.pZ += Math.signum( desZ - pZ ) * zSpeed;
+		this.pZ += Math.signum( desZ - pZ ) * zSpeed;
 //		if (Math.abs((this.pZ - this.desZ) * 1000f) / 1000f < zSpeed) {
 //			this.pZ = this.desZ;
 //			zSpeed = 0;
-//			System.out.println("Z");
+//			//System.out.println("Z");
 //		}
 //		currentDistance += (float)Math.sqrt(Math.pow(xSpeed, 2) + Math.pow(ySpeed, 2) + Math.pow(zSpeed, 2));
 //		
