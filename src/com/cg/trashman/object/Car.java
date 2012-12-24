@@ -4,13 +4,8 @@ import static javax.media.opengl.GL2.GL_QUADS;
 
 import java.awt.Font;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.util.List;
-
 import javax.media.opengl.GL2;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 
 import com.cg.trashman.ISimpleObject;
 import com.cg.trashman.Score;
@@ -41,8 +36,8 @@ public class Car implements ISimpleObject {
 	private TextRenderer textScore;
 	private int lastScore;
 	private float scoreTrans;
-
-	private Clip trashClip;
+	
+	private static String trashURL = "/fx/trash.wav";
 
 	enum Direction {
 		Stop, Up, Down, Left, Right
@@ -77,16 +72,6 @@ public class Car implements ISimpleObject {
 		scoreTrans = 0f;
 		size = 0.85f;
 
-		try {
-			String path = getClass().getClassLoader()
-					.getResource("fx/trash.wav").getPath();
-			AudioInputStream audio = AudioSystem.getAudioInputStream(new File(path));
-			trashClip = AudioSystem.getClip();
-			trashClip.open(audio);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 	}
 
 	public void updateMazePosition(int row, int col) {
@@ -295,17 +280,7 @@ public class Car implements ISimpleObject {
 			Trash t = trashes.get(i);
 			if (t.getRow() == gridX && t.getCol() == gridZ) {
 				// play trash pick-up sound
-				try {
-					trashClip.start();
-
-					// refresh trashClip
-					String path = getClass().getClassLoader()
-							.getResource("fx/trash.wav").getPath();
-					AudioInputStream audio = AudioSystem.getAudioInputStream(new File(path));
-					trashClip = AudioSystem.getClip();
-					trashClip.open(audio);
-				} catch (Exception e) {
-				}
+				new Sound(trashURL).play();
 				// score on each id
 				int trashPoint = t.getScore();
 				score.add(trashPoint);

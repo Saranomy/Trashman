@@ -13,26 +13,12 @@ import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.StringWriter;
-import java.io.Writer;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLU;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
 
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
-
+import com.cg.trashman.object.Sound;
 import com.jogamp.opengl.util.awt.TextRenderer;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureCoords;
@@ -50,9 +36,9 @@ public class MenuScene implements IScene {
 	private float angleCar;
 	private TextRenderer textCredit;
 	private TextRenderer textInfo;
-
-	private Clip startClip;
-	private Clip startMusic;
+	
+	private static String musicURL = "/fx/music.wav";
+	private static String startURL = "/fx/start.wav";
 
 	public MenuScene() {
 
@@ -74,37 +60,8 @@ public class MenuScene implements IScene {
 		textInfo = new TextRenderer(new Font("SansSerif", Font.BOLD, 40));
 		textCredit = new TextRenderer(new Font("SansSerif", Font.BOLD, 20));
 		try {
-			InputStream in = getClass().getResourceAsStream("/fx/music.wav");
-			AudioStream as = new AudioStream(in);
-			AudioPlayer.player.start(as);
-//			String path = getClass().getClassLoader()
-//					.getResource("fx/music.wav").getPath();
-//			System.out.println(path);
-//			AudioInputStream audio = AudioSystem.getAudioInputStream(new File(
-//					path));
-//			startMusic = AudioSystem.getClip();
-//			startMusic.open(audio);
-//			FloatControl gainControl = (FloatControl) startMusic
-//					.getControl(FloatControl.Type.MASTER_GAIN);
-//			gainControl.setValue(-10.0f); // Reduce volume by 10 decibels.
-//			startMusic.loop(startMusic.LOOP_CONTINUOUSLY);
-//			startMusic.start();
+			new Sound(musicURL).play();
 		} catch (Exception e) {
-		}
-		reloadClip();
-	}
-
-	public void reloadClip() {
-		// add starting car sound
-		try {
-			String path = getClass().getClassLoader()
-					.getResource("fx/start.wav").getPath();
-			AudioInputStream audio = AudioSystem.getAudioInputStream(new File(
-					path));
-			startClip = AudioSystem.getClip();
-			startClip.open(audio);
-		} catch (Exception e) {
-			e.printStackTrace();
 		}
 	}
 
@@ -156,9 +113,8 @@ public class MenuScene implements IScene {
 	@Override
 	public void keyPressed(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.VK_ENTER) {
-			startClip.start();
+			new Sound(startURL).play(); 
 			mainGLCanvas.setScene(1);
-
 		}
 	}
 
@@ -280,7 +236,7 @@ public class MenuScene implements IScene {
 
 	@Override
 	public void refresh() {
-		reloadClip();
+		
 	}
 
 }

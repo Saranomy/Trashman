@@ -10,19 +10,15 @@ import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 
 import java.awt.Font;
 import java.awt.event.KeyEvent;
-import java.io.File;
 import java.util.List;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLU;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
 
 import com.cg.trashman.object.Car;
 import com.cg.trashman.object.Maze;
+import com.cg.trashman.object.Sound;
 import com.cg.trashman.object.Trash;
 import com.jogamp.opengl.util.awt.TextRenderer;
 import com.jogamp.opengl.util.texture.Texture;
@@ -45,8 +41,8 @@ public class GameScene implements IScene {
 	private int frame_counter = 0;
 	private int FPS = 60;
 
-	private Clip crashClip;
-	private Clip clickClip;
+	private static String crashURL = "/fx/crash.wav";
+	private static String clickURL = "/fx/click.wav";
 
 	public GameScene() {
 
@@ -91,24 +87,6 @@ public class GameScene implements IScene {
 		trashes = TrashGenerator.create(maze.getGrid(), textures);
 		car = new Car(maze.getGrid(), textures, trashes);
 		timer = new CountDownTimer(60);
-
-		// add starting car sound
-		try {
-			String path = getClass().getClassLoader()
-					.getResource("fx/crash.wav").getPath();
-			AudioInputStream audio = AudioSystem.getAudioInputStream(new File(
-					path));
-			crashClip = AudioSystem.getClip();
-			crashClip.open(audio);
-
-			path = getClass().getClassLoader().getResource("fx/click.wav")
-					.getPath();
-			audio = AudioSystem.getAudioInputStream(new File(path));
-			clickClip = AudioSystem.getClip();
-			clickClip.open(audio);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
 	}
 
@@ -193,7 +171,7 @@ public class GameScene implements IScene {
 
 		// move to leaderboard if finish
 		if (timer.getTime() <= 0) {
-			crashClip.start();
+			new Sound(crashURL).play();
 			mainGLCanvas.setScene(2);
 		}
 
@@ -215,7 +193,7 @@ public class GameScene implements IScene {
 		car.keyPressed(event);
 		// quick exit
 		if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
-			clickClip.start();
+			new Sound(clickURL).play();
 			mainGLCanvas.setScene(0);
 		}
 	}

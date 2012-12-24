@@ -9,15 +9,11 @@ import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
-import java.io.File;
-
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLU;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 
+import com.cg.trashman.object.Sound;
 import com.jogamp.opengl.util.awt.TextRenderer;
 import com.jogamp.opengl.util.texture.Texture;
 import com.jogamp.opengl.util.texture.TextureCoords;
@@ -36,8 +32,8 @@ public class LeaderboardScene implements IScene {
 	private TextRenderer textTitle;
 	private TextRenderer textInfo;
 	private Score score;
-
-	private Clip clickClip;
+	
+	private static String clickURL = "/fx/click.wav";
 
 	public LeaderboardScene() {
 	}
@@ -118,7 +114,7 @@ public class LeaderboardScene implements IScene {
 	@Override
 	public void keyPressed(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.VK_ENTER) {
-			clickClip.start();
+			new Sound(clickURL).play();
 			mainGLCanvas.setScene(0);
 			score.reset();
 		}
@@ -217,16 +213,6 @@ public class LeaderboardScene implements IScene {
 
 	@Override
 	public void refresh() {
-		// add starting car sound
-		try {
-			String path = getClass().getClassLoader()
-					.getResource("fx/click.wav").getPath();
-			AudioInputStream audio = AudioSystem.getAudioInputStream(new File(
-					path));
-			clickClip = AudioSystem.getClip();
-			clickClip.open(audio);
-		} catch (Exception e) {
-		}
 
 	}
 
