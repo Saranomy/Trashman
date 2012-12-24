@@ -9,7 +9,6 @@ import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
-import java.util.Random;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
@@ -33,7 +32,6 @@ public class LeaderboardScene implements IScene {
 	private TextRenderer textTitle;
 	private TextRenderer textInfo;
 	private Score score;
-	private Random random;
 
 	public LeaderboardScene() {
 	}
@@ -74,7 +72,6 @@ public class LeaderboardScene implements IScene {
 		gl.glColor3f(1f, 1f, 1f);
 
 		// draw many trashes
-		random = new Random(0);
 		drawTrash(15, 0.3f, -1.8f, -7f);
 		drawTrash(16, 0.3f, -0.6f, -7f);
 		drawTrash(17, 0.3f, 0.6f, -7f);
@@ -108,7 +105,6 @@ public class LeaderboardScene implements IScene {
 
 	@Override
 	public void dispose(GLAutoDrawable drawable) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -122,13 +118,11 @@ public class LeaderboardScene implements IScene {
 
 	@Override
 	public void keyReleased(KeyEvent event) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void keyTyped(KeyEvent event) {
-		// TODO Auto-generated method stub
 
 	}
 

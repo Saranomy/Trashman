@@ -30,7 +30,7 @@ public class GameScene implements IScene {
 	private Texture[] textures;
 	private CountDownTimer timer;
 
-	private GL2 gl;
+	//private GL2 gl;
 	private GLU glu;
 	private MainGLCanvas mainGLCanvas;
 
@@ -51,7 +51,7 @@ public class GameScene implements IScene {
 
 	@Override
 	public void init(GL2 gl, GLU glu, MainGLCanvas mainGLCanvas) {
-		this.gl = gl;
+		//this.gl = gl;
 		this.glu = glu;
 		this.mainGLCanvas = mainGLCanvas;
 		textures = mainGLCanvas.textures;
@@ -61,8 +61,6 @@ public class GameScene implements IScene {
 		textUpdate = new TextRenderer(new Font("SansSerif", Font.BOLD, 50));
 
 		initComponent();
-		// Set up CameraController before using it
-		cameraController.setGL(gl, glu);
 
 		// gl.glLightfv(GL_LIGHT1, GL_DIFFUSE, LightDiffuse, 0);
 		// gl.glLightfv(GL_LIGHT1, GL_POSITION, LightDiffusePosition, 0);

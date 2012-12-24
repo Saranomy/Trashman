@@ -2,13 +2,6 @@ package com.cg.trashman;
 
 import static javax.media.opengl.GL.GL_COLOR_BUFFER_BIT;
 import static javax.media.opengl.GL.GL_DEPTH_BUFFER_BIT;
-import static javax.media.opengl.GL.GL_LINEAR;
-import static javax.media.opengl.GL.GL_LINEAR_MIPMAP_NEAREST;
-import static javax.media.opengl.GL.GL_NEAREST;
-import static javax.media.opengl.GL.GL_TEXTURE_2D;
-import static javax.media.opengl.GL.GL_TEXTURE_MAG_FILTER;
-import static javax.media.opengl.GL.GL_TEXTURE_MIN_FILTER;
-import static javax.media.opengl.GL.GL_TRIANGLES;
 import static javax.media.opengl.GL2.GL_QUADS;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
@@ -115,24 +108,10 @@ public class MenuScene implements IScene {
 		textCredit.draw(str, 400 - ((int) textBox.getWidth() / 2), 120);
 		textCredit.endRendering();
 
-		// credit
-		str = "Thanakorn Panyapiang";
-		textCredit.beginRendering(drawable.getWidth(), drawable.getHeight());
-		textCredit.setColor(0.4f, 0.4f, 0.4f, 1f);
-		textCredit.draw(str, 20, 20);
-		textCredit.endRendering();
-
-		str = "Saran Siripuekpong";
-		textCredit.beginRendering(drawable.getWidth(), drawable.getHeight());
-		textCredit.setColor(0.4f, 0.4f, 0.4f, 1f);
-		textCredit.draw(str, 20, 50);
-		textCredit.endRendering();
-
 	}
 
 	@Override
 	public void dispose(GLAutoDrawable drawable) {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -146,13 +125,11 @@ public class MenuScene implements IScene {
 
 	@Override
 	public void keyReleased(KeyEvent event) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void keyTyped(KeyEvent event) {
-		// TODO Auto-generated method stub
 
 	}
 

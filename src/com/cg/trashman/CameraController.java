@@ -2,13 +2,7 @@ package com.cg.trashman;
 
 import java.awt.event.KeyEvent;
 
-import javax.media.opengl.GL2;
-import javax.media.opengl.glu.GLU;
-
 public class CameraController {
-
-	private GL2 gl;
-	private GLU glu;
 	private float pX;
 	private float pY;
 	private float pZ;
@@ -21,13 +15,6 @@ public class CameraController {
 	private float desX;
 	private float desY;
 	private float desZ;
-
-	private int state;
-	private float totalDistance;
-	private float currentDistance;
-
-	private static final int ACCELERATE = 1;
-	private static final int DECELERATE = -1;
 
 	private static final float START_CAMERA_X = -0.0f;
 	private static final float START_CAMERA_Y = -14.2f;
@@ -48,11 +35,6 @@ public class CameraController {
 		desX = pX;
 		desY = pY;
 		desZ = pZ;
-	}
-
-	public void setGL(GL2 gl, GLU glu) {
-		this.gl = gl;
-		this.glu = glu;
 	}
 
 	public float[] getTranslation() {
