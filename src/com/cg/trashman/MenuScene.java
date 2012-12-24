@@ -13,7 +13,14 @@ import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.io.StringWriter;
+import java.io.Writer;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
@@ -22,6 +29,9 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
+
+import sun.audio.AudioPlayer;
+import sun.audio.AudioStream;
 
 import com.jogamp.opengl.util.awt.TextRenderer;
 import com.jogamp.opengl.util.texture.Texture;
@@ -64,17 +74,21 @@ public class MenuScene implements IScene {
 		textInfo = new TextRenderer(new Font("SansSerif", Font.BOLD, 40));
 		textCredit = new TextRenderer(new Font("SansSerif", Font.BOLD, 20));
 		try {
-			String path = getClass().getClassLoader()
-					.getResource("fx/music.wav").getPath();
-			AudioInputStream audio = AudioSystem.getAudioInputStream(new File(
-					path));
-			startMusic = AudioSystem.getClip();
-			startMusic.open(audio);
-			FloatControl gainControl = (FloatControl) startMusic
-					.getControl(FloatControl.Type.MASTER_GAIN);
-			gainControl.setValue(-10.0f); // Reduce volume by 10 decibels.
-			startMusic.loop(startMusic.LOOP_CONTINUOUSLY);
-			startMusic.start();
+			InputStream in = getClass().getResourceAsStream("/fx/music.wav");
+			AudioStream as = new AudioStream(in);
+			AudioPlayer.player.start(as);
+//			String path = getClass().getClassLoader()
+//					.getResource("fx/music.wav").getPath();
+//			System.out.println(path);
+//			AudioInputStream audio = AudioSystem.getAudioInputStream(new File(
+//					path));
+//			startMusic = AudioSystem.getClip();
+//			startMusic.open(audio);
+//			FloatControl gainControl = (FloatControl) startMusic
+//					.getControl(FloatControl.Type.MASTER_GAIN);
+//			gainControl.setValue(-10.0f); // Reduce volume by 10 decibels.
+//			startMusic.loop(startMusic.LOOP_CONTINUOUSLY);
+//			startMusic.start();
 		} catch (Exception e) {
 		}
 		reloadClip();
