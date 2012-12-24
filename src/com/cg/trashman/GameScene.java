@@ -10,11 +10,16 @@ import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 
 import java.awt.Font;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.List;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLU;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 
 import com.cg.trashman.object.Car;
 import com.cg.trashman.object.Maze;
@@ -30,7 +35,7 @@ public class GameScene implements IScene {
 	private Texture[] textures;
 	private CountDownTimer timer;
 
-	//private GL2 gl;
+	// private GL2 gl;
 	private GLU glu;
 	private MainGLCanvas mainGLCanvas;
 
@@ -39,6 +44,8 @@ public class GameScene implements IScene {
 
 	private int frame_counter = 0;
 	private int FPS = 60;
+	
+	private Clip crashClip;
 
 	public GameScene() {
 
@@ -51,7 +58,7 @@ public class GameScene implements IScene {
 
 	@Override
 	public void init(GL2 gl, GLU glu, MainGLCanvas mainGLCanvas) {
-		//this.gl = gl;
+		// this.gl = gl;
 		this.glu = glu;
 		this.mainGLCanvas = mainGLCanvas;
 		textures = mainGLCanvas.textures;
@@ -75,6 +82,19 @@ public class GameScene implements IScene {
 		// gl.glEnable(GL2.GL_LIGHT3);
 		// gl.glLightfv(GL2.GL_LIGHT3, GL_AMBIENT, LightAmbient, 3);
 		// gl.glEnable(GL2.GL_LIGHT3);
+
+		// add starting car sound
+		try {
+			String path = getClass().getClassLoader()
+					.getResource("fx/start.wav").getPath();
+			AudioInputStream audio = AudioSystem.getAudioInputStream(new File(
+					path));
+			crashClip = AudioSystem.getClip();
+			crashClip.open(audio);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public void initComponent() {
@@ -166,6 +186,7 @@ public class GameScene implements IScene {
 
 		// move to leaderboard if finish
 		if (timer.getTime() <= 0) {
+			crashClip.start();
 			mainGLCanvas.setScene(2);
 		}
 
@@ -178,7 +199,6 @@ public class GameScene implements IScene {
 
 	@Override
 	public void dispose(GLAutoDrawable drawable) {
-		// TODO Auto-generated method stub
 
 	}
 

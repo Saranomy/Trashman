@@ -2,6 +2,10 @@ package com.cg.trashman;
 
 import static javax.media.opengl.GL.GL_COLOR_BUFFER_BIT;
 import static javax.media.opengl.GL.GL_DEPTH_BUFFER_BIT;
+import static javax.media.opengl.GL.GL_NEAREST;
+import static javax.media.opengl.GL.GL_TEXTURE_2D;
+import static javax.media.opengl.GL.GL_TEXTURE_MAG_FILTER;
+import static javax.media.opengl.GL.GL_TEXTURE_MIN_FILTER;
 import static javax.media.opengl.GL2.GL_QUADS;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
@@ -9,10 +13,15 @@ import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 import javax.media.opengl.glu.GLU;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 
 import com.jogamp.opengl.util.awt.TextRenderer;
 import com.jogamp.opengl.util.texture.Texture;
@@ -29,9 +38,11 @@ public class MenuScene implements IScene {
 	private float textureRight;
 
 	private float angleCar;
-	private TextRenderer textTitle;
 	private TextRenderer textCredit;
 	private TextRenderer textInfo;
+
+	private Clip startClip;
+	private Clip startMusic;
 
 	public MenuScene() {
 
@@ -50,10 +61,31 @@ public class MenuScene implements IScene {
 		textureRight = textureCoords.right();
 
 		angleCar = 0f;
-		textTitle = new TextRenderer(new Font("SansSerif", Font.BOLD, 90));
 		textInfo = new TextRenderer(new Font("SansSerif", Font.BOLD, 40));
 		textCredit = new TextRenderer(new Font("SansSerif", Font.BOLD, 20));
 
+		// add starting car sound
+		try {
+			String path = getClass().getClassLoader()
+					.getResource("fx/start.wav").getPath();
+			AudioInputStream audio = AudioSystem.getAudioInputStream(new File(
+					path));
+			startClip = AudioSystem.getClip();
+			startClip.open(audio);
+
+			path = getClass().getClassLoader().getResource("fx/music.wav")
+					.getPath();
+			audio = AudioSystem.getAudioInputStream(new File(path));
+			startMusic = AudioSystem.getClip();
+			startMusic.open(audio);
+			FloatControl gainControl = (FloatControl) startMusic
+					.getControl(FloatControl.Type.MASTER_GAIN);
+			gainControl.setValue(-10.0f); // Reduce volume by 10 decibels.
+			startMusic.loop(startMusic.LOOP_CONTINUOUSLY);
+			startMusic.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -73,30 +105,16 @@ public class MenuScene implements IScene {
 		gl.glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		gl.glColor3f(1f, 1f, 1f);
 
+		drawLogo();
+
 		drawBigCar();
 		angleCar += 0.8f;
 
-		// draw title
-		String str = "Trashman";
-		textTitle.beginRendering(drawable.getWidth(), drawable.getHeight());
-		textTitle.setColor(1f, 1f, 1f, 1f);
-		Rectangle2D textBox = textTitle.getBounds(str);
-		textTitle.draw(str, 400 - ((int) textBox.getWidth() / 2), 460);
-		textTitle.endRendering();
-
-		// draw credit
-		str = "made by 8-bit builder";
-		textCredit.beginRendering(drawable.getWidth(), drawable.getHeight());
-		textCredit.setColor(1f, 1f, 1f, 1f);
-		textBox = textCredit.getBounds(str);
-		textCredit.draw(str, 400 - ((int) textBox.getWidth() / 2), 436);
-		textCredit.endRendering();
-
 		// draw info
-		str = "Press Enter To Play";
+		String str = "Press Enter To Play";
 		textInfo.beginRendering(drawable.getWidth(), drawable.getHeight());
 		textInfo.setColor(1f, 1f, 1f, 1f);
-		textBox = textInfo.getBounds(str);
+		Rectangle2D textBox = textInfo.getBounds(str);
 		textInfo.draw(str, 400 - ((int) textBox.getWidth() / 2), 150);
 		textInfo.endRendering();
 
@@ -118,6 +136,7 @@ public class MenuScene implements IScene {
 	@Override
 	public void keyPressed(KeyEvent event) {
 		if (event.getKeyCode() == KeyEvent.VK_ENTER) {
+			startClip.start();
 			mainGLCanvas.setScene(1);
 
 		}
@@ -131,6 +150,27 @@ public class MenuScene implements IScene {
 	@Override
 	public void keyTyped(KeyEvent event) {
 
+	}
+
+	private void drawLogo() {
+		float size = 1f;
+		float radio = 29f / 168f;
+		gl.glLoadIdentity();
+		gl.glTranslatef(0f, 0.6f, -2.4f);
+		textures[19].enable(gl);
+		textures[19].bind(gl);
+		gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		gl.glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		gl.glBegin(GL_QUADS);
+		gl.glTexCoord2f(textureLeft, textureBottom);
+		gl.glVertex3f(-size, -radio * size, 0f);
+		gl.glTexCoord2f(textureRight, textureBottom);
+		gl.glVertex3f(size, -radio * size, 0f);
+		gl.glTexCoord2f(textureRight, textureTop);
+		gl.glVertex3f(size, 0.25f * size, 0f);
+		gl.glTexCoord2f(textureLeft, textureTop);
+		gl.glVertex3f(-size, 0.25f * size, 0f);
+		gl.glEnd();
 	}
 
 	private void drawBigCar() {
@@ -220,7 +260,6 @@ public class MenuScene implements IScene {
 
 	@Override
 	public void refresh() {
-		// TODO Auto-generated method stub
 
 	}
 

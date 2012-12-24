@@ -52,6 +52,7 @@ public class LeaderboardScene implements IScene {
 		textTitle = new TextRenderer(new Font("SansSerif", Font.BOLD, 90));
 		textInfo = new TextRenderer(new Font("SansSerif", Font.BOLD, 40));
 		score = Score.getInstance();
+		
 	}
 
 	@Override

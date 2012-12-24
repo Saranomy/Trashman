@@ -135,7 +135,7 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 
 		/* load texture */
 		try {
-			textures = new Texture[19];
+			textures = new Texture[20];
 			// buildings
 			textures[0] = TextureIO.newTexture(getClass().getClassLoader()
 					.getResource("img/building.png"), false, ".png");
@@ -179,6 +179,10 @@ public class MainGLCanvas extends GLCanvas implements GLEventListener,
 					.getResource("img/trash3.png"), false, ".png");
 			textures[18] = TextureIO.newTexture(getClass().getClassLoader()
 					.getResource("img/trash4.png"), false, ".png");
+			
+			// logo
+			textures[19] = TextureIO.newTexture(getClass().getClassLoader()
+					.getResource("img/logo.png"), false, ".png");
 
 		} catch (GLException e) {
 			e.printStackTrace();

@@ -16,6 +16,11 @@ public class Maze implements ISimpleObject {
 	private int row;
 	private int col;
 	private Texture[] textures;
+
+	private float originX = 0f;
+	private float originY = -2f;
+	private float originZ = 0f;
+
 	private float textureTop;
 	private float textureBottom;
 	private float textureLeft;
@@ -36,6 +41,13 @@ public class Maze implements ISimpleObject {
 		textureBottom = textureCoords.bottom();
 		textureLeft = textureCoords.left();
 		textureRight = textureCoords.right();
+	}
+
+	public void setOrigin(float originX, float originY, float originZ) {
+		this.originX = originX;
+		this.originY = originY;
+		this.originZ = originZ;
+
 	}
 
 	public int getRow() {
@@ -65,7 +77,8 @@ public class Maze implements ISimpleObject {
 			for (int j = 0; j < col; j++) {
 				if (!grid[i][j]) {
 					gl.glLoadIdentity(); // reset the current model-view matrix
-					gl.glTranslatef(2f * i, -2f, -2f * j);
+					gl.glTranslatef(originX + (2f * i), originY, originZ
+							+ (-2f * j));
 					gl.glColor3f(1f, 1f, 1f);
 					// road
 					textures[10].enable(gl);
@@ -88,9 +101,9 @@ public class Maze implements ISimpleObject {
 					int buildingId = random.nextInt(5);
 					// random roof id (5,9)
 					int roofId = 5 + buildingId;
-					
+
 					gl.glLoadIdentity(); // reset the current model-view matrix
-					gl.glTranslatef(2f * i, 0f, -2f * j);
+					gl.glTranslatef(originX + (2f * i), 0f, originZ + (-2f * j));
 
 					// building (0,4)
 					textures[buildingId].enable(gl);
