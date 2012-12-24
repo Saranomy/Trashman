@@ -90,7 +90,7 @@ public class GameScene implements IScene {
 		maze = MazeGenerator.createMaze(19, 19, 0.4f, textures);
 		trashes = TrashGenerator.create(maze.getGrid(), textures);
 		car = new Car(maze.getGrid(), textures, trashes);
-		timer = new CountDownTimer(10);
+		timer = new CountDownTimer(60);
 
 		// add starting car sound
 		try {
