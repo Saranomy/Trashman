@@ -63,7 +63,24 @@ public class MenuScene implements IScene {
 		angleCar = 0f;
 		textInfo = new TextRenderer(new Font("SansSerif", Font.BOLD, 40));
 		textCredit = new TextRenderer(new Font("SansSerif", Font.BOLD, 20));
+		try {
+			String path = getClass().getClassLoader()
+					.getResource("fx/music.wav").getPath();
+			AudioInputStream audio = AudioSystem.getAudioInputStream(new File(
+					path));
+			startMusic = AudioSystem.getClip();
+			startMusic.open(audio);
+			FloatControl gainControl = (FloatControl) startMusic
+					.getControl(FloatControl.Type.MASTER_GAIN);
+			gainControl.setValue(-10.0f); // Reduce volume by 10 decibels.
+			startMusic.loop(startMusic.LOOP_CONTINUOUSLY);
+			startMusic.start();
+		} catch (Exception e) {
+		}
+		reloadClip();
+	}
 
+	public void reloadClip() {
 		// add starting car sound
 		try {
 			String path = getClass().getClassLoader()
@@ -72,17 +89,6 @@ public class MenuScene implements IScene {
 					path));
 			startClip = AudioSystem.getClip();
 			startClip.open(audio);
-
-			path = getClass().getClassLoader().getResource("fx/music.wav")
-					.getPath();
-			audio = AudioSystem.getAudioInputStream(new File(path));
-			startMusic = AudioSystem.getClip();
-			startMusic.open(audio);
-			FloatControl gainControl = (FloatControl) startMusic
-					.getControl(FloatControl.Type.MASTER_GAIN);
-			gainControl.setValue(-10.0f); // Reduce volume by 10 decibels.
-			startMusic.loop(startMusic.LOOP_CONTINUOUSLY);
-			startMusic.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -260,7 +266,7 @@ public class MenuScene implements IScene {
 
 	@Override
 	public void refresh() {
-
+		reloadClip();
 	}
 
 }

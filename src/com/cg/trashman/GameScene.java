@@ -44,8 +44,9 @@ public class GameScene implements IScene {
 
 	private int frame_counter = 0;
 	private int FPS = 60;
-	
+
 	private Clip crashClip;
+	private Clip clickClip;
 
 	public GameScene() {
 
@@ -82,19 +83,6 @@ public class GameScene implements IScene {
 		// gl.glEnable(GL2.GL_LIGHT3);
 		// gl.glLightfv(GL2.GL_LIGHT3, GL_AMBIENT, LightAmbient, 3);
 		// gl.glEnable(GL2.GL_LIGHT3);
-
-		// add starting car sound
-		try {
-			String path = getClass().getClassLoader()
-					.getResource("fx/start.wav").getPath();
-			AudioInputStream audio = AudioSystem.getAudioInputStream(new File(
-					path));
-			crashClip = AudioSystem.getClip();
-			crashClip.open(audio);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	public void initComponent() {
@@ -102,7 +90,26 @@ public class GameScene implements IScene {
 		maze = MazeGenerator.createMaze(19, 19, 0.4f, textures);
 		trashes = TrashGenerator.create(maze.getGrid(), textures);
 		car = new Car(maze.getGrid(), textures, trashes);
-		timer = new CountDownTimer(60);
+		timer = new CountDownTimer(10);
+
+		// add starting car sound
+		try {
+			String path = getClass().getClassLoader()
+					.getResource("fx/crash.wav").getPath();
+			AudioInputStream audio = AudioSystem.getAudioInputStream(new File(
+					path));
+			crashClip = AudioSystem.getClip();
+			crashClip.open(audio);
+
+			path = getClass().getClassLoader().getResource("fx/click.wav")
+					.getPath();
+			audio = AudioSystem.getAudioInputStream(new File(path));
+			clickClip = AudioSystem.getClip();
+			clickClip.open(audio);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@Override
@@ -208,6 +215,7 @@ public class GameScene implements IScene {
 		car.keyPressed(event);
 		// quick exit
 		if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
+			clickClip.start();
 			mainGLCanvas.setScene(0);
 		}
 	}
