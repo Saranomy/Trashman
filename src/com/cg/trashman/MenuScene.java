@@ -10,6 +10,8 @@ import static javax.media.opengl.GL2.GL_QUADS;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_MODELVIEW;
 import static javax.media.opengl.fixedfunc.GLMatrixFunc.GL_PROJECTION;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.Font;
 import java.awt.event.KeyEvent;
 import java.awt.geom.Rectangle2D;
@@ -32,13 +34,12 @@ public class MenuScene implements IScene {
 	private float textureBottom;
 	private float textureLeft;
 	private float textureRight;
-
 	private float angleCar;
 	private TextRenderer textCredit;
 	private TextRenderer textInfo;
-	
 	private static String musicURL = "/fx/music.wav";
 	private static String startURL = "/fx/start.wav";
+	private AudioClip music;
 
 	public MenuScene() {
 
@@ -59,10 +60,10 @@ public class MenuScene implements IScene {
 		angleCar = 0f;
 		textInfo = new TextRenderer(new Font("SansSerif", Font.BOLD, 40));
 		textCredit = new TextRenderer(new Font("SansSerif", Font.BOLD, 20));
-		try {
-			new Sound(musicURL).play();
-		} catch (Exception e) {
-		}
+		
+		music = Applet.newAudioClip(this.getClass().getResource(musicURL));
+		music.loop();
+
 	}
 
 	@Override
